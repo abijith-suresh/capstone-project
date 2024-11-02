@@ -1,0 +1,20 @@
+spring:
+  datasource:
+    url: jdbc:postgresql://postgresdb:5432/authordb
+    username: postgres
+    password: mysecretpassword
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+
+server:
+  port: 9004
+
+eureka:
+  client:
+    service-url:
+      defaultZone: http://registry-service:8761/eureka/
+  instance:
+    instance-id: ${spring.application.name}:${random.value}
