@@ -1,4 +1,4 @@
-package com.ust.Customer_service;
+package com.ust.customer_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

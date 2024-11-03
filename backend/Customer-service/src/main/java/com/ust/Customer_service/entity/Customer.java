@@ -1,4 +1,4 @@
-package com.ust.Customer_service.entity;
+package com.ust.customer_service.entity;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

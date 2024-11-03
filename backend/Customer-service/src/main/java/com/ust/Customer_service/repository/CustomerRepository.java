@@ -1,6 +1,6 @@
-package com.ust.Customer_service.repository;
+package com.ust.customer_service.repository;
 
-import com.ust.Customer_service.entity.Customer;
+import com.ust.customer_service.entity.Customer;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
