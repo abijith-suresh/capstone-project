@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
@@ -19,4 +21,7 @@ public class Customer {
     private String lastName;
     private String email;
     private String gender;
+    private LocalDate dob;
+
+    private String account_id;
 }

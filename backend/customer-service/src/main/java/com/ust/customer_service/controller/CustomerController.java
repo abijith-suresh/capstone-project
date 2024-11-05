@@ -1,5 +1,6 @@
 package com.ust.customer_service.controller;
 
+import com.ust.customer_service.dto.CustomerDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ public class CustomerController {
     private CustomerService customerService;
 
     @GetMapping
-    public List<Customer> getAllCustomers(){
+    public List<CustomerDto> getAllCustomers(){
         return customerService.findAll();
     }
 
@@ -26,8 +27,8 @@ public class CustomerController {
     }
 
     @PostMapping
-    public Customer saveCustomer(@RequestBody Customer customer){
-        return customerService.save(customer);
+    public Customer saveCustomer(@RequestBody CustomerDto customerDto){
+        return customerService.save(customerDto);
     }
 
     @DeleteMapping("/{id}")
