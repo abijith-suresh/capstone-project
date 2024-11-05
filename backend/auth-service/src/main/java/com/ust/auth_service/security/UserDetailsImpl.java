@@ -15,7 +15,7 @@ public class UserDetailsImpl implements UserDetails {
     private final Collection<? extends GrantedAuthority> authorities;
 
     public UserDetailsImpl(Account account){
-        this.username = account.getUsername();
+        this.username = account.getEmail();
         this.password = account.getPassword();
         this.authorities = Arrays.stream(account.getRoles().split(","))
                 .map(String::trim)

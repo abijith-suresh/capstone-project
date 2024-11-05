@@ -1,8 +1,7 @@
 package com.ust.auth_service.service;
 
 import com.ust.auth_service.config.JwtTokenProvider;
-import com.ust.auth_service.dto.LoginRequestDto;
-import com.ust.auth_service.dto.RegistrationRequestDto;
+import com.ust.auth_service.dto.RequestDto;
 import com.ust.auth_service.model.Account;
 import com.ust.auth_service.repo.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,28 +21,30 @@ public class AccountService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
-    private Account dtoToModel(RegistrationRequestDto requestDto){
+    private Account dtoToModel(RequestDto requestDto){
         Account account = new Account();
 
-        account.setName(requestDto.getName());
         account.setEmail(requestDto.getEmail());
-        account.setUsername(requestDto.getUsername());
         account.setPassword(passwordEncoder.encode(requestDto.getPassword()));
 
         return account;
     }
 
-    public String register(RegistrationRequestDto requestDto){
+    public String register(RequestDto requestDto){
+        if(accountRepo.findByEmail(requestDto.getEmail()).isPresent()){
+            throw new RuntimeException("Account with email already exists");
+        }
+
         Account account = dtoToModel(requestDto);
-        accountRepo.saveAndFlush(account);
+        accountRepo.save(account);
         return "User Registered Successfully";
     }
 
-    public String login(LoginRequestDto requestDto){
-        Optional<Account> account = accountRepo.findByUsername(requestDto.getUsername());
+    public String login(RequestDto requestDto){
+        Optional<Account> account = accountRepo.findByEmail(requestDto.getEmail());
         return account
                 .filter(acc -> passwordEncoder.matches(requestDto.getPassword(), acc.getPassword()))
-                .map(acc -> jwtTokenProvider.createToken(acc.getUsername(), acc.getRoles()))
+                .map(acc -> jwtTokenProvider.createToken(acc.getEmail(), acc.getRoles()))
                 .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
     }
 

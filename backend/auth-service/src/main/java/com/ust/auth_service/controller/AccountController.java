@@ -1,7 +1,6 @@
 package com.ust.auth_service.controller;
 
-import com.ust.auth_service.dto.LoginRequestDto;
-import com.ust.auth_service.dto.RegistrationRequestDto;
+import com.ust.auth_service.dto.RequestDto;
 import com.ust.auth_service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +13,17 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegistrationRequestDto requestDto){
-        return ResponseEntity.ok(accountService.register(requestDto));
+    public ResponseEntity<String> register(@RequestBody RequestDto requestDto){
+        try {
+            String response = accountService.register(requestDto);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @GetMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginRequestDto requestDto){
+    public ResponseEntity<String> login(@RequestBody RequestDto requestDto){
         return ResponseEntity.ok(accountService.login(requestDto));
     }
 
