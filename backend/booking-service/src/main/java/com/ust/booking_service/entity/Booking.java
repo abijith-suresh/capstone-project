@@ -18,8 +18,8 @@ public class Booking {
     @Id
     private ObjectId id;
 
-    private Long customerId;
-    private Long specialistId;
+    private ObjectId customerId;
+    private ObjectId specialistId;
 
     private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;

@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
@@ -17,8 +19,13 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
+    @GetMapping("/specialist/{specialistId}/bookings")
+    public Flux<Booking> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
+        return bookingService.getBookingsForSpecialist(specialistId);
+    }
+
     @PostMapping
-    public Mono<ResponseEntity<Booking>> createBooking(@RequestBody Booking booking) {
+    public Mono<ResponseEntity<String>> createBooking(@RequestBody Booking booking) {
         return bookingService.createBooking(booking)
                 .map(savedBooking -> ResponseEntity.status(HttpStatus.CREATED).body(savedBooking))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());

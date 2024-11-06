@@ -1,18 +1,26 @@
 package com.ust.specialist_service.controller;
 
+import com.ust.specialist_service.dto.BookingDto;
 import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.service.SpecialistService;
 import com.ust.specialist_service.entity.Specialist;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/specialist")
 public class SpecialistController {
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
 
     @Autowired
     private SpecialistService specialistService;
@@ -46,5 +54,16 @@ public class SpecialistController {
         return specialistService.deleteSpecialist(id)
                 .map(v -> ResponseEntity.noContent().build());
     }
+
+    @GetMapping("/{specialistId}/bookings")
+    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
+        // Fetch bookings for the specialist via inter-service communication
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9001/api/booking/specialist/{specialistId}/bookings", specialistId)
+                .retrieve()
+                .bodyToFlux(BookingDto.class);  // Use bodyToFlux instead of bodyToMono
+    }
+
 }
 
