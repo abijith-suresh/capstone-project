@@ -1,5 +1,6 @@
 package com.ust.specialist_service.controller;
 
+import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.service.SpecialistService;
 import com.ust.specialist_service.entity.Specialist;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +17,13 @@ public class SpecialistController {
     private SpecialistService specialistService;
 
     @PostMapping
-    public Specialist createSpecialist(@RequestBody Specialist specialist) {
-        return specialistService.createSpecialist(specialist);
+    public Specialist createSpecialist(@RequestBody SpecialistDto specialistDto) {
+        return specialistService.createSpecialist(specialistDto);
     }
 
     @GetMapping
-    public List<Specialist> getAllSpecialists() {
+    public List<SpecialistDto> getAllSpecialists() {
+
         return specialistService.getAllSpecialists();
     }
 
