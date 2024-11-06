@@ -17,23 +17,29 @@ public class CustomerController {
 
     @GetMapping
     public List<CustomerDto> getAllCustomers(){
-        return customerService.findAll();
+
+        return customerService.findAllCustomers();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Customer> getCustomerById(@PathVariable String id){
-       Customer customer= customerService.findById(id);
+       Customer customer= customerService.findCustomerById(id);
        return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
     public Customer saveCustomer(@RequestBody CustomerDto customerDto){
-        return customerService.save(customerDto);
+
+        return customerService.createCustomer(customerDto);
+    }
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer customerDetails) {
+        return ResponseEntity.ok(customerService.updateCustomer(id, customerDetails));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCustomerById(@PathVariable String id){
-       customerService.deleteById(id);
+       customerService.deleteCustomerById(id);
        return ResponseEntity.noContent().build();
     }
 }

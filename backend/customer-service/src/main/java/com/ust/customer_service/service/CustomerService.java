@@ -33,7 +33,7 @@ public class CustomerService {
         return customerDto;
     }
 
-    public List<CustomerDto> findAll() {
+    public List<CustomerDto> findAllCustomers() {
         List<Customer> customers = customerRepository.findAll();
 
         return customers.stream()
@@ -41,17 +41,24 @@ public class CustomerService {
                 .collect(Collectors.toList());
     }
 
-    public Customer findById(String id) {
+    public Customer findCustomerById(String id) {
+
         return customerRepository.findById(id).orElse(null);
     }
 
-    public Customer save(CustomerDto customerDto){
+    public Customer createCustomer(CustomerDto customerDto){
         Customer customer = new Customer();
         dtoToModel(customer, customerDto);
         return customerRepository.save(customer);
     }
 
-    public void deleteById(String id) {
+    public Customer updateCustomer(String id, Customer customerDetails) {
+        customerDetails.setId(id);
+        return customerRepository.save(customerDetails);
+    }
+
+    public void deleteCustomerById(String id) {
+
         customerRepository.deleteById(id);
     }
 
