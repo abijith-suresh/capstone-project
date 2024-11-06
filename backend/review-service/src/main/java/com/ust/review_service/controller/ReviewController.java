@@ -33,6 +33,10 @@ public class ReviewController {
         return reviewService.createReview(reviewDto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<Review> updateMessage(@PathVariable String id, @RequestBody Review reviewDetails) {
+        return ResponseEntity.ok(reviewService.updateReview(id, reviewDetails));
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReviewById(@PathVariable String id){
