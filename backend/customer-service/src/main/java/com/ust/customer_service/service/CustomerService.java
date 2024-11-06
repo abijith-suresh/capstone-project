@@ -3,14 +3,18 @@ package com.ust.customer_service.service;
 import com.ust.customer_service.dto.CustomerDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.repository.CustomerRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
 public class CustomerService {
+
     @Autowired
     private CustomerRepository customerRepository;
 
@@ -33,33 +37,28 @@ public class CustomerService {
         return customerDto;
     }
 
-    public List<CustomerDto> findAllCustomers() {
-        List<Customer> customers = customerRepository.findAll();
-
-        return customers.stream()
-                .map(this::modelToDto)
-                .collect(Collectors.toList());
+    public Flux<CustomerDto> findAllCustomers() {
+        return customerRepository.findAll()
+                .map(this::modelToDto);
     }
 
-    public Customer findCustomerById(String id) {
-
-        return customerRepository.findById(id).orElse(null);
+    public Mono<Customer> findCustomerById(ObjectId id) {
+        return customerRepository.findById(id);
     }
 
-    public Customer createCustomer(CustomerDto customerDto){
+    public Mono<Customer> createCustomer(CustomerDto customerDto) {
         Customer customer = new Customer();
         dtoToModel(customer, customerDto);
         return customerRepository.save(customer);
     }
 
-    public Customer updateCustomer(String id, Customer customerDetails) {
+    public Mono<Customer> updateCustomer(ObjectId id, Customer customerDetails) {
         customerDetails.setId(id);
         return customerRepository.save(customerDetails);
     }
 
-    public void deleteCustomerById(String id) {
-
-        customerRepository.deleteById(id);
+    public Mono<Void> deleteCustomerById(ObjectId id) {
+        return customerRepository.deleteById(id);
     }
-
 }
+

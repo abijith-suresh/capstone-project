@@ -3,43 +3,48 @@ package com.ust.customer_service.controller;
 import com.ust.customer_service.dto.CustomerDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.service.CustomerService;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerController {
+
     @Autowired
     private CustomerService customerService;
 
     @GetMapping
-    public List<CustomerDto> getAllCustomers(){
-
+    public Flux<CustomerDto> getAllCustomers() {
         return customerService.findAllCustomers();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable String id){
-       Customer customer= customerService.findCustomerById(id);
-       return customer != null ? ResponseEntity.ok(customer) : ResponseEntity.notFound().build();
+    public Mono<ResponseEntity<Customer>> getCustomerById(@PathVariable ObjectId id) {
+        return customerService.findCustomerById(id)
+                .map(customer -> ResponseEntity.ok(customer))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PostMapping
-    public Customer saveCustomer(@RequestBody CustomerDto customerDto){
-
+    public Mono<Customer> saveCustomer(@RequestBody CustomerDto customerDto) {
         return customerService.createCustomer(customerDto);
     }
+
     @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable String id, @RequestBody Customer customerDetails) {
-        return ResponseEntity.ok(customerService.updateCustomer(id, customerDetails));
+    public Mono<ResponseEntity<Customer>> updateCustomer(@PathVariable ObjectId id, @RequestBody Customer customerDetails) {
+        return customerService.updateCustomer(id, customerDetails)
+                .map(updatedCustomer -> ResponseEntity.ok(updatedCustomer))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteCustomerById(@PathVariable String id){
-       customerService.deleteCustomerById(id);
-       return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> deleteCustomerById(@PathVariable ObjectId id) {
+        return customerService.deleteCustomerById(id)
+                .map(v -> ResponseEntity.noContent().build());
     }
 }
+

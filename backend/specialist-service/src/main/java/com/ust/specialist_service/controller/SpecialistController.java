@@ -3,11 +3,12 @@ package com.ust.specialist_service.controller;
 import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.service.SpecialistService;
 import com.ust.specialist_service.entity.Specialist;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/specialist")
@@ -17,31 +18,33 @@ public class SpecialistController {
     private SpecialistService specialistService;
 
     @PostMapping
-    public Specialist createSpecialist(@RequestBody SpecialistDto specialistDto) {
+    public Mono<Specialist> createSpecialist(@RequestBody SpecialistDto specialistDto) {
         return specialistService.createSpecialist(specialistDto);
     }
 
     @GetMapping
-    public List<SpecialistDto> getAllSpecialists() {
-
+    public Flux<SpecialistDto> getAllSpecialists() {
         return specialistService.getAllSpecialists();
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Specialist> getSpecialistById(@PathVariable String id) {
+    public Mono<ResponseEntity<Specialist>> getSpecialistById(@PathVariable ObjectId id) {
         return specialistService.getSpecialistById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+                .map(specialist -> ResponseEntity.ok(specialist))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Specialist> updateSpecialist(@PathVariable String id, @RequestBody Specialist specialistDetails) {
-        return ResponseEntity.ok(specialistService.updateSpecialist(id, specialistDetails));
+    public Mono<ResponseEntity<Specialist>> updateSpecialist(@PathVariable ObjectId id, @RequestBody Specialist specialistDetails) {
+        return specialistService.updateSpecialist(id, specialistDetails)
+                .map(updatedSpecialist -> ResponseEntity.ok(updatedSpecialist))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> deleteSpecialist(@PathVariable String id) {
-        specialistService.deleteSpecialist(id);
-        return ResponseEntity.noContent().build();
+    public Mono<ResponseEntity<Void>> deleteSpecialist(@PathVariable ObjectId id) {
+        return specialistService.deleteSpecialist(id)
+                .map(v -> ResponseEntity.noContent().build());
     }
 }
+

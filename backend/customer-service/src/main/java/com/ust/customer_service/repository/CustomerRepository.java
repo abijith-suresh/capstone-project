@@ -1,10 +1,11 @@
 package com.ust.customer_service.repository;
 
 import com.ust.customer_service.entity.Customer;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.bson.types.ObjectId;
+import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface CustomerRepository extends MongoRepository<Customer,String> {
+public interface CustomerRepository extends ReactiveMongoRepository<Customer, ObjectId> {
 
 }
