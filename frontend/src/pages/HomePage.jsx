@@ -1,3 +1,4 @@
+import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
 
@@ -34,9 +35,9 @@ const HomePage = () => {
               >
                 Get Started
               </Link>
-              <a href="#" className="text-sm font-semibold text-gray-900">
+              <Link to="/about" className="text-sm font-semibold text-gray-900">
                 Learn more <span aria-hidden="true">→</span>
-              </a>
+              </Link>
             </div>
           </div>
         </div>
@@ -53,6 +54,7 @@ const HomePage = () => {
           />
         </div>
       </div>
+      <Footer />
     </div>
   );
 };

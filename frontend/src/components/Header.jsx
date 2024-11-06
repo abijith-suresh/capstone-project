@@ -47,14 +47,14 @@ const Header = () => {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <a href="#" className="-m-1.5 p-1.5">
+          <Link to="/" className="-m-1.5 p-1.5">
             <span className="sr-only">Your Company</span>
             <img
               alt=""
               src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
               className="h-8 w-auto"
             />
-          </a>
+          </Link>
         </div>
         <div className="flex lg:hidden">
           <button
@@ -108,12 +108,12 @@ const Header = () => {
             </PopoverPanel>
           </Popover>
 
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          <Link to="/about" className="text-sm/6 font-semibold text-gray-900">
             About
-          </a>
-          <a href="#" className="text-sm/6 font-semibold text-gray-900">
+          </Link>
+          <Link to="/contact" className="text-sm/6 font-semibold text-gray-900">
             Contact
-          </a>
+          </Link>
         </PopoverGroup>
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
@@ -170,18 +170,18 @@ const Header = () => {
                     ))}
                   </DisclosurePanel>
                 </Disclosure>
-                <a
-                  href="#"
+                <Link
+                  to="/about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   About
-                </a>
-                <a
-                  href="#"
+                </Link>
+                <Link
+                  to="about"
                   className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Contact
-                </a>
+                </Link>
               </div>
               <div className="py-6">
                 <Link
