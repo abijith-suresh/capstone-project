@@ -1,5 +1,6 @@
 package com.ust.review_service.controller;
 
+import com.ust.review_service.dto.ReviewDto;
 import com.ust.review_service.entity.Review;
 import com.ust.review_service.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,24 +16,27 @@ public class ReviewController {
     private ReviewService reviewService;
 
     @GetMapping
-    public List<Review> getAllReviews(){
-        return reviewService.findAll();
+    public List<ReviewDto> getAllReviews(){
+
+        return reviewService.findAllReviews();
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Review> getReviewById(@PathVariable String id){
-       Review review= reviewService.findById(id);
+       Review review= reviewService.findReviewById(id);
         return review != null ? ResponseEntity.ok(review) : ResponseEntity.notFound().build();
     }
 
     @PostMapping
-    public Review saveReview(@RequestBody Review review){
-        return reviewService.save(review);
+    public Review createReview(@RequestBody ReviewDto reviewDto){
+
+        return reviewService.createReview(reviewDto);
     }
+
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReviewById(@PathVariable String id){
-        reviewService.deleteById(id);
+        reviewService.deleteReviewById(id);
         return ResponseEntity.noContent().build();
     }
 }
