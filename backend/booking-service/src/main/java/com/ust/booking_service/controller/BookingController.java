@@ -1,5 +1,6 @@
 package com.ust.booking_service.controller;
 
+import com.ust.booking_service.dto.BookingResponseDto;
 import com.ust.booking_service.entity.Booking;
 import com.ust.booking_service.service.BookingService;
 import org.bson.types.ObjectId;
@@ -10,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/booking")
 public class BookingController {
@@ -20,8 +19,13 @@ public class BookingController {
     private BookingService bookingService;
 
     @GetMapping("/specialist/{specialistId}/bookings")
-    public Flux<Booking> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
+    public Flux<BookingResponseDto> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
         return bookingService.getBookingsForSpecialist(specialistId);
+    }
+
+    @GetMapping("/customer/{customerId}/bookings")
+    public Flux<BookingResponseDto> getBookingsForCustomer(@PathVariable ObjectId customerId) {
+        return bookingService.getBookingsForCustomer(customerId);
     }
 
     @PostMapping

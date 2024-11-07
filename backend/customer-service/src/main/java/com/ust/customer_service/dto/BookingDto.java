@@ -1,4 +1,4 @@
-package com.ust.booking_service.dto;
+package com.ust.customer_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,9 +10,12 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingNotificationDto {
+public class BookingDto {
     private ObjectId bookingId;
     private ObjectId customerId;
     private ObjectId specialistId;
+    private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;
+    private String status;
+    private double price;
 }

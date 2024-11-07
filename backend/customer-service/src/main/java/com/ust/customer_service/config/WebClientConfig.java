@@ -1,4 +1,4 @@
-package com.ust.booking_service.Config;
+package com.ust.customer_service.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

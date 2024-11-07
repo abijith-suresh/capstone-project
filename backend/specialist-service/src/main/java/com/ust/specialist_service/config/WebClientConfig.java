@@ -9,7 +9,6 @@ public class WebClientConfig {
 
     @Bean
     public WebClient.Builder webClientBuilder() {
-        return WebClient.builder()
-                .baseUrl("http://localhost:9001");
+        return WebClient.builder();
     }
 }

@@ -55,14 +55,13 @@ public class SpecialistController {
                 .map(v -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/{specialistId}/bookings")
-    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
-        // Fetch bookings for the specialist via inter-service communication
+    @GetMapping("/{id}/bookings")
+    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable ObjectId id) {
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9001/api/booking/specialist/{specialistId}/bookings", specialistId)
+                .uri("http://localhost:9001/api/booking/specialist/{id}/bookings", id)
                 .retrieve()
-                .bodyToFlux(BookingDto.class);  // Use bodyToFlux instead of bodyToMono
+                .bodyToFlux(BookingDto.class);
     }
 
 }

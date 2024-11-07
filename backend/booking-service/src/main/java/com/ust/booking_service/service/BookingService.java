@@ -1,6 +1,6 @@
 package com.ust.booking_service.service;
 
-import com.ust.booking_service.dto.BookingNotificationDto;
+import com.ust.booking_service.dto.BookingResponseDto;
 import com.ust.booking_service.entity.Booking;
 import com.ust.booking_service.repo.BookingRepository;
 import org.bson.types.ObjectId;
@@ -21,30 +21,9 @@ public class BookingService {
     @Autowired
     private BookingRepository bookingRepo;
 
-    private Mono<Void> notifySpecialist(Booking savedBooking) {
-        BookingNotificationDto notificationDto = new BookingNotificationDto(
-                savedBooking.getId(),
-                savedBooking.getCustomerId(),
-                savedBooking.getSpecialistId(),
-                savedBooking.getAppointmentTime()
-        );
-
-        return webClientBuilder.build()
-                .post()
-                .uri("http://specialist-service/api/specialist/notify")
-                .bodyValue(notificationDto)
-                .retrieve()
-                .bodyToMono(Void.class);
-    }
-
     public Mono<String> createBooking(Booking booking) {
-        return bookingRepo.save(booking)
-                .flatMap(savedBooking -> {
-//                    return notifySpecialist(savedBooking)
-//                            .thenReturn("Booking created successfully!");
-
-                    return Mono.just("Booking created successfully without notification.");
-                });
+        bookingRepo.save(booking);
+        return Mono.just("Booking created successfully without notification.");
     }
 
     public Flux<Booking> getAllBookings() {
@@ -64,8 +43,30 @@ public class BookingService {
         return bookingRepo.deleteById(id);
     }
 
-    public Flux<Booking> getBookingsForSpecialist(ObjectId specialistId) {
-        return bookingRepo.findBySpecialistId(specialistId);
+    public Flux<BookingResponseDto> getBookingsForSpecialist(ObjectId specialistId) {
+        return bookingRepo.findBySpecialistId(specialistId)
+                .map(booking -> new BookingResponseDto(
+                        booking.getId(),
+                        booking.getCustomerId(),
+                        booking.getSpecialistId(),
+                        booking.getBookingDate(),
+                        booking.getAppointmentTime(),
+                        booking.getStatus(),
+                        booking.getPrice()
+                ));
+    }
+
+    public Flux<BookingResponseDto> getBookingsForCustomer(ObjectId customerId) {
+        return bookingRepo.findByCustomerId(customerId)
+                .map(booking -> new BookingResponseDto(
+                        booking.getId(),
+                        booking.getCustomerId(),
+                        booking.getSpecialistId(),
+                        booking.getBookingDate(),
+                        booking.getAppointmentTime(),
+                        booking.getStatus(),
+                        booking.getPrice()
+                ));
     }
 }
 
