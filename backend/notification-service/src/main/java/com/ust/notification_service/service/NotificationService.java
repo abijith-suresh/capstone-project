@@ -39,7 +39,7 @@ public class NotificationService {
         String subject = "New Booking Request!";
         String message = "You have received a new booking request! Please check your dashboard for more details.";
 
-        sendEmail(event.getEmail(), subject, message);
+//        sendEmail(event.getEmail(), subject, message);
         saveNotificationLog(event, subject, message);
     }
 
@@ -47,7 +47,7 @@ public class NotificationService {
         String subject = "Booking Status Update";
         String message = "Your booking request has been " + event.getStatus() + ".";
 
-        sendEmail(event.getEmail(), subject, message);
+//        sendEmail(event.getEmail(), subject, message);
         saveNotificationLog(event, subject, message);
     }
 
