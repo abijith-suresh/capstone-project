@@ -25,35 +25,51 @@ public class BookingService {
     public Mono<String> createBooking(Booking booking) {
         return bookingRepo.save(booking)
                 .doOnSuccess(savedBooking -> {
-                    sendBookingNotifications(savedBooking);  // Send notifications after booking is saved
+                    System.out.println("Booking saved: " + savedBooking);
+                    sendBookingNotifications(savedBooking);  // Ensure this line is being executed
                 })
-                .then(Mono.just("Booking created successfully."));
+                .then(Mono.just("Booking created successfully."))
+                .onErrorResume(error -> {
+                    // Log errors during the booking creation process
+                    System.out.println("Error creating booking: " + error.getMessage());
+                    return Mono.just("Error creating booking: " + error.getMessage());
+                });
     }
 
-    private void sendBookingNotifications(Booking booking) {
+
+    private Mono<Void> sendBookingNotifications(Booking booking) {
+        System.out.println("Preparing notifications for booking: " + booking.getId());
+
         NotificationEvent customerEvent = new NotificationEvent();
         customerEvent.setUserId(booking.getCustomerId());
         customerEvent.setType("BOOKING_STATUS");
         customerEvent.setMessage("Your booking has been successfully created.");
-        webClientBuilder.build()
-                .post()
-                .uri("http://localhost:9008/api/notifications/send")
-                .bodyValue(customerEvent)
-                .retrieve()
-                .bodyToMono(Void.class)
-                .subscribe();
 
         NotificationEvent specialistEvent = new NotificationEvent();
         specialistEvent.setUserId(booking.getSpecialistId());
         specialistEvent.setType("BOOKING_REQUEST");
         specialistEvent.setMessage("You have a new booking request. Please check your dashboard.");
-        webClientBuilder.build()
+
+        return Mono.when(
+                        sendNotification(customerEvent),
+                        sendNotification(specialistEvent)
+                )
+                .doOnTerminate(() -> System.out.println("Both notifications sent for booking: " + booking.getId()))
+                .doOnError(error -> System.out.println("Error sending notifications for booking: " + booking.getId() + ": " + error.getMessage()));
+    }
+
+
+    private Mono<Void> sendNotification(NotificationEvent event) {
+        System.out.println("Sending notification to: " + event.getUserId() + ", type: " + event.getType());
+        return webClientBuilder.build()
                 .post()
-                .uri( "http://localhost:9008/api/notifications/send")
-                .bodyValue(specialistEvent)
+                .uri("http://localhost:9008/api/notifications/send")
+                .bodyValue(event)
                 .retrieve()
                 .bodyToMono(Void.class)
-                .subscribe();
+                .doOnTerminate(() -> System.out.println("Notification sent: " + event.getType()))
+                .doOnError(error -> System.out.println("Error sending notification: " + error.getMessage()))
+                .onErrorResume(error -> Mono.empty());  // Consider returning Mono.error() or different fallback
     }
 
     public Flux<Booking> getAllBookings() {

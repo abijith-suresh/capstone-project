@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collation = "notification_logs")
+@Document(collection = "notification_logs")
 public class NotificationLog {
     @Id
     private ObjectId id;
