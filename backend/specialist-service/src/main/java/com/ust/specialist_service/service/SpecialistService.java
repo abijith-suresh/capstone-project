@@ -23,6 +23,7 @@ public class SpecialistService {
         specialist.setFirstName(specialistDto.getFirstName());
         specialist.setLastName(specialistDto.getLastName());
         specialist.setEmail(specialistDto.getEmail());
+
     }
 
     private SpecialistDto modelToDto(Specialist specialist) {
@@ -30,13 +31,17 @@ public class SpecialistService {
         specialistDto.setFirstName(specialist.getFirstName());
         specialistDto.setLastName(specialist.getLastName());
         specialistDto.setEmail(specialist.getEmail());
+
         return specialistDto;
     }
 
     public Mono<Specialist> createSpecialist(SpecialistDto specialistDto) {
         Specialist specialist = new Specialist();
         dtoToModel(specialist, specialistDto);
+
         return specialistRepo.save(specialist);
+
+
     }
 
     public Flux<SpecialistDto> getAllSpecialists() {
@@ -57,4 +62,3 @@ public class SpecialistService {
         return specialistRepo.deleteById(id);
     }
 }
-
