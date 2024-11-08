@@ -3,25 +3,27 @@ package com.ust.review_service.entity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Document(collection = "review")
+@Document(collection = "reviews")
 public class Review {
 
     @Id
-    private String id;
+    private ObjectId id;
 
-    private String customer_id;
-    private String specialist_id;
+    private ObjectId customerId;
+    private ObjectId specialistId;
     private Integer rating;
     private String comment;
-    private Date createdAt;
+    private LocalDate createdAt;
 
 
 }
