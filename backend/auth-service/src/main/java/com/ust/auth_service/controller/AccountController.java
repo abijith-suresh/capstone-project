@@ -20,40 +20,39 @@ public class AccountController {
     private AccountService accountService;
 
     @PostMapping("/register")
-    public Mono<ResponseEntity<Object>> register(@RequestBody RegisterDto registerDto) {
-        return accountService.register(registerDto)
-                .map(response -> ResponseEntity.ok(response))
-                .onErrorResume(e -> Mono.just(ResponseEntity.badRequest().body(e.getMessage())));
+    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+        try {
+            String response = accountService.register(registerDto);
+            return ResponseEntity.ok(response);
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
 
     @PostMapping("/login")
-    public Mono<ResponseEntity<String>> login(@RequestBody LoginDto loginDto) {
-        return accountService.login(loginDto)
-                .map(token -> ResponseEntity.ok(token))
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage())));
+    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+        return ResponseEntity.ok(accountService.login(loginDto));
     }
 
     @GetMapping("/validate/token")
-    public Mono<ResponseEntity<Boolean>> validateToken(@RequestParam String token) {
-        return accountService.verify(token)
-                .map(valid -> ResponseEntity.ok(valid))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.FORBIDDEN).body(false));
+    public ResponseEntity<Boolean> validateToken(@RequestParam String token) {
+        return ResponseEntity.ok(accountService.verify(token));
     }
 
     @GetMapping("/extract/roles")
-    public Mono<ResponseEntity<Map<String, Object>>> extractRolesFromToken(@RequestParam String token) {
-        return accountService.verify(token)
-                .flatMap(valid -> {
-                    if (!valid) {
-                        return Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN)
-                                .body(Map.of("error", "Invalid or Expired Token")));
-                    }
-
-                    String roles = accountService.getRolesFromToken(token);
-                    Map<String, Object> response = new HashMap<>();
-                    response.put("roles", roles);
-                    return Mono.just(ResponseEntity.ok(response));
-                })
-                .onErrorResume(e -> Mono.just(ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", e.getMessage()))));
+    public ResponseEntity<Map<String, Object>> extractRolesFromToken(@RequestParam String token) {
+        try {
+            if (!accountService.verify(token)) {
+                throw new RuntimeException("Invalid or Expired Token");
+            }
+            String roles = accountService.getRolesFromToken(token);
+            Map<String, Object> response = new HashMap<>();
+            response.put("roles", roles);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", e.getMessage()));
+        }
     }
+
+
 }

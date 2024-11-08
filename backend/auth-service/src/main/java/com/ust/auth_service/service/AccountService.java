@@ -10,6 +10,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 
+import java.util.Optional;
+
 @Service
 public class AccountService {
 
@@ -32,44 +34,41 @@ public class AccountService {
     }
 
     // Register a new account, return Mono<String>
-    public Mono<Object> register(RegisterDto registerDto) {
-        return accountRepo.findByEmail(registerDto.getEmail())
-                .flatMap(existingAccount -> Mono.error(new RuntimeException("Account with email already exists")))
-                .switchIfEmpty(Mono.defer(() -> {
-                    Account account = dtoToModel(registerDto);
-                    return accountRepo.save(account)
-                            .then(Mono.just("User Registered Successfully"));
-                }));
+    public String register(RegisterDto registerDto) {
+        if (accountRepo.findByEmail(registerDto.getEmail()).isPresent()) {
+            throw new RuntimeException("Account with email already exists");
+        }
+        Account account = dtoToModel(registerDto);
+        accountRepo.save(account);
+        return "User Registered Successfully";
     }
 
     // Login method, return Mono<String> (JWT token)
-    public Mono<String> login(LoginDto loginDto) {
-        return accountRepo.findByEmail(loginDto.getEmail())
-                .switchIfEmpty(Mono.error(new RuntimeException("Invalid Credentials")))
-                .flatMap(account -> {
-                    if (passwordEncoder.matches(loginDto.getPassword(), account.getPassword())) {
-                        String token = jwtTokenProvider.createToken(account.getEmail(), account.getRoles());
-                        return Mono.just(token);
-                    } else {
-                        return Mono.error(new RuntimeException("Invalid Credentials"));
-                    }
-                });
+    public String login(LoginDto loginDto){
+        Optional<Account> account = accountRepo.findByEmail(loginDto.getEmail());
+        return account
+                .filter(acc -> passwordEncoder.matches(loginDto.getPassword(), acc.getPassword()))
+                .map(acc -> jwtTokenProvider.createToken(acc.getEmail(), acc.getRoles()))
+                .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
     }
 
     // Get roles from email, return Mono<String> with roles
-    public Mono<String> getRolesFromEmail(String email) {
-        return accountRepo.findByEmail(email)
-                .map(Account::getRoles)
-                .switchIfEmpty(Mono.error(new RuntimeException("User not found")));
+    public String getRolesFromEmail(String email) {
+        Optional<Account> accountOptional = accountRepo.findByEmail(email);
+        if (accountOptional.isPresent()) {
+            Account account = accountOptional.get();
+            return account.getRoles();
+        }
+        throw new RuntimeException("User not found");
     }
 
     // Verify token, return Mono<Boolean>
-    public Mono<Boolean> verify(String token) {
-        return Mono.just(jwtTokenProvider.validateToken(token));
+    public Boolean verify(String token) {
+        return jwtTokenProvider.validateToken(token);
     }
 
     // Get roles from the token, return Mono<String> with roles
-    public Mono<String> getRolesFromToken(String token) {
+    public String getRolesFromToken(String token) {
         String email = jwtTokenProvider.getUsernameFromToken(token);
         return getRolesFromEmail(email);
     }

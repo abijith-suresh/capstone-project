@@ -75,4 +75,11 @@ public class AdminController {
 
     }
 
+    @GetMapping("/email/{email}")
+    public Mono<ResponseEntity<Admin>> getCustomerByEmail(@PathVariable String email) {
+        return adminService.findByEmail(email)
+                .map(customer -> ResponseEntity.ok(customer))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
+
 }

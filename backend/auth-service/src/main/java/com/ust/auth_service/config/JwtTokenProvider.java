@@ -10,8 +10,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Date;
 
-import static java.security.KeyRep.Type.SECRET;
-
 @Component
 public class JwtTokenProvider {
 

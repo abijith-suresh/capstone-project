@@ -96,7 +96,7 @@ public class CustomerController {
                 .bodyToMono(ReviewDto.class);
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public Mono<ResponseEntity<Customer>> getCustomerByEmail(@PathVariable String email) {
         return customerService.findByEmail(email)
                 .map(customer -> ResponseEntity.ok(customer))

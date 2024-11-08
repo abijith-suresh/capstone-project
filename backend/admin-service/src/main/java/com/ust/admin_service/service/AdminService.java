@@ -69,4 +69,9 @@ public class AdminService {
         return adminRepository.deleteById(id);
     }
 
+    public Mono<Admin> findByEmail(String email) {
+        return adminRepository.findByEmail(email);
+    }
+
+
 }
