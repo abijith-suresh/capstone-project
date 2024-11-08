@@ -40,8 +40,6 @@ public class SpecialistService {
         dtoToModel(specialist, specialistDto);
 
         return specialistRepo.save(specialist);
-
-
     }
 
     public Flux<SpecialistDto> getAllSpecialists() {
@@ -60,5 +58,9 @@ public class SpecialistService {
 
     public Mono<Void> deleteSpecialist(ObjectId id) {
         return specialistRepo.deleteById(id);
+    }
+
+    public Mono<Specialist> findByEmail(String email) {
+        return specialistRepo.findByEmail(email);
     }
 }

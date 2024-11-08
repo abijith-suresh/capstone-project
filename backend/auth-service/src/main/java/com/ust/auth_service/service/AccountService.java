@@ -8,11 +8,11 @@ import com.ust.auth_service.repo.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
-import java.util.Optional;
+import reactor.core.publisher.Mono;
 
 @Service
 public class AccountService {
+
     @Autowired
     private AccountRepo accountRepo;
 
@@ -22,49 +22,56 @@ public class AccountService {
     @Autowired
     private JwtTokenProvider jwtTokenProvider;
 
+    // Convert DTO to Model
     private Account dtoToModel(RegisterDto registerDto){
         Account account = new Account();
-
         account.setEmail(registerDto.getEmail());
         account.setRoles(registerDto.getRoles());
         account.setPassword(passwordEncoder.encode(registerDto.getPassword()));
-
         return account;
     }
 
-    public String register(RegisterDto registerDto){
-        if(accountRepo.findByEmail(registerDto.getEmail()).isPresent()){
-            throw new RuntimeException("Account with email already exists");
-        }
-
-        Account account = dtoToModel(registerDto);
-        accountRepo.save(account);
-        return "User Registered Successfully";
+    // Register a new account, return Mono<String>
+    public Mono<Object> register(RegisterDto registerDto) {
+        return accountRepo.findByEmail(registerDto.getEmail())
+                .flatMap(existingAccount -> Mono.error(new RuntimeException("Account with email already exists")))
+                .switchIfEmpty(Mono.defer(() -> {
+                    Account account = dtoToModel(registerDto);
+                    return accountRepo.save(account)
+                            .then(Mono.just("User Registered Successfully"));
+                }));
     }
 
-    public String login(LoginDto loginDto){
-        Optional<Account> account = accountRepo.findByEmail(loginDto.getEmail());
-        return account
-                .filter(acc -> passwordEncoder.matches(loginDto.getPassword(), acc.getPassword()))
-                .map(acc -> jwtTokenProvider.createToken(acc.getEmail(), acc.getRoles()))
-                .orElseThrow(() -> new RuntimeException("Invalid Credentials"));
+    // Login method, return Mono<String> (JWT token)
+    public Mono<String> login(LoginDto loginDto) {
+        return accountRepo.findByEmail(loginDto.getEmail())
+                .switchIfEmpty(Mono.error(new RuntimeException("Invalid Credentials")))
+                .flatMap(account -> {
+                    if (passwordEncoder.matches(loginDto.getPassword(), account.getPassword())) {
+                        String token = jwtTokenProvider.createToken(account.getEmail(), account.getRoles());
+                        return Mono.just(token);
+                    } else {
+                        return Mono.error(new RuntimeException("Invalid Credentials"));
+                    }
+                });
     }
 
-    public String getRolesFromEmail(String email) {
-        Optional<Account> accountOptional = accountRepo.findByEmail(email);
-        if (accountOptional.isPresent()) {
-            Account account = accountOptional.get();
-            return account.getRoles();
-        }
-        throw new RuntimeException("User not found");
+    // Get roles from email, return Mono<String> with roles
+    public Mono<String> getRolesFromEmail(String email) {
+        return accountRepo.findByEmail(email)
+                .map(Account::getRoles)
+                .switchIfEmpty(Mono.error(new RuntimeException("User not found")));
     }
 
-    public boolean verify(String token) {
-        return jwtTokenProvider.validateToken(token);
+    // Verify token, return Mono<Boolean>
+    public Mono<Boolean> verify(String token) {
+        return Mono.just(jwtTokenProvider.validateToken(token));
     }
 
-    public String getRolesFromToken(String token) {
+    // Get roles from the token, return Mono<String> with roles
+    public Mono<String> getRolesFromToken(String token) {
         String email = jwtTokenProvider.getUsernameFromToken(token);
         return getRolesFromEmail(email);
     }
 }
+

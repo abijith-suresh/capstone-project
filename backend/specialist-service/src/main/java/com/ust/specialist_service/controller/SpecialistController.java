@@ -75,8 +75,12 @@ public class SpecialistController {
 
     }
 
-
-
+    @GetMapping("/{email}")
+    public Mono<ResponseEntity<Specialist>> getSpecialistByEmail(@PathVariable String email) {
+        return specialistService.findByEmail(email)
+                .map(specialist -> ResponseEntity.ok(specialist))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 
 }
 

@@ -60,5 +60,9 @@ public class CustomerService {
     public Mono<Void> deleteCustomerById(ObjectId id) {
         return customerRepository.deleteById(id);
     }
+
+    public Mono<Customer> findByEmail(String email) {
+        return customerRepository.findByEmail(email);
+    }
 }
 

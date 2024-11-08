@@ -62,8 +62,6 @@ public class CustomerController {
                 .bodyToFlux(BookingDto.class);
     }
 
-
-
     @GetMapping("/{id}/review")
     public  Flux<ReviewDto> getAllReviewsById(@PathVariable ObjectId id) {
         return webClientBuilder.build()
@@ -98,7 +96,12 @@ public class CustomerController {
                 .bodyToMono(ReviewDto.class);
     }
 
-
+    @GetMapping("/{email}")
+    public Mono<ResponseEntity<Customer>> getCustomerByEmail(@PathVariable String email) {
+        return customerService.findByEmail(email)
+                .map(customer -> ResponseEntity.ok(customer))
+                .defaultIfEmpty(ResponseEntity.notFound().build());
+    }
 
 }
 
