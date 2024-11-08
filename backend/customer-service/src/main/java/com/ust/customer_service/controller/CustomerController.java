@@ -2,6 +2,7 @@ package com.ust.customer_service.controller;
 
 import com.ust.customer_service.dto.BookingDto;
 import com.ust.customer_service.dto.CustomerDto;
+import com.ust.customer_service.dto.ReviewDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.service.CustomerService;
 import org.bson.types.ObjectId;
@@ -60,5 +61,44 @@ public class CustomerController {
                 .retrieve()
                 .bodyToFlux(BookingDto.class);
     }
+
+
+
+    @GetMapping("/{id}/review")
+    public  Flux<ReviewDto> getAllReviewsById(@PathVariable ObjectId id) {
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9004/api/reviews/customer/{id}/reviews",id)
+                .retrieve()
+                .bodyToFlux(ReviewDto.class);
+
+    }
+
+   @GetMapping("/{customerId}/review/{reviewId}")
+   public Mono<ResponseEntity<ReviewDto>> getReviewByIdForCustomer(
+           @PathVariable ObjectId customerId,
+           @PathVariable ObjectId reviewId) {
+
+       return webClientBuilder.build()
+               .get()
+               .uri("http://localhost:9004/api/reviews/customer/{customerId}/review/{reviewId}", customerId, reviewId)  // Review Service endpoint
+               .retrieve()
+               .bodyToMono(ReviewDto.class)  // Convert response body to ReviewDto
+               .map(reviewDto -> ResponseEntity.ok(reviewDto))  // Return OK if review found
+               .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));  // Return 404 if no review found
+   }
+
+    @PostMapping("/{id}/review")
+    public Mono<ReviewDto> postReview(@PathVariable String id, @RequestBody ReviewDto reviewDto) {
+        return webClientBuilder.build()
+                .post()  // Change to POST since we're submitting data.
+                .uri("http://localhost:9004/api/reviews/customer/{id}/reviews", id)
+                .bodyValue(reviewDto)  // Include the reviewDto in the request body.
+                .retrieve()
+                .bodyToMono(ReviewDto.class);
+    }
+
+
+
 }
 

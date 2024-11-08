@@ -1,15 +1,23 @@
 package com.ust.review_service.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
+import org.bson.types.ObjectId;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class ReviewDto {
 
-    private String customer_id;
-    private String specialist_id;
+    private ObjectId customerId;
+    private ObjectId specialistId;
     private Integer rating;
     private String comment;
-    private Date createdAt;
+    private LocalDate createdAt;
+
+
 }

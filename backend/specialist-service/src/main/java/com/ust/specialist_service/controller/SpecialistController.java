@@ -1,6 +1,7 @@
 package com.ust.specialist_service.controller;
 
 import com.ust.specialist_service.dto.BookingDto;
+import com.ust.specialist_service.dto.ReviewDto;
 import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.service.SpecialistService;
 import com.ust.specialist_service.entity.Specialist;
@@ -63,6 +64,19 @@ public class SpecialistController {
                 .retrieve()
                 .bodyToFlux(BookingDto.class);
     }
+
+    @GetMapping("/{id}/reviews")
+    public  Flux<ReviewDto> getAllReviewsById(@PathVariable ObjectId id) {
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9004/api/reviews/specialist/{id}/reviews",id)
+                .retrieve()
+                .bodyToFlux(ReviewDto.class);
+
+    }
+
+
+
 
 }
 

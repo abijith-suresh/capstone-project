@@ -46,6 +46,7 @@ public class AdminService {
     }
 
     public Mono<Admin> findAdminById(ObjectId id) {
+
         return adminRepository.findById(id);
     }
 
@@ -64,7 +65,8 @@ public class AdminService {
     }
 
     public Mono<Void> deleteAdminById(ObjectId id) {
-       return adminRepository.deleteById(id);
+
+        return adminRepository.deleteById(id);
     }
 
 }

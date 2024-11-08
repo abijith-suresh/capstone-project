@@ -3,8 +3,11 @@ package com.ust.review_service.service;
 import com.ust.review_service.dto.ReviewDto;
 import com.ust.review_service.entity.Review;
 import com.ust.review_service.repository.ReviewRepository;
+import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +19,8 @@ public class ReviewService {
     private ReviewRepository reviewRepository;
 
     private void dtoToModel(Review review, ReviewDto reviewDto) {
-        review.setCustomer_id(reviewDto.getCustomer_id());
-        review.setSpecialist_id(reviewDto.getSpecialist_id());
+        review.setCustomerId(reviewDto.getCustomerId());
+        review.setSpecialistId(reviewDto.getSpecialistId());
         review.setRating(reviewDto.getRating());
         review.setComment(reviewDto.getComment());
         review.setCreatedAt(reviewDto.getCreatedAt());
@@ -25,43 +28,78 @@ public class ReviewService {
 
     private ReviewDto modelToDto(Review review) {
        ReviewDto reviewDto= new ReviewDto();
-        reviewDto.setCustomer_id(reviewDto.getCustomer_id());
-        reviewDto.setSpecialist_id(reviewDto.getSpecialist_id());
-        reviewDto.setRating(reviewDto.getRating());
-        reviewDto.setComment(reviewDto.getComment());
-        reviewDto.setCreatedAt(reviewDto.getCreatedAt());
+        reviewDto.setCustomerId(review.getCustomerId());
+        reviewDto.setSpecialistId(review.getSpecialistId());
+        reviewDto.setRating(review.getRating());
+        reviewDto.setComment(review.getComment());
+        reviewDto.setCreatedAt(review.getCreatedAt());
 
         return reviewDto;
     }
 
 
 
-    public List<ReviewDto> findAllReviews() {
-        List<Review> review = reviewRepository.findAll();
-
-        return review.stream()
-                .map(this::modelToDto)
-                .collect(Collectors.toList());
-
+    public Flux<ReviewDto> findAllReviews() {
+        return reviewRepository.findAll()
+                .map(this::modelToDto);
     }
 
-    public Review findReviewById(String id)
+
+    public Mono<Review> findReviewById(ObjectId id)
     {
-        return reviewRepository.findById(id).orElse(null);
+        return reviewRepository.findById(id);
     }
 
-    public Review createReview(ReviewDto reviewDto) {
+    public Mono<ReviewDto> createReview(ReviewDto reviewDto) {
         Review review = new Review();
         dtoToModel(review, reviewDto);
-        return reviewRepository.save(review);
+        return reviewRepository.save(review)
+                .map(savedReview -> modelToDto(savedReview));
     }
-    public Review updateReview(String id, Review reviewDetails) {
+
+
+    public Mono<Review> updateReview(ObjectId id, Review reviewDetails) {
         reviewDetails.setId(id);
         return reviewRepository.save(reviewDetails);
     }
 
-    public void deleteReviewById(String id) {
+    public void deleteReviewById(ObjectId id) {
 
         reviewRepository.deleteById(id);
     }
+
+    public Flux<ReviewDto> getReviewsForCustomer(ObjectId customerId) {
+        return reviewRepository.findByCustomerId(customerId)
+                .map(review -> new ReviewDto(
+                        review.getCustomerId(),
+                        review.getSpecialistId(),
+                        review.getRating(),
+                        review.getComment(),
+                        review.getCreatedAt()
+                ));
+    }
+    public Mono<ReviewDto> getReviewByIdForCustomer(ObjectId customerId, ObjectId reviewId) {
+        return reviewRepository.findByCustomerIdAndId(customerId, reviewId)  // Use the new query method
+                .map(review -> new ReviewDto(
+                        review.getCustomerId(),
+                        review.getSpecialistId(),
+                        review.getRating(),
+                        review.getComment(),
+                        review.getCreatedAt()
+                ));
+    }
+    public Flux<ReviewDto> getReviewsForSpecialist(ObjectId specialistId) {
+        return reviewRepository.findBySpecialistId(specialistId)
+                .map(review -> new ReviewDto(
+                        review.getCustomerId(),
+                        review.getSpecialistId(),
+                        review.getRating(),
+                        review.getComment(),
+                        review.getCreatedAt()
+                ));
+    }
+
+
+
+
 }
