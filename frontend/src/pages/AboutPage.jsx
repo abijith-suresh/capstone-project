@@ -7,7 +7,7 @@ const AboutPage = () => {
     <div className="bg-white">
       <Header />
       <div className="relative isolate px-6 pt-14 lg:px-8">
-        <section className="py-16 bg-gray-50 text-gray-800">
+        <section className="py-16 text-gray-800">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h1 className="text-4xl font-bold sm:text-5xl">
               Welcome to Our Company!
@@ -19,7 +19,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-50">
+        <section className="py-16">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-semibold text-gray-800">
               Our Mission
@@ -69,7 +69,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        <section className="py-16 bg-gray-50">
+        <section className="py-16">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-3xl font-semibold text-gray-800">
               Meet Our Team
