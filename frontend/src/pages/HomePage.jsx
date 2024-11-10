@@ -1,10 +1,19 @@
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
+import { scroller } from "react-scroll";
 
 const HomePage = () => {
+  useEffect(() => {
+    scroller.scrollTo("top", {
+      smooth: true,
+      offset: 0,
+      duration: 750,
+    });
+  }, []);
   return (
-    <div className="bg-white">
+    <div className="bg-white" id="top">
       <Header />
       <div className="relative isolate px-6 pt-14 lg:px-8">
         <div

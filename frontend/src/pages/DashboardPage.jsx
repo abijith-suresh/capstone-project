@@ -52,7 +52,6 @@ const specialists = [
     imageSrc: "https://via.placeholder.com/150",
     imageAlt: "Bob Johnson Profile Picture",
   },
-  // Add more specialists...
 ];
 
 export default function DashboardPage() {
@@ -66,7 +65,7 @@ export default function DashboardPage() {
 
   const filterSpecialists = (term) => {
     if (!term) {
-      setFilteredSpecialists(specialists); // Show all if search term is empty
+      setFilteredSpecialists(specialists);
     } else {
       const filtered = specialists.filter(
         (specialist) =>
