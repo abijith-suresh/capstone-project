@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Navbar from "../components/Navbar";
+import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
+import SpecialistCard from "../components/SpecialistCard";
 
 const specialists = [
   {
@@ -52,7 +54,6 @@ const specialists = [
     imageSrc: "https://via.placeholder.com/150",
     imageAlt: "Bob Johnson Profile Picture",
   },
-  // Add more specialists...
 ];
 
 export default function DashboardPage() {
@@ -66,7 +67,7 @@ export default function DashboardPage() {
 
   const filterSpecialists = (term) => {
     if (!term) {
-      setFilteredSpecialists(specialists); // Show all if search term is empty
+      setFilteredSpecialists(specialists);
     } else {
       const filtered = specialists.filter(
         (specialist) =>
@@ -78,13 +79,22 @@ export default function DashboardPage() {
   };
 
   return (
-    <div className="bg-gray-50">
-      <Navbar userType="customer"/>
-      <div className="pt-16 px-4 sm:px-6 lg:px-8">
-        {" "}
+    <div className="min-h-screen">
+      {/* Navbar */}
+      <Navbar userType="customer" />
+
+      {/* Main Content */}
+      <div className="pt-32 pb-12 px-6 sm:px-8 lg:px-16">
         <div className="mx-auto max-w-7xl">
+          {/* Page Title */}
           <div className="flex justify-center mb-8">
-            {" "}
+            <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+              Find Your Perfect Specialist
+            </h2>
+          </div>
+
+          {/* Search Bar */}
+          <div className="flex justify-center mb-12">
             <div className="relative w-full max-w-md">
               <label
                 htmlFor="search"
@@ -94,7 +104,7 @@ export default function DashboardPage() {
               </label>
               <div className="relative mt-3 rounded-md shadow-sm">
                 <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3">
-                  <span className="text-gray-500 sm:text-sm">🔍</span>
+                  <MagnifyingGlassIcon className="h-5 w-5 text-gray-500" />
                 </div>
                 <input
                   id="search"
@@ -103,7 +113,7 @@ export default function DashboardPage() {
                   value={searchTerm}
                   onChange={handleSearchChange}
                   placeholder="Search by name or title"
-                  className="block w-full rounded-md border-0 py-2 pl-7 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block w-full rounded-md border-0 py-3 pl-10 pr-3 text-gray-900 ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -113,53 +123,7 @@ export default function DashboardPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
             {filteredSpecialists.length > 0 ? (
               filteredSpecialists.map((specialist) => (
-                <div
-                  key={specialist.id}
-                  className="bg-white p-6 rounded-lg shadow-lg hover:shadow-2xl transition-all"
-                >
-                  <img
-                    alt={specialist.imageAlt}
-                    src={specialist.imageSrc}
-                    className="h-40 w-40 object-cover rounded-full mx-auto"
-                  />
-                  <div className="mt-6 text-center">
-                    <h3 className="text-lg font-medium text-gray-900">
-                      {specialist.name}
-                    </h3>
-                    <p className="text-sm text-gray-500">{specialist.title}</p>
-                    <p className="mt-4 text-sm text-gray-600">
-                      {specialist.bio}
-                    </p>
-                    <div className="mt-4 flex justify-between items-center">
-                      <span className="text-gray-900 font-medium">
-                        {specialist.price}
-                      </span>
-                      <div className="flex items-center space-x-1 text-yellow-500">
-                        {/* Star Rating */}
-                        {[...Array(5)].map((_, index) => (
-                          <svg
-                            key={index}
-                            className={`h-5 w-5 ${
-                              index < specialist.rating
-                                ? "text-yellow-400"
-                                : "text-gray-300"
-                            }`}
-                            xmlns="http://www.w3.org/2000/svg"
-                            fill="currentColor"
-                            viewBox="0 0 24 24"
-                            stroke="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M12 17.75l-6.16 3.24 1.18-6.88-5-4.88 6.91-.52L12 2l2.08 6.68 6.91.52-5 4.88 1.18 6.88L12 17.75z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
-                        ))}
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                <SpecialistCard key={specialist.id} specialist={specialist} />
               ))
             ) : (
               <p className="col-span-4 text-center text-lg text-gray-500">

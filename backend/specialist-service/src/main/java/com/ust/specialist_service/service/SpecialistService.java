@@ -1,5 +1,6 @@
 package com.ust.specialist_service.service;
 
+import com.ust.specialist_service.dto.EmailUpdateDto;
 import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.entity.Specialist;
 import com.ust.specialist_service.repo.SpecialistRepo;
@@ -48,6 +49,7 @@ public class SpecialistService {
     }
 
     public Mono<Specialist> getSpecialistById(ObjectId id) {
+
         return specialistRepo.findById(id);
     }
 
@@ -61,6 +63,18 @@ public class SpecialistService {
     }
 
     public Mono<Specialist> findByEmail(String email) {
+
         return specialistRepo.findByEmail(email);
     }
+    public Mono<Specialist> updateSpecialistByEmail(ObjectId id, EmailUpdateDto newEmail) {
+        return specialistRepo.findById(id)
+                .flatMap(existingSpecialist -> {
+                    // Update the specialist email
+                    existingSpecialist.setEmail(newEmail.getEmail());
+                    return specialistRepo.save(existingSpecialist);
+                });
+
+    }
+
+
 }

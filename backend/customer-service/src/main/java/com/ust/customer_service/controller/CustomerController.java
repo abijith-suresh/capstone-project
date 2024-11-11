@@ -2,11 +2,13 @@ package com.ust.customer_service.controller;
 
 import com.ust.customer_service.dto.BookingDto;
 import com.ust.customer_service.dto.CustomerDto;
+import com.ust.customer_service.dto.EmailUpdateDto;
 import com.ust.customer_service.dto.ReviewDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.service.CustomerService;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -25,6 +27,7 @@ public class CustomerController {
 
     @GetMapping
     public Flux<CustomerDto> getAllCustomers() {
+
         return customerService.findAllCustomers();
     }
 
@@ -102,6 +105,34 @@ public class CustomerController {
                 .map(customer -> ResponseEntity.ok(customer))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}/update-email")
+    public Mono<ResponseEntity<Customer>> updateEmail(@PathVariable ObjectId id, @RequestBody EmailUpdateDto email) {
+        String newEmail = email.getEmail();
+
+
+        return customerService.findByEmail(newEmail)
+                .flatMap(existingCustomer -> {
+                    if (existingCustomer != null) {
+
+                        return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+                                .body((Customer) null));
+                    }
+
+                    return customerService.updateCustomerByEmail(id, email)
+                            .map(updatedCustomer -> ResponseEntity.ok(updatedCustomer))
+                            .defaultIfEmpty(ResponseEntity.notFound().build());
+                })
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+    }
+
+
+
+
+
+
+
+
 
 }
 

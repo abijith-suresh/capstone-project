@@ -1,6 +1,7 @@
 package com.ust.specialist_service.controller;
 
 import com.ust.specialist_service.dto.BookingDto;
+import com.ust.specialist_service.dto.EmailUpdateDto;
 import com.ust.specialist_service.dto.ReviewDto;
 import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.service.SpecialistService;
@@ -8,6 +9,7 @@ import com.ust.specialist_service.entity.Specialist;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -81,6 +83,25 @@ public class SpecialistController {
                 .map(specialist -> ResponseEntity.ok(specialist))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}/update-email")
+    public Mono<ResponseEntity<Specialist>> updateSpecialistByEmail(@PathVariable ObjectId id, @RequestBody EmailUpdateDto email) {
+        String newEmail = email.getEmail();
+
+        return specialistService.findByEmail(newEmail)
+                .flatMap(existingSpecialist -> {
+                    // If email already exists, return Conflict response
+                    return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+                            .body((Specialist) null));
+                })
+                .switchIfEmpty( // If no existing specialist with this email, proceed to update
+                        specialistService.updateSpecialistByEmail(id, email)
+                                .map(updatedSpecialist -> ResponseEntity.ok(updatedSpecialist))
+                                .defaultIfEmpty(ResponseEntity.notFound().build())
+                )
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // If no specialist with the ID is found
+    }
+
 
 }
 

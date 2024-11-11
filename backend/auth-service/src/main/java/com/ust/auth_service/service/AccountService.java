@@ -64,6 +64,7 @@ public class AccountService {
 
     // Verify token, return Mono<Boolean>
     public Boolean verify(String token) {
+
         return jwtTokenProvider.validateToken(token);
     }
 
