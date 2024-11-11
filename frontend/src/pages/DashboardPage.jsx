@@ -3,60 +3,7 @@ import Navbar from "../components/Navbar";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SpecialistCard from "../components/SpecialistCard";
 
-const specialists = [
-  {
-    id: 1,
-    name: "John Doe",
-    title: "Senior Developer",
-    bio: "Experienced developer with over 10 years in full-stack development.",
-    price: "$50/hr",
-    rating: 4.5,
-    imageSrc: "https://via.placeholder.com/150",
-    imageAlt: "John Doe Profile Picture",
-  },
-  {
-    id: 2,
-    name: "Jane Smith",
-    title: "UI/UX Designer",
-    bio: "Creative designer specializing in user-centered design solutions.",
-    price: "$45/hr",
-    rating: 4.8,
-    imageSrc: "https://via.placeholder.com/150",
-    imageAlt: "Jane Smith Profile Picture",
-  },
-  {
-    id: 3,
-    name: "Bob Johnson",
-    title: "Project Manager",
-    bio: "Dedicated project manager with expertise in agile methodology.",
-    price: "$60/hr",
-    rating: 4.7,
-    imageSrc: "https://via.placeholder.com/150",
-    imageAlt: "Bob Johnson Profile Picture",
-  },
-  {
-    id: 4,
-    name: "Jane Smith",
-    title: "UI/UX Designer",
-    bio: "Creative designer specializing in user-centered design solutions.",
-    price: "$45/hr",
-    rating: 4.8,
-    imageSrc: "https://via.placeholder.com/150",
-    imageAlt: "Jane Smith Profile Picture",
-  },
-  {
-    id: 5,
-    name: "Bob Johnson",
-    title: "Project Manager",
-    bio: "Dedicated project manager with expertise in agile methodology.",
-    price: "$60/hr",
-    rating: 4.7,
-    imageSrc: "https://via.placeholder.com/150",
-    imageAlt: "Bob Johnson Profile Picture",
-  },
-];
-
-export default function DashboardPage() {
+export default function DashboardPage( {specialists} ) {
   const [searchTerm, setSearchTerm] = useState("");
   const [filteredSpecialists, setFilteredSpecialists] = useState(specialists);
 
