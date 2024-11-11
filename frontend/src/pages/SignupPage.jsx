@@ -80,30 +80,43 @@ const SignupPage = () => {
             </div>
           </div>
 
-          <div className="mt-4 flex items-center space-x-4">
-            <label className="flex items-center">
+          <div className="mb-6 flex flex-col gap-y-2 gap-x-4 lg:flex-row justify-center items-center">
+            {/* Customer Radio Button */}
+            <div className="relative flex w-44 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
               <input
+                className="peer hidden"
                 type="radio"
                 name="userType"
                 value="customer"
                 defaultChecked
-                className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                id="customerRadio"
               />
-              <span className="ml-2 text-sm font-medium text-gray-900">
-                Customer
-              </span>
-            </label>
-            <label className="flex items-center">
+              <label
+                className="peer-checked:border-indigo-600 peer-checked:bg-indigo-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
+                htmlFor="customerRadio"
+              ></label>
+              <div className="peer-checked:border-transparent peer-checked:bg-indigo-600 peer-checked:ring-2 absolute left-3 h-4 w-4 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2"></div>
+              <span className="pointer-events-none z-10 text-sm">Customer</span>
+            </div>
+
+            {/* Specialist Radio Button */}
+            <div className="relative flex w-44 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
               <input
+                className="peer hidden"
                 type="radio"
                 name="userType"
                 value="specialist"
-                className="h-4 w-4 text-indigo-600 border-gray-300 focus:ring-indigo-500"
+                id="specialistRadio"
               />
-              <span className="ml-2 text-sm font-medium text-gray-900">
+              <label
+                className="peer-checked:border-indigo-600 peer-checked:bg-indigo-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
+                htmlFor="specialistRadio"
+              ></label>
+              <div className="peer-checked:border-transparent peer-checked:bg-indigo-600 peer-checked:ring-2 absolute left-3 h-4 w-4 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2"></div>
+              <span className="pointer-events-none z-10 text-sm">
                 Specialist
               </span>
-            </label>
+            </div>
           </div>
 
           <div>
