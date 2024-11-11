@@ -3,6 +3,8 @@ package com.ust.auth_service.service;
 import com.ust.auth_service.config.JwtTokenProvider;
 import com.ust.auth_service.dto.LoginDto;
 import com.ust.auth_service.dto.RegisterDto;
+import com.ust.auth_service.dto.UpdateEmailDto;
+import com.ust.auth_service.dto.UpdatePasswordDto;
 import com.ust.auth_service.model.Account;
 import com.ust.auth_service.repo.AccountRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +66,6 @@ public class AccountService {
 
     // Verify token, return Mono<Boolean>
     public Boolean verify(String token) {
-
         return jwtTokenProvider.validateToken(token);
     }
 
@@ -72,6 +73,47 @@ public class AccountService {
     public String getRolesFromToken(String token) {
         String email = jwtTokenProvider.getUsernameFromToken(token);
         return getRolesFromEmail(email);
+    }
+
+    public void updatePassword(UpdatePasswordDto updatePasswordDto) {
+        Optional<Account> accountOptional = accountRepo.findByEmail(updatePasswordDto.getEmail());
+        if (accountOptional.isEmpty()) {
+            throw new RuntimeException("User not found");
+        }
+        Account account = accountOptional.get();
+
+        // Validate the old password
+        if (!passwordEncoder.matches(updatePasswordDto.getOldPassword(), account.getPassword())) {
+            throw new RuntimeException("Old password is incorrect");
+        }
+
+        // Update the password
+        account.setPassword(passwordEncoder.encode(updatePasswordDto.getNewPassword()));
+        accountRepo.save(account);
+    }
+
+    public void updateEmail(UpdateEmailDto updateEmailDto) {
+        // Fetch the account using the current email
+        Optional<Account> accountOptional = accountRepo.findByEmail(updateEmailDto.getCurrentEmail());
+        if (accountOptional.isEmpty()) {
+            throw new RuntimeException("User with the current email not found");
+        }
+
+        Account account = accountOptional.get();
+
+        // Verify if the password matches
+        if (!passwordEncoder.matches(updateEmailDto.getPassword(), account.getPassword())) {
+            throw new RuntimeException("Incorrect password");
+        }
+
+        // Check if the new email is already taken
+        if (accountRepo.findByEmail(updateEmailDto.getNewEmail()).isPresent()) {
+            throw new RuntimeException("The new email is already taken");
+        }
+
+        // Update the email
+        account.setEmail(updateEmailDto.getNewEmail());
+        accountRepo.save(account);
     }
 }
 

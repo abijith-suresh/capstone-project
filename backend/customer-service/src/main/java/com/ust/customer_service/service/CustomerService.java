@@ -66,23 +66,13 @@ public class CustomerService {
         return customerRepository.findByEmail(email);
     }
 
-    public Mono<Boolean> emailExists(String email) {
-        return customerRepository.existsByEmail(email);
-    }
-
-
-public Mono<Customer> updateCustomerByEmail(ObjectId id, EmailUpdateDto newEmail) {
-    return customerRepository.findById(id)
+    public Mono<Customer> updateCustomerByEmail(ObjectId id, EmailUpdateDto newEmail) {
+        return customerRepository.findById(id)
             .flatMap(existingCustomer -> {
                 existingCustomer.setEmail(newEmail.getEmail());  // Set email from DTO
                 return customerRepository.save(existingCustomer); // Save updated customer
-            });
-}
-
-
-
-
-
+        });
+    }
 
 }
 

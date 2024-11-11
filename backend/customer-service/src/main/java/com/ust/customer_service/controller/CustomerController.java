@@ -112,27 +112,18 @@ public class CustomerController {
 
 
         return customerService.findByEmail(newEmail)
-                .flatMap(existingCustomer -> {
-                    if (existingCustomer != null) {
-
-                        return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
-                                .body((Customer) null));
+            .flatMap(existingCustomer -> {
+                if (existingCustomer != null) {
+                    return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+                        .body((Customer) null));
                     }
 
                     return customerService.updateCustomerByEmail(id, email)
-                            .map(updatedCustomer -> ResponseEntity.ok(updatedCustomer))
-                            .defaultIfEmpty(ResponseEntity.notFound().build());
+                        .map(updatedCustomer -> ResponseEntity.ok(updatedCustomer))
+                        .defaultIfEmpty(ResponseEntity.notFound().build());
                 })
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
-
-
-
-
-
-
-
-
 
 }
 
