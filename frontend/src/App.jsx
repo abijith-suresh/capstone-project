@@ -9,6 +9,7 @@ import DashboardPage from "./pages/DashboardPage";
 import FaqPage from "./pages/FaqPage";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
+
 function App() {
   return (
     <>
