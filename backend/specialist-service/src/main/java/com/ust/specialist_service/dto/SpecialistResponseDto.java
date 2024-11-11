@@ -1,23 +1,16 @@
-package com.ust.specialist_service.entity;
+package com.ust.specialist_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.bson.types.ObjectId;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-@Document(collection = "specialist")
-public class Specialist {
-
-    @Id
-    private ObjectId id;
+@NoArgsConstructor
+public class SpecialistResponseDto {
+    private String id;
     private String name;
     private String email;
     private String phoneNumber;

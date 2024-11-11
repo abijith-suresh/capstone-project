@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom"; 
 
 const SpecialistCard = ({ specialist }) => {
@@ -10,8 +9,8 @@ const SpecialistCard = ({ specialist }) => {
       {/* Specialist Image and Rating Overlay */}
       <div className="relative">
         <img
-          alt={specialist.imageAlt}
-          src={specialist.imageSrc}
+          alt="Image of a specialist"
+          src={specialist.profileImage}
           className="h-56 w-full object-cover rounded-xl"
         />
 

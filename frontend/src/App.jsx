@@ -12,7 +12,6 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import UserProfile from "./pages/UserProfile";
 import BookingsPage from "./pages/BookingsPage";
 import SpecialistDetailsPage from "./pages/SpecialistDetailsPage";
-import specialists from "./data/SpecialistsData";
 
 const user = {
   name: "John Doe",
@@ -68,13 +67,13 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/dashboard" element={<DashboardPage specialists={specialists}/>} />
+          <Route path="/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<UserProfile user={user} />} />
           <Route
             path="/bookings"
             element={<BookingsPage user={user} bookings={bookings} />}
           />
-          <Route path="/specialist/:id" element={<SpecialistDetailsPage specialists={specialists} />} />
+          <Route path="/specialist/:id" element={<SpecialistDetailsPage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

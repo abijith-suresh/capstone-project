@@ -25,6 +25,9 @@ public class CustomerService {
         customer.setEmail(customerDto.getEmail());
         customer.setGender(customerDto.getGender());
         customer.setDob(customerDto.getDob());
+        customer.setAddress(customerDto.getAddress());
+        customer.setProfilePictureUrl(customerDto.getProfilePictureUrl());
+        customer.setPhoneNumber(customer.getPhoneNumber());
     }
 
     private CustomerDto modelToDto(Customer customer) {
@@ -34,6 +37,9 @@ public class CustomerService {
         customerDto.setEmail(customer.getEmail());
         customerDto.setGender(customer.getGender());
         customerDto.setDob(customer.getDob());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setPhoneNumber(customer.getPhoneNumber());
+        customerDto.setProfilePictureUrl(customer.getProfilePictureUrl());
 
         return customerDto;
     }
