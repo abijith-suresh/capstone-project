@@ -11,15 +11,40 @@ import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import UserProfile from "./pages/UserProfile";
 import BookingsPage from "./pages/BookingsPage";
+import SpecialistDetailsPage from "./pages/SpecialistDetailsPage";
+
+// Mock Data for Specialists
+const specialists = [
+  {
+    id: "1",
+    name: "Jessica",
+    title: "Professional Organizer",
+    imageSrc: "https://via.placeholder.com/300",
+    imageAlt: "Jessica's Image",
+    rating: 4.8,
+    bio: "I specialize in home and office organization, helping people live clutter-free lives.",
+    price: "$50/hr",
+  },
+  {
+    id: "2",
+    name: "John",
+    title: "Handyman",
+    imageSrc: "https://via.placeholder.com/300",
+    imageAlt: "John's Image",
+    rating: 4.5,
+    bio: "I'm an experienced handyman offering a variety of home repair services.",
+    price: "$60/hr",
+  },
+];
 
 const user = {
   name: "John Doe",
-  accountType: "customer", // Can be "Customer", "Specialist", or any other roles you use
+  accountType: "customer",
   email: "johndoe@example.com",
-  phone: "+1234567890", // Optional, if available
+  phone: "+1234567890",
   about:
     "I am a passionate software developer who loves creating beautiful web applications.",
-  profilePicture: "https://via.placeholder.com/150", // Image URL
+  profilePicture: "https://via.placeholder.com/150",
 };
 
 const bookings = {
@@ -58,7 +83,7 @@ function App() {
     <>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route path="/" element={<HomePage specialists={specialists} />} />
           <Route path="/login" element={<LoginPage />} />
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/about" element={<AboutPage />} />
@@ -71,6 +96,10 @@ function App() {
           <Route
             path="/bookings"
             element={<BookingsPage user={user} bookings={bookings} />}
+          />
+          <Route
+            path="/specialist/:id"
+            element={<SpecialistDetailsPage specialists={specialists} />}
           />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>

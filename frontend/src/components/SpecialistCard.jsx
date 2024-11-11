@@ -1,9 +1,10 @@
 import React from "react";
+import { Link } from "react-router-dom"; 
 
 const SpecialistCard = ({ specialist }) => {
   return (
-    <div
-      key={specialist.id}
+    <Link
+      to={`/specialist/${specialist.id}`} 
       className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
     >
       {/* Specialist Image and Rating Overlay */}
@@ -54,7 +55,7 @@ const SpecialistCard = ({ specialist }) => {
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

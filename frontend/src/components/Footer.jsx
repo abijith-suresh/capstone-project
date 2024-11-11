@@ -61,38 +61,22 @@ const Footer = () => {
           </div>
 
           <div>
-            <h3 className="text-lg font-semibold text-gray-800">Services</h3>
+            <h3 className="text-lg font-semibold text-gray-800">Actions</h3>
             <ul className="mt-4 space-y-3">
               <li>
                 <Link
-                  to="#"
+                  to="/login"
                   className="text-gray-600 hover:text-indigo-600 text-base"
                 >
-                  Web Development
+                  Login
                 </Link>
               </li>
               <li>
                 <Link
-                  to="#"
+                  to="/signup"
                   className="text-gray-600 hover:text-indigo-600 text-base"
                 >
-                  Mobile App Development
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-gray-600 hover:text-indigo-600 text-base"
-                >
-                  SEO Optimization
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="#"
-                  className="text-gray-600 hover:text-indigo-600 text-base"
-                >
-                  Graphic Design
+                  Signup
                 </Link>
               </li>
             </ul>
@@ -123,22 +107,6 @@ const Footer = () => {
                   className="text-gray-600 hover:text-indigo-600 text-base"
                 >
                   FAQ
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/login"
-                  className="text-gray-600 hover:text-indigo-600 text-base"
-                >
-                  Login
-                </Link>
-              </li>
-              <li>
-                <Link
-                  to="/signup"
-                  className="text-gray-600 hover:text-indigo-600 text-base"
-                >
-                  Signup
                 </Link>
               </li>
             </ul>
