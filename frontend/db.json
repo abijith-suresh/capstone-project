@@ -1,0 +1,46 @@
+{
+  "specialists": [
+    {
+      "id": "1",
+      "name": "John Doe",
+      "title": "Senior Developer",
+      "bio": "Experienced developer with over 10 years in full-stack development.",
+      "price": "$50/hr",
+      "rating": 4.5,
+      "profileImage": "https://via.placeholder.com/300",
+      "services": [
+        "Full-stack development",
+        "Web app development",
+        "API development",
+        "Database design"
+      ],
+      "photos": [
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150"
+      ],
+      "experience": 10
+    },
+    {
+      "id": "2",
+      "name": "Jane Smith",
+      "title": "UX/UI Designer",
+      "bio": "Creative designer with over 7 years of experience in UI/UX design.",
+      "price": "$40/hr",
+      "rating": 4.8,
+      "profileImage": "https://via.placeholder.com/300",
+      "services": [
+        "UX/UI design",
+        "Wireframing",
+        "Prototyping",
+        "User research"
+      ],
+      "photos": [
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150"
+      ],
+      "experience": 7
+    }
+  ]
+}
