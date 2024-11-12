@@ -75,7 +75,7 @@ const LoginPage = () => {
             {/* Styled Radio Buttons */}
             <div className="mb-6 flex flex-col gap-y-2 gap-x-4 lg:flex-row justify-center items-center">
               {/* Customer Radio Button */}
-              <div className="relative flex w-44 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
+              <div className="relative flex items-center justify-center w-44">
                 <input
                   className="peer hidden"
                   type="radio"
@@ -85,17 +85,16 @@ const LoginPage = () => {
                   id="customerRadio"
                 />
                 <label
-                  className="peer-checked:border-indigo-600 peer-checked:bg-indigo-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
                   htmlFor="customerRadio"
-                ></label>
-                <div className="peer-checked:border-transparent peer-checked:bg-indigo-600 peer-checked:ring-2 absolute left-3 h-4 w-4 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2"></div>
-                <span className="pointer-events-none z-10 text-sm">
+                  className="peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out
+        hover:bg-indigo-200 hover:scale-105 hover:shadow-lg active:scale-95 active:bg-indigo-400"
+                >
                   Customer
-                </span>
+                </label>
               </div>
 
               {/* Specialist Radio Button */}
-              <div className="relative flex w-44 items-center justify-center rounded-xl bg-gray-50 px-4 py-3 font-medium text-gray-700">
+              <div className="relative flex items-center justify-center w-44">
                 <input
                   className="peer hidden"
                   type="radio"
@@ -104,13 +103,12 @@ const LoginPage = () => {
                   id="specialistRadio"
                 />
                 <label
-                  className="peer-checked:border-indigo-600 peer-checked:bg-indigo-200 absolute top-0 h-full w-full cursor-pointer rounded-xl border"
                   htmlFor="specialistRadio"
-                ></label>
-                <div className="peer-checked:border-transparent peer-checked:bg-indigo-600 peer-checked:ring-2 absolute left-3 h-4 w-4 rounded-full border-2 border-gray-300 bg-gray-200 ring-indigo-600 ring-offset-2"></div>
-                <span className="pointer-events-none z-10 text-sm">
+                  className="hover:scale-105 active:scale-95 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out
+        hover:bg-indigo-200 hover:shadow-lg active:bg-indigo-400"
+                >
                   Specialist
-                </span>
+                </label>
               </div>
             </div>
 

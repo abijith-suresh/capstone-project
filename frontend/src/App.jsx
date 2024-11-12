@@ -12,46 +12,18 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import UserProfile from "./pages/UserProfile";
 import BookingsPage from "./pages/BookingsPage";
 import SpecialistDetailsPage from "./pages/SpecialistDetailsPage";
+import BookingDetailsPage from "./pages/BookingDetailsPage";
+import CreateBooking from "./pages/CreateBooking";
+import AddSpecialistDetailsPage from "./pages/AddSpecialistDetailsPage";
+import AddCustomerDetailsPage from "./pages/AddCustomerDetailsPage";
+
 
 const user = {
   name: "John Doe",
   accountType: "customer",
   email: "johndoe@example.com",
   phone: "+1234567890",
-  about:
-    "I am a passionate software developer who loves creating beautiful web applications.",
   profilePicture: "https://via.placeholder.com/150",
-};
-
-const bookings = {
-  current: [
-    {
-      id: "B001",
-      eventName: "Tech Conference 2024",
-      date: "2024-11-10 at 14:00",
-      status: "Upcoming",
-    },
-    {
-      id: "B002",
-      eventName: "Marketing Workshop",
-      date: "2024-11-15 at 09:00",
-      status: "Upcoming",
-    },
-  ],
-  past: [
-    {
-      id: "B003",
-      eventName: "Product Launch 2023",
-      date: "2023-09-10 at 10:00",
-      status: "Completed",
-    },
-    {
-      id: "B004",
-      eventName: "Team Retreat 2023",
-      date: "2023-08-05 at 12:00",
-      status: "Completed",
-    },
-  ],
 };
 
 function App() {
@@ -67,13 +39,14 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/dashboard" element={<DashboardPage />} />
+          <Route path="/customer/dashboard" element={<DashboardPage />} />
           <Route path="/profile" element={<UserProfile user={user} />} />
-          <Route
-            path="/bookings"
-            element={<BookingsPage user={user} bookings={bookings} />}
-          />
+          <Route path="/bookings" element={<BookingsPage user={user} />} />
           <Route path="/specialist/:id" element={<SpecialistDetailsPage />} />
+          <Route path="/bookings/:id" element={<BookingDetailsPage />} />
+          <Route path="/create-booking/:id" element={<CreateBooking />} />
+          <Route path="/specialist/complete-profile" element={<AddSpecialistDetailsPage />} />
+          <Route path="/customer/complete-profile" element={<AddCustomerDetailsPage />} />
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>

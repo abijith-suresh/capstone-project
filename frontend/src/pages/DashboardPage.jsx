@@ -9,10 +9,9 @@ export default function DashboardPage( ) {
   const [filteredSpecialists, setFilteredSpecialists] = useState([]);
 
   useEffect(() => {
-    // Fetch data from backend
     const fetchSpecialists = async () => {
       try {
-        const response = await fetch("http://localhost:9005/api/specialist");
+        const response = await fetch("http://localhost:5000/specialist");
         const data = await response.json();
         setSpecialists(data);
         setFilteredSpecialists(data); 

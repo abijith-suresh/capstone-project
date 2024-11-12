@@ -1,31 +1,32 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
 export const SpecialistDetailsPage = () => {
-  const { id } = useParams(); 
-  const [specialist, setSpecialist] = useState(null); 
-  const [loading, setLoading] = useState(true); 
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const [specialist, setSpecialist] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchSpecialist = async () => {
       try {
-        const response = await fetch(`http://localhost:9005/api/specialist/id/${id}`);
+        const response = await fetch(`http://localhost:5000/specialist/${id}`);
         if (response.ok) {
           const data = await response.json();
-          setSpecialist(data); // Set the fetched data
+          setSpecialist(data);
         } else {
           console.error("Specialist not found");
         }
       } catch (error) {
         console.error("Error fetching specialist details:", error);
       } finally {
-        setLoading(false); // Set loading to false after fetch is done
+        setLoading(false);
       }
     };
 
     fetchSpecialist();
-  }, [id]); // Re-fetch if the ID in the URL changes
+  }, [id]);
 
   if (loading) {
     return (
@@ -72,8 +73,8 @@ export const SpecialistDetailsPage = () => {
               <div className="flex w-full max-w-[480px] gap-3 sm:w-auto">
                 {/* Book Button */}
                 <button
-                  onClick={() => alert("Booking confirmed!")}
-                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-[#308ce8] text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 sm:flex-auto"
+                  onClick={() => navigate(`/create-booking/${specialist.id}`)}
+                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 sm:flex-auto transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-lg"
                 >
                   <span className="truncate">Book</span>
                 </button>

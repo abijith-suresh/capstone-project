@@ -1,10 +1,23 @@
-import { Link } from "react-router-dom"; 
+import { useNavigate } from "react-router-dom";
 
 const SpecialistCard = ({ specialist }) => {
+  const navigate = useNavigate();
+
+  // Navigate to the specialist details page when the card is clicked
+  const handleCardClick = () => {
+    navigate(`/specialist/${specialist.id}`);
+  };
+
+  // Navigate to the create booking page for the selected specialist
+  const handleBookNowClick = (e) => {
+    e.stopPropagation();
+    navigate(`/create-booking/${specialist.id}`);
+  };
+
   return (
-    <Link
-      to={`/specialist/${specialist.id}`} 
-      className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105"
+    <div
+      onClick={handleCardClick}
+      className="bg-white p-6 rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 ease-in-out transform hover:scale-105 cursor-pointer"
     >
       {/* Specialist Image and Rating Overlay */}
       <div className="relative">
@@ -41,20 +54,25 @@ const SpecialistCard = ({ specialist }) => {
         {/* Pricing and Action Button */}
         <div className="mt-4 flex justify-between items-center">
           <span className="text-gray-900 font-medium">{specialist.price}</span>
-          <div className="group inline-flex items-center rounded-xl bg-blue-100 p-2 hover:bg-blue-200 transition-all duration-300 ease-in-out">
+          <div
+            onClick={handleBookNowClick}
+            className="group inline-flex items-center rounded-xl bg-blue-600 p-2 cursor-pointer hover:bg-blue-700 transition-all duration-300 ease-in-out"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
-              className="group-hover:text-blue-500 h-5 w-5 text-blue-400"
+              className="group-hover:text-white h-5 w-5 text-white"
               viewBox="0 0 20 20"
               fill="currentColor"
             >
               <path d="M5 4a2 2 0 012-2h6a2 2 0 012 2v14l-5-2.5L5 18V4z" />
             </svg>
-            <span className="ml-2 text-sm text-blue-500">Book Now</span>
+            <span className="ml-2 text-sm text-white group-hover:text-white">
+              Book Now
+            </span>
           </div>
         </div>
       </div>
-    </Link>
+    </div>
   );
 };
 
