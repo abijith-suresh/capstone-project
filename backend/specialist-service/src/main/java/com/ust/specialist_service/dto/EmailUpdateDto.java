@@ -5,11 +5,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
-public class SpecialistDto {
-
-    private String firstName;
-    private String lastName;
-    private String email;
+@AllArgsConstructor
+public class EmailUpdateDto {
+    private  String email;
 }

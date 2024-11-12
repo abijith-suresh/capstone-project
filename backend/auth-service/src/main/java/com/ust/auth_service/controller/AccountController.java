@@ -2,6 +2,8 @@ package com.ust.auth_service.controller;
 
 import com.ust.auth_service.dto.LoginDto;
 import com.ust.auth_service.dto.RegisterDto;
+import com.ust.auth_service.dto.UpdateEmailDto;
+import com.ust.auth_service.dto.UpdatePasswordDto;
 import com.ust.auth_service.service.AccountService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,5 +56,23 @@ public class AccountController {
         }
     }
 
+    @PutMapping("/update/password")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePasswordDto updatePasswordDto) {
+        try {
+            accountService.updatePassword(updatePasswordDto);
+            return ResponseEntity.ok("Password updated successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 
+    @PutMapping("/update/email")
+    public ResponseEntity<String> updateEmail(@RequestBody UpdateEmailDto updateEmailDto) {
+        try {
+            accountService.updateEmail(updateEmailDto);
+            return ResponseEntity.ok("Email updated successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

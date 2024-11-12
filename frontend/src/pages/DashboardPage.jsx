@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SpecialistCard from "../components/SpecialistCard";
 
-export default function DashboardPage( {specialists} ) {
+export default function DashboardPage( ) {
   const [searchTerm, setSearchTerm] = useState("");
-  const [filteredSpecialists, setFilteredSpecialists] = useState(specialists);
+  const [specialists, setSpecialists] = useState([]);
+  const [filteredSpecialists, setFilteredSpecialists] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from backend
+    const fetchSpecialists = async () => {
+      try {
+        const response = await fetch("http://localhost:9005/api/specialist");
+        const data = await response.json();
+        setSpecialists(data);
+        setFilteredSpecialists(data); 
+      } catch (error) {
+        console.error("Error fetching specialists:", error);
+      }
+    };
+
+    fetchSpecialists();
+  }, []);
 
   const handleSearchChange = (e) => {
     setSearchTerm(e.target.value);

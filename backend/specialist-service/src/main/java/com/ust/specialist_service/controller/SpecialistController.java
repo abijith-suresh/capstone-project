@@ -1,23 +1,20 @@
 package com.ust.specialist_service.controller;
 
-import com.ust.specialist_service.dto.BookingDto;
-import com.ust.specialist_service.dto.ReviewDto;
-import com.ust.specialist_service.dto.SpecialistDto;
+import com.ust.specialist_service.dto.*;
 import com.ust.specialist_service.service.SpecialistService;
 import com.ust.specialist_service.entity.Specialist;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/specialist")
+@CrossOrigin(origins = "http://localhost:5173")
 public class SpecialistController {
 
     @Autowired
@@ -27,20 +24,26 @@ public class SpecialistController {
     private SpecialistService specialistService;
 
     @PostMapping
-    public Mono<Specialist> createSpecialist(@RequestBody SpecialistDto specialistDto) {
-        return specialistService.createSpecialist(specialistDto);
+    public Mono<Specialist> createSpecialist(@RequestBody AddSpecialistDto addSpecialistDto) {
+        return specialistService.createSpecialist(addSpecialistDto);
     }
 
     @GetMapping
-    public Flux<SpecialistDto> getAllSpecialists() {
+    public Flux<SpecialistResponseDto> getAllSpecialists() {
         return specialistService.getAllSpecialists();
     }
 
-    @GetMapping("/{id}")
-    public Mono<ResponseEntity<Specialist>> getSpecialistById(@PathVariable ObjectId id) {
-        return specialistService.getSpecialistById(id)
-                .map(specialist -> ResponseEntity.ok(specialist))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+    @GetMapping("/id/{id}")
+    public Mono<ResponseEntity<SpecialistResponseDto>> getSpecialistById(@PathVariable String id) {
+        try {
+            ObjectId objectId = new ObjectId(id);
+
+            return specialistService.getSpecialistById(objectId)
+                    .map(specialistDto -> ResponseEntity.ok(specialistDto))
+                    .defaultIfEmpty(ResponseEntity.notFound().build());
+        } catch (IllegalArgumentException e) {
+            return Mono.just(ResponseEntity.badRequest().body(null));
+        }
     }
 
     @PutMapping("/{id}")
@@ -81,6 +84,25 @@ public class SpecialistController {
                 .map(specialist -> ResponseEntity.ok(specialist))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
+
+    @PutMapping("/{id}/update-email")
+    public Mono<ResponseEntity<Specialist>> updateSpecialistByEmail(@PathVariable ObjectId id, @RequestBody EmailUpdateDto email) {
+        String newEmail = email.getEmail();
+
+        return specialistService.findByEmail(newEmail)
+                .flatMap(existingSpecialist -> {
+                    // If email already exists, return Conflict response
+                    return Mono.just(ResponseEntity.status(HttpStatus.CONFLICT)
+                            .body((Specialist) null));
+                })
+                .switchIfEmpty( // If no existing specialist with this email, proceed to update
+                        specialistService.updateSpecialistByEmail(id, email)
+                                .map(updatedSpecialist -> ResponseEntity.ok(updatedSpecialist))
+                                .defaultIfEmpty(ResponseEntity.notFound().build())
+                )
+                .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // If no specialist with the ID is found
+    }
+
 
 }
 

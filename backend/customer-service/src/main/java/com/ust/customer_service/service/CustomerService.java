@@ -1,6 +1,7 @@
 package com.ust.customer_service.service;
 
 import com.ust.customer_service.dto.CustomerDto;
+import com.ust.customer_service.dto.EmailUpdateDto;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.repository.CustomerRepository;
 import org.bson.types.ObjectId;
@@ -24,6 +25,9 @@ public class CustomerService {
         customer.setEmail(customerDto.getEmail());
         customer.setGender(customerDto.getGender());
         customer.setDob(customerDto.getDob());
+        customer.setAddress(customerDto.getAddress());
+        customer.setProfilePictureUrl(customerDto.getProfilePictureUrl());
+        customer.setPhoneNumber(customer.getPhoneNumber());
     }
 
     private CustomerDto modelToDto(Customer customer) {
@@ -33,6 +37,9 @@ public class CustomerService {
         customerDto.setEmail(customer.getEmail());
         customerDto.setGender(customer.getGender());
         customerDto.setDob(customer.getDob());
+        customerDto.setAddress(customer.getAddress());
+        customerDto.setPhoneNumber(customer.getPhoneNumber());
+        customerDto.setProfilePictureUrl(customer.getProfilePictureUrl());
 
         return customerDto;
     }
@@ -64,5 +71,14 @@ public class CustomerService {
     public Mono<Customer> findByEmail(String email) {
         return customerRepository.findByEmail(email);
     }
+
+    public Mono<Customer> updateCustomerByEmail(ObjectId id, EmailUpdateDto newEmail) {
+        return customerRepository.findById(id)
+            .flatMap(existingCustomer -> {
+                existingCustomer.setEmail(newEmail.getEmail());  // Set email from DTO
+                return customerRepository.save(existingCustomer); // Save updated customer
+        });
+    }
+
 }
 

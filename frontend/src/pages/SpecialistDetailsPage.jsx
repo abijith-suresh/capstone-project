@@ -1,9 +1,39 @@
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/Navbar";
 
-export const SpecialistDetailsPage = ({ specialists }) => {
-  const { id } = useParams();
-  const specialist = specialists.find((spec) => spec.id === id);
+export const SpecialistDetailsPage = () => {
+  const { id } = useParams(); 
+  const [specialist, setSpecialist] = useState(null); 
+  const [loading, setLoading] = useState(true); 
+
+  useEffect(() => {
+    const fetchSpecialist = async () => {
+      try {
+        const response = await fetch(`http://localhost:9005/api/specialist/id/${id}`);
+        if (response.ok) {
+          const data = await response.json();
+          setSpecialist(data); // Set the fetched data
+        } else {
+          console.error("Specialist not found");
+        }
+      } catch (error) {
+        console.error("Error fetching specialist details:", error);
+      } finally {
+        setLoading(false); // Set loading to false after fetch is done
+      }
+    };
+
+    fetchSpecialist();
+  }, [id]); // Re-fetch if the ID in the URL changes
+
+  if (loading) {
+    return (
+      <div className="min-h-screen flex justify-center items-center">
+        <div className="text-lg">Loading...</div>
+      </div>
+    );
+  }
 
   if (!specialist) {
     return (
@@ -78,6 +108,7 @@ export const SpecialistDetailsPage = ({ specialists }) => {
               {specialist.bio}
             </p>
           </div>
+
           {/* Photos Section */}
           <div className="mt-12">
             <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
