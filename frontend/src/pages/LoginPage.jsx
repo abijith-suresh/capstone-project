@@ -1,6 +1,57 @@
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
 
 const LoginPage = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [userType, setUserType] = useState("customer");
+  const [error, setError] = useState("");
+  const navigate = useNavigate();
+
+  // Handle input change for email and password
+  const handleEmailChange = (e) => setEmail(e.target.value);
+  const handlePasswordChange = (e) => setPassword(e.target.value);
+
+  // Handle radio button change for user type
+  const handleUserTypeChange = (e) => setUserType(e.target.value);
+
+  // Handle form submission
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Fetch user data from JSON Server using fetch API based on email
+      const response = await fetch(`http://localhost:5000/auth?email=${email}`);
+
+      if (!response.ok) {
+        throw new Error("Something went wrong while fetching user data.");
+      }
+
+      const users = await response.json();
+      const user = users[0];
+
+      // Check if user exists and password matches
+      if (user && user.password === password && user.role === userType) {
+        localStorage.setItem("userEmail", user.email);
+        localStorage.setItem("userRole", user.role);
+
+        // Redirect based on the role of the user
+        if (user.role === "customer") {
+          navigate("/customer/dashboard");
+        } else if (user.role === "specialist") {
+          navigate("/specialist/dashboard");
+        }
+      } else {
+        // If invalid login, show an error message
+        setError("Invalid email or password. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error fetching user:", error);
+      setError("Something went wrong. Please try again later.");
+    }
+  };
+
   return (
     <>
       <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -23,7 +74,7 @@ const LoginPage = () => {
         </div>
 
         <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-          <form action="#" method="POST" className="space-y-6">
+          <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
@@ -36,9 +87,11 @@ const LoginPage = () => {
                   id="email"
                   name="email"
                   type="email"
+                  value={email}
+                  onChange={handleEmailChange}
                   required
                   autoComplete="email"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -65,9 +118,11 @@ const LoginPage = () => {
                   id="password"
                   name="password"
                   type="password"
+                  value={password}
+                  onChange={handlePasswordChange}
                   required
                   autoComplete="current-password"
-                  className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                  className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
                 />
               </div>
             </div>
@@ -81,13 +136,13 @@ const LoginPage = () => {
                   type="radio"
                   name="userType"
                   value="customer"
-                  defaultChecked
+                  checked={userType === "customer"}
+                  onChange={handleUserTypeChange}
                   id="customerRadio"
                 />
                 <label
                   htmlFor="customerRadio"
-                  className="peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out
-        hover:bg-indigo-200 hover:scale-105 hover:shadow-lg active:scale-95 active:bg-indigo-400"
+                  className="peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out hover:bg-indigo-200 hover:scale-105 hover:shadow-lg active:scale-95 active:bg-indigo-400"
                 >
                   Customer
                 </label>
@@ -100,17 +155,20 @@ const LoginPage = () => {
                   type="radio"
                   name="userType"
                   value="specialist"
+                  checked={userType === "specialist"}
+                  onChange={handleUserTypeChange}
                   id="specialistRadio"
                 />
                 <label
                   htmlFor="specialistRadio"
-                  className="hover:scale-105 active:scale-95 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out
-        hover:bg-indigo-200 hover:shadow-lg active:bg-indigo-400"
+                  className="hover:scale-105 active:scale-95 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out hover:bg-indigo-200 hover:shadow-lg active:bg-indigo-400"
                 >
                   Specialist
                 </label>
               </div>
             </div>
+
+            {error && <p className="text-red-500 text-sm">{error}</p>}
 
             <div>
               <button

@@ -1,31 +1,10 @@
 {
   "specialist": [
     {
-      "id": "1",
-      "name": "John Doe",
-      "title": "Senior Developer",
-      "bio": "Experienced developer with over 10 years in full-stack development.",
-      "price": "$50/hr",
-      "rating": 4.5,
-      "profileImage": "https://via.placeholder.com/300",
-      "services": [
-        "Full-stack development",
-        "Web app development",
-        "API development",
-        "Database design"
-      ],
-      "photos": [
-        "https://via.placeholder.com/150",
-        "https://via.placeholder.com/150",
-        "https://via.placeholder.com/150"
-      ],
-      "experience": 10
-    },
-    {
       "id": "2",
       "name": "Jane Smith",
       "title": "UX/UI Designer",
-      "bio": "Creative designer with over 7 years of experience in UI/UX design.",
+      "bio": "Creative designer with over 7 years of experience in UI/UX design, focused on delivering user-friendly interfaces.",
       "price": "$40/hr",
       "rating": 4.8,
       "profileImage": "https://via.placeholder.com/300",
@@ -41,39 +20,54 @@
         "https://via.placeholder.com/150"
       ],
       "experience": 7
+    },
+    {
+      "id": "3",
+      "name": "Alice Johnson",
+      "title": "Backend Developer",
+      "bio": "Skilled backend developer with a strong understanding of cloud infrastructure and microservices architecture.",
+      "price": "$60/hr",
+      "rating": 4.7,
+      "profileImage": "https://via.placeholder.com/300",
+      "services": [
+        "Backend development",
+        "API development",
+        "Cloud infrastructure",
+        "Database optimization"
+      ],
+      "photos": [
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150"
+      ],
+      "experience": 8
+    },
+    {
+      "id": "4",
+      "name": "Sara Lee",
+      "title": "Mobile App Developer",
+      "bio": "Expert in building cross-platform mobile applications with React Native and Flutter.",
+      "price": "$55/hr",
+      "rating": 4.6,
+      "profileImage": "https://via.placeholder.com/300",
+      "services": [
+        "Mobile app development",
+        "React Native",
+        "Flutter development",
+        "App UI/UX design"
+      ],
+      "photos": [
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150",
+        "https://via.placeholder.com/150"
+      ],
+      "experience": 6
     }
   ],
   "bookings": [
     {
       "id": "B001",
       "serviceType": "Web App Development",
-      "specialist": {
-        "id": "1",
-        "name": "John Doe",
-        "title": "Senior Developer",
-        "bio": "Experienced developer with over 10 years in full-stack development.",
-        "price": "$50/hr",
-        "rating": 4.5,
-        "profileImage": "https://via.placeholder.com/300"
-      },
-      "bookingDetails": {
-        "date": "2024-11-10 at 14:00",
-        "duration": "5 hours",
-        "totalPrice": "$250",
-        "serviceNotes": "Focus on building the login and registration system."
-      },
-      "customer": {
-        "name": "Alice Johnson",
-        "contact": "alice.johnson@example.com",
-        "phone": "(555) 123-4567",
-        "profileImage": "https://via.placeholder.com/300"
-
-      },
-      "status": "Upcoming"
-    },
-    {
-      "id": "B002",
-      "serviceType": "UX/UI Design",
       "specialist": {
         "id": "2",
         "name": "Jane Smith",
@@ -84,14 +78,40 @@
         "profileImage": "https://via.placeholder.com/300"
       },
       "bookingDetails": {
+        "date": "2024-11-10 at 14:00",
+        "duration": "5 hours",
+        "totalPrice": "$250",
+        "serviceNotes": "Focus on building the login and registration system."
+      },
+      "customer": {
+        "name": "John Doe",
+        "contact": "johndoe@example.com",
+        "phone": "(555) 123-4567",
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "status": "Upcoming"
+    },
+    {
+      "id": "B002",
+      "serviceType": "UX/UI Design",
+      "specialist": {
+        "id": "3",
+        "name": "Alice Johnson",
+        "title": "Backend Developer",
+        "bio": "Skilled backend developer with cloud infrastructure expertise.",
+        "price": "$60/hr",
+        "rating": 4.7,
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "bookingDetails": {
         "date": "2024-11-15 at 09:00",
         "duration": "3 hours",
         "totalPrice": "$120",
         "serviceNotes": "Redesign the homepage and navigation bar."
       },
       "customer": {
-        "name": "Bob Smith",
-        "contact": "bob.smith@example.com",
+        "name": "Bob Williams",
+        "contact": "bob.williams@example.com",
         "phone": "(555) 234-5678",
         "profileImage": "https://via.placeholder.com/300"
       },
@@ -99,7 +119,59 @@
     },
     {
       "id": "B003",
-      "serviceType": "Web App Development",
+      "serviceType": "Backend Development",
+      "specialist": {
+        "id": "4",
+        "name": "Sara Lee",
+        "title": "Mobile App Developer",
+        "bio": "Expert in building cross-platform mobile applications with React Native and Flutter.",
+        "price": "$55/hr",
+        "rating": 4.6,
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "bookingDetails": {
+        "date": "2024-12-01 at 10:00",
+        "duration": "4 hours",
+        "totalPrice": "$240",
+        "serviceNotes": "Integrating microservices with the existing platform."
+      },
+      "customer": {
+        "name": "Tom Hanks",
+        "contact": "tom.hanks@example.com",
+        "phone": "(555) 345-6789",
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "status": "Upcoming"
+    },
+    {
+      "id": "B004",
+      "serviceType": "Mobile App Development",
+      "specialist": {
+        "id": "2",
+        "name": "Jane Smith",
+        "title": "UX/UI Designer",
+        "bio": "Creative designer with over 7 years of experience in UI/UX design.",
+        "price": "$40/hr",
+        "rating": 4.8,
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "bookingDetails": {
+        "date": "2024-10-20 at 11:00",
+        "duration": "6 hours",
+        "totalPrice": "$330",
+        "serviceNotes": "Building a mobile app for a food delivery service."
+      },
+      "customer": {
+        "name": "Sarah Lee",
+        "contact": "sarah.lee@example.com",
+        "phone": "(555) 456-7890",
+        "profileImage": "https://via.placeholder.com/300"
+      },
+      "status": "Completed"
+    },
+    {
+      "id": "B005",
+      "serviceType": "Full-stack Development",
       "specialist": {
         "id": "1",
         "name": "John Doe",
@@ -116,38 +188,120 @@
         "serviceNotes": "Worked on backend API development."
       },
       "customer": {
-        "name": "Sarah Lee",
-        "contact": "sarah.lee@example.com",
-        "phone": "(555) 345-6789",
+        "name": "Bob Williams",
+        "contact": "bob.williams@example.com",
+        "phone": "(555) 234-5678",
         "profileImage": "https://via.placeholder.com/300"
       },
       "status": "Completed"
     },
     {
-      "id": "B004",
+      "id": "B006",
       "serviceType": "UX/UI Design",
       "specialist": {
-        "id": "2",
-        "name": "Jane Smith",
-        "title": "UX/UI Designer",
-        "bio": "Creative designer with over 7 years of experience in UI/UX design.",
-        "price": "$40/hr",
-        "rating": 4.8,
+        "id": "3",
+        "name": "Alice Johnson",
+        "title": "Backend Developer",
+        "bio": "Skilled backend developer with cloud infrastructure expertise.",
+        "price": "$60/hr",
+        "rating": 4.7,
         "profileImage": "https://via.placeholder.com/300"
       },
       "bookingDetails": {
-        "date": "2023-08-05 at 12:00",
-        "duration": "6 hours",
-        "totalPrice": "$240",
-        "serviceNotes": "Designed wireframes for the mobile app."
+        "date": "2023-07-18 at 14:00",
+        "duration": "5 hours",
+        "totalPrice": "$200",
+        "serviceNotes": "Redesign mobile app UI/UX."
       },
       "customer": {
-        "name": "Tom Hanks",
-        "contact": "tom.hanks@example.com",
-        "phone": "(555) 456-7890",
+        "name": "Mike Brown",
+        "contact": "mike.brown@example.com",
+        "phone": "(555) 567-8901",
         "profileImage": "https://via.placeholder.com/300"
       },
       "status": "Completed"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "John Doe",
+      "accountType": "customer",
+      "email": "johndoe@example.com",
+      "phone": "+1234567890",
+      "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 2,
+      "name": "Jane Smith",
+      "accountType": "specialist",
+      "email": "janesmith@example.com",
+      "phone": "+1234567891",
+      "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 3,
+      "name": "Alice Johnson",
+      "accountType": "specialist",
+      "email": "alicejohnson@example.com",
+      "phone": "+1234567892",
+      "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 4,
+      "name": "Bob Williams",
+      "accountType": "customer",
+      "email": "bobwilliams@example.com",
+      "phone": "+1234567893",
+      "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 5,
+      "name": "Sara Lee",
+      "accountType": "specialist",
+      "email": "saralee@example.com",
+      "phone": "+1234567894",
+      "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": 6,
+      "name": "Mike Brown",
+      "accountType": "customer",
+      "email": "mikebrown@example.com",
+      "phone": "+1234567895",
+      "profilePicture": "https://via.placeholder.com/150"
+    }
+  ],
+  "auth": [
+    {
+      "email": "johndoe@example.com",
+      "password": "customer123",
+      "role": "customer"
+    },
+    {
+      "email": "janesmith@example.com",
+      "password": "specialist123",
+      "role": "specialist"
+    },
+    {
+      "email": "alicejohnson@example.com",
+      "password": "webdev123",
+      "role": "specialist"
+    },
+    {
+      "email": "bobwilliams@example.com",
+      "password": "customer456",
+      "role": "customer"
+    },
+    {
+      "email": "saralee@example.com",
+      "password": "designer123",
+      "role": "specialist"
+    },
+    {
+      "email": "mikebrown@example.com",
+      "password": "appdev123",
+      "role": "specialist"
     }
   ]
 }

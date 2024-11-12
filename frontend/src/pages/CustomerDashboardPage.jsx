@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SpecialistCard from "../components/SpecialistCard";
 
-export default function DashboardPage( ) {
+export default function CustomerDashboardPage( ) {
   const [searchTerm, setSearchTerm] = useState("");
   const [specialists, setSpecialists] = useState([]);
   const [filteredSpecialists, setFilteredSpecialists] = useState([]);
@@ -44,7 +44,7 @@ export default function DashboardPage( ) {
   return (
     <div className="min-h-screen">
       {/* Navbar */}
-      <Navbar userType="customer" />
+      <Navbar userType={localStorage.getItem("userRole")} />
 
       {/* Main Content */}
       <div className="pt-32 pb-12 px-6 sm:px-8 lg:px-16">

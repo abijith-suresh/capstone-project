@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 
 const Navbar = ({ userType }) => {
   const [scrollingDown, setScrollingDown] = useState(false);
@@ -8,13 +7,14 @@ const Navbar = ({ userType }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   const customerNavigation = [
-    { name: "Dashboard", href: "/dashboard" },
+    { name: "Dashboard", href: "/customer/dashboard" },
     { name: "Bookings", href: "/bookings" },
     { name: "Profile", href: "/profile" },
     { name: "Sign Out", href: "/logout" },
   ];
 
   const specialistNavigation = [
+    { name: "Dashboard", href: "/specialist/dashboard" },
     { name: "Appointments", href: "/appointments" },
     { name: "Profile", href: "/profile" },
     { name: "Sign Out", href: "/logout" },
@@ -48,7 +48,7 @@ const Navbar = ({ userType }) => {
       <div className="mx-auto flex h-16 items-center justify-between px-6 sm:px-8 lg:px-16">
         {/* Logo Section */}
         <div className="flex items-center">
-          <Link to="/dashboard" className="text-2xl font-bold text-indigo-600">
+          <Link to={`/${userType}/dashboard`} className="text-2xl font-bold text-indigo-600">
           <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"

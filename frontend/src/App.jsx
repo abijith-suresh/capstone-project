@@ -5,7 +5,7 @@ import SignupPage from "./pages/SignupPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import AboutPage from "./pages/AboutPage";
 import ContactUsPage from "./pages/ContactUsPage";
-import DashboardPage from "./pages/DashboardPage";
+import CustomerDashboardPage from "./pages/CustomerDashboardPage";
 import FaqPage from "./pages/FaqPage";
 import TermsOfService from "./pages/TermsOfService";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
@@ -16,6 +16,7 @@ import BookingDetailsPage from "./pages/BookingDetailsPage";
 import CreateBooking from "./pages/CreateBooking";
 import AddSpecialistDetailsPage from "./pages/AddSpecialistDetailsPage";
 import AddCustomerDetailsPage from "./pages/AddCustomerDetailsPage";
+import SpecialistDashboardPage from "./pages/SpecialistDashboardPage";
 
 
 const user = {
@@ -39,8 +40,9 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-          <Route path="/customer/dashboard" element={<DashboardPage />} />
-          <Route path="/profile" element={<UserProfile user={user} />} />
+          <Route path="/customer/dashboard" element={<CustomerDashboardPage />} />
+          <Route path="/specialist/dashboard" element={<SpecialistDashboardPage />} />
+          <Route path="/profile" element={<UserProfile />} />
           <Route path="/bookings" element={<BookingsPage user={user} />} />
           <Route path="/specialist/:id" element={<SpecialistDetailsPage />} />
           <Route path="/bookings/:id" element={<BookingDetailsPage />} />
