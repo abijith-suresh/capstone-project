@@ -1,5 +1,6 @@
 package com.ust.booking_service.controller;
 
+import com.ust.booking_service.dto.AddBookingDto;
 import com.ust.booking_service.dto.BookingResponseDto;
 import com.ust.booking_service.entity.Booking;
 import com.ust.booking_service.service.BookingService;
@@ -18,30 +19,20 @@ public class BookingController {
     @Autowired
     private BookingService bookingService;
 
-    @GetMapping("/specialist/{specialistId}/bookings")
-    public Flux<BookingResponseDto> getBookingsForSpecialist(@PathVariable ObjectId specialistId) {
-        return bookingService.getBookingsForSpecialist(specialistId);
-    }
-
-    @GetMapping("/customer/{customerId}/bookings")
-    public Flux<BookingResponseDto> getBookingsForCustomer(@PathVariable ObjectId customerId) {
-        return bookingService.getBookingsForCustomer(customerId);
-    }
-
     @PostMapping
-    public Mono<ResponseEntity<String>> createBooking(@RequestBody Booking booking) {
+    public Mono<ResponseEntity<String>> createBooking(@RequestBody AddBookingDto booking) {
         return bookingService.createBooking(booking)
                 .map(savedBooking -> ResponseEntity.status(HttpStatus.CREATED).body(savedBooking))
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
     }
 
     @GetMapping
-    public Flux<Booking> getAllBookings() {
+    public Flux<BookingResponseDto> getAllBookings() {
         return bookingService.getAllBookings();
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Booking>> getBookingById(@PathVariable ObjectId id) {
+    public Mono<ResponseEntity<BookingResponseDto>> getBookingById(@PathVariable ObjectId id) {
         return bookingService.getBookingById(id)
                 .map(booking -> ResponseEntity.ok(booking))
                 .defaultIfEmpty(ResponseEntity.notFound().build());

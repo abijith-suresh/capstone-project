@@ -27,13 +27,13 @@ public class CustomerController {
 
     @GetMapping
     public Flux<CustomerDto> getAllCustomers() {
-
         return customerService.findAllCustomers();
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<Customer>> getCustomerById(@PathVariable ObjectId id) {
-        return customerService.findCustomerById(id)
+    public Mono<ResponseEntity<CustomerDto>> getCustomerById(@PathVariable String id) {
+        ObjectId objectId = new ObjectId(id);
+        return customerService.findCustomerById(objectId)
                 .map(customer -> ResponseEntity.ok(customer))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }

@@ -20,8 +20,7 @@ public class CustomerService {
     private CustomerRepository customerRepository;
 
     private void dtoToModel(Customer customer, CustomerDto customerDto) {
-        customer.setFirstName(customerDto.getFirstName());
-        customer.setLastName(customerDto.getLastName());
+        customer.setName(customerDto.getName());
         customer.setEmail(customerDto.getEmail());
         customer.setGender(customerDto.getGender());
         customer.setDob(customerDto.getDob());
@@ -32,8 +31,8 @@ public class CustomerService {
 
     private CustomerDto modelToDto(Customer customer) {
         CustomerDto customerDto = new CustomerDto();
-        customerDto.setFirstName(customer.getFirstName());
-        customerDto.setLastName(customer.getLastName());
+        customerDto.setId(customer.getId().toString());
+        customerDto.setName(customer.getName());
         customerDto.setEmail(customer.getEmail());
         customerDto.setGender(customer.getGender());
         customerDto.setDob(customer.getDob());
@@ -49,8 +48,9 @@ public class CustomerService {
                 .map(this::modelToDto);
     }
 
-    public Mono<Customer> findCustomerById(ObjectId id) {
-        return customerRepository.findById(id);
+    public Mono<CustomerDto> findCustomerById(ObjectId id) {
+        return customerRepository.findById(id)
+                .map(this::modelToDto);
     }
 
     public Mono<Customer> createCustomer(CustomerDto customerDto) {

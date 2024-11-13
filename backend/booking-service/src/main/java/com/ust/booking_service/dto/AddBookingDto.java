@@ -10,12 +10,13 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookingResponseDto {
-    private String bookingId;
-    private CustomerDto customerDto;
-    private SpecialistDto specialistDto;
+public class AddBookingDto {
+    private String customerId;
+    private String specialistId;
+
     private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;
+
     private String status;
     private double price;
 }
