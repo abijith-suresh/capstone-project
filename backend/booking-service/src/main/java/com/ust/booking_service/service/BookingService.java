@@ -114,5 +114,72 @@ public class BookingService {
         return bookingRepo.deleteById(id);
     }
 
+    public Flux<BookingResponseDto> getBookingsByCustomerId(ObjectId customerId) {
+        return bookingRepo.findByCustomerId(customerId)
+                .flatMap(booking -> {
+                    // Fetch Customer details from Customer Service
+                    Mono<CustomerDto> customerDtoMono = webClientBuilder.build()
+                            .get()
+                            .uri("http://localhost:9002/api/customer/{id}", booking.getCustomerId().toString())
+                            .retrieve()
+                            .bodyToMono(CustomerDto.class);
+
+                    // Fetch Specialist details from Specialist Service
+                    Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
+                            .get()
+                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId().toString())
+                            .retrieve()
+                            .bodyToMono(SpecialistDto.class);
+
+                    // Combine the results
+                    return Mono.zip(customerDtoMono, specialistDtoMono, (customerDto, specialistDto) -> {
+                        // Map the data into BookingResponseDto
+                        return new BookingResponseDto(
+                                booking.getId().toString(),
+                                customerDto,
+                                specialistDto,
+                                booking.getBookingDate(),
+                                booking.getAppointmentTime(),
+                                booking.getStatus(),
+                                booking.getPrice()
+                        );
+                    });
+                });
+    }
+
+    public Flux<BookingResponseDto> getBookingsBySpecialistId(ObjectId specialistId) {
+        return bookingRepo.findBySpecialistId(specialistId)
+                .flatMap(booking -> {
+                    // Fetch Customer details from Customer Service
+                    Mono<CustomerDto> customerDtoMono = webClientBuilder.build()
+                            .get()
+                            .uri("http://localhost:9002/api/customer/{id}", booking.getCustomerId().toString())
+                            .retrieve()
+                            .bodyToMono(CustomerDto.class);
+
+                    // Fetch Specialist details from Specialist Service
+                    Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
+                            .get()
+                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId().toString())
+                            .retrieve()
+                            .bodyToMono(SpecialistDto.class);
+
+                    // Combine the results
+                    return Mono.zip(customerDtoMono, specialistDtoMono, (customerDto, specialistDto) -> {
+                        // Map the data into BookingResponseDto
+                        return new BookingResponseDto(
+                                booking.getId().toString(),
+                                customerDto,
+                                specialistDto,
+                                booking.getBookingDate(),
+                                booking.getAppointmentTime(),
+                                booking.getStatus(),
+                                booking.getPrice()
+                        );
+                    });
+                });
+    }
+
+
 }
 

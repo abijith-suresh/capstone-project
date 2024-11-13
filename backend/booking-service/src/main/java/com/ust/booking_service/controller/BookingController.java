@@ -50,5 +50,16 @@ public class BookingController {
         return bookingService.deleteBooking(id)
                 .map(v -> ResponseEntity.noContent().build());
     }
+
+    @GetMapping("/customer/{customerId}")
+    public Flux<BookingResponseDto> getBookingsByCustomerId(@PathVariable String customerId) {
+        return bookingService.getBookingsByCustomerId(new ObjectId(customerId));
+    }
+
+    // Endpoint to get all bookings by specialist ID
+    @GetMapping("/specialist/{specialistId}")
+    public Flux<BookingResponseDto> getBookingsBySpecialistId(@PathVariable String specialistId) {
+        return bookingService.getBookingsBySpecialistId(new ObjectId(specialistId));
+    }
 }
 

@@ -11,6 +11,8 @@ import java.util.List;
 
 @Repository
 public interface BookingRepository extends ReactiveMongoRepository<Booking, ObjectId> {
-    Flux<Booking> findBySpecialistId(ObjectId specialistId);
+
     Flux<Booking> findByCustomerId(ObjectId customerId);
+
+    Flux<Booking> findBySpecialistId(ObjectId specialistId);
 }
