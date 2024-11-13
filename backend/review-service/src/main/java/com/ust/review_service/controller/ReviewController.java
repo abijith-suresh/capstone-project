@@ -11,8 +11,6 @@ import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-
 @RestController
 @RequestMapping("/api/reviews")
 public class ReviewController {
@@ -38,7 +36,7 @@ public class ReviewController {
 
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<Review>> updateMessage(@PathVariable ObjectId id, @RequestBody Review reviewDetails) {
+    public Mono<ResponseEntity<Review>> updateReview(@PathVariable ObjectId id, @RequestBody Review reviewDetails) {
         return reviewService.updateReview(id, reviewDetails)
                 .map(updatedSpecialist -> ResponseEntity.ok(updatedSpecialist))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -51,26 +49,12 @@ public class ReviewController {
     }
 
     @GetMapping("/customer/{customerId}/reviews")
-    public Flux<ReviewDto> getBookingsForCustomer(@PathVariable ObjectId customerId) {
-        return reviewService.getReviewsForCustomer(customerId);
-    }
-
-    @GetMapping("/customer/{customerId}/review/{reviewId}")
-    public Mono<ResponseEntity<ReviewDto>> getReviewByIdForCustomer(
-            @PathVariable ObjectId customerId,
-            @PathVariable ObjectId reviewId) {
-
-        return reviewService.getReviewByIdForCustomer(customerId, reviewId)
-                .map(reviewDto -> ResponseEntity.ok(reviewDto))
-                .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
+    public Flux<ReviewDto> getReviewsByCustomer(@PathVariable ObjectId customerId) {
+        return reviewService.getReviewsByCustomer(customerId);
     }
 
     @GetMapping("/specialist/{specialistId}/reviews")
     public Flux<SpecialistReviewResponseDto> getSpecialistReviews(@PathVariable String specialistId) {
         return reviewService.getReviewsForSpecialist(new ObjectId(specialistId));
     }
-
-
-
-
 }

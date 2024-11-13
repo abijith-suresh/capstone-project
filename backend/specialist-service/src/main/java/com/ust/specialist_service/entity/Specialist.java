@@ -29,4 +29,5 @@ public class Specialist {
     private List<String> services;
     private List<String> photos;
     private int experience;
+    private Location location;
 }

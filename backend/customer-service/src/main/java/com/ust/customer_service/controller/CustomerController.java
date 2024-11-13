@@ -57,7 +57,7 @@ public class CustomerController {
     }
 
     @GetMapping("/{id}/bookings")
-    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable ObjectId id) {
+    public Flux<BookingDto> getBookingsForCustomer(@PathVariable ObjectId id) {
         return webClientBuilder.build()
                 .get()
                 .uri("http://localhost:9001/api/booking/customer/{id}/bookings", id)
@@ -75,28 +75,15 @@ public class CustomerController {
 
     }
 
-   @GetMapping("/{customerId}/review/{reviewId}")
-   public Mono<ResponseEntity<ReviewDto>> getReviewByIdForCustomer(
-           @PathVariable ObjectId customerId,
-           @PathVariable ObjectId reviewId) {
-
-       return webClientBuilder.build()
-               .get()
-               .uri("http://localhost:9004/api/reviews/customer/{customerId}/review/{reviewId}", customerId, reviewId)  // Review Service endpoint
-               .retrieve()
-               .bodyToMono(ReviewDto.class)  // Convert response body to ReviewDto
-               .map(reviewDto -> ResponseEntity.ok(reviewDto))  // Return OK if review found
-               .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));  // Return 404 if no review found
-   }
-
     @PostMapping("/{id}/review")
-    public Mono<ReviewDto> postReview(@PathVariable String id, @RequestBody ReviewDto reviewDto) {
+    public Mono<ReviewDto> postReview(@RequestBody ReviewDto reviewDto) {
+
         return webClientBuilder.build()
-                .post()  // Change to POST since we're submitting data.
-                .uri("http://localhost:9004/api/reviews/customer/{id}/reviews", id)
-                .bodyValue(reviewDto)  // Include the reviewDto in the request body.
+                .post()  // Use POST to create a new review.
+                .uri("http://localhost:9004/api/reviews")  // This is the updated URI.
+                .bodyValue(reviewDto)  // Pass the ReviewDto as the body of the request.
                 .retrieve()
-                .bodyToMono(ReviewDto.class);
+                .bodyToMono(ReviewDto.class);  // Convert the response body to ReviewDto.
     }
 
     @GetMapping("/email/{email}")

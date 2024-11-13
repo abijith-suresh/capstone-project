@@ -12,10 +12,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
 @Service
 public class ReviewService {
     @Autowired
@@ -74,26 +70,17 @@ public class ReviewService {
         reviewRepository.deleteById(id);
     }
 
-    public Flux<ReviewDto> getReviewsForCustomer(ObjectId customerId) {
+    public Flux<ReviewDto> getReviewsByCustomer(ObjectId customerId) {
         return reviewRepository.findByCustomerId(customerId)
                 .map(review -> new ReviewDto(
-                        review.getCustomerId(),
-                        review.getSpecialistId(),
+                        review.getCustomerId().toString(),
+                        review.getSpecialistId().toString(),
                         review.getRating(),
                         review.getComment(),
                         review.getCreatedAt()
                 ));
     }
-    public Mono<ReviewDto> getReviewByIdForCustomer(ObjectId customerId, ObjectId reviewId) {
-        return reviewRepository.findByCustomerIdAndId(customerId, reviewId)  // Use the new query method
-                .map(review -> new ReviewDto(
-                        review.getCustomerId(),
-                        review.getSpecialistId(),
-                        review.getRating(),
-                        review.getComment(),
-                        review.getCreatedAt()
-                ));
-    }
+
     public Flux<SpecialistReviewResponseDto> getReviewsForSpecialist(ObjectId specialistId) {
         return reviewRepository.findBySpecialistId(specialistId)
                 .flatMap(review -> {
