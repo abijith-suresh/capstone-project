@@ -17,6 +17,7 @@ import CreateBooking from "./pages/CreateBooking";
 import AddSpecialistDetailsPage from "./pages/AddSpecialistDetailsPage";
 import AddCustomerDetailsPage from "./pages/AddCustomerDetailsPage";
 import SpecialistDashboardPage from "./pages/SpecialistDashboardPage";
+import AdminRoute from "./admin-components/AdminRoute";
 
 
 const user = {
@@ -49,6 +50,7 @@ function App() {
           <Route path="/create-booking/:id" element={<CreateBooking />} />
           <Route path="/specialist/complete-profile" element={<AddSpecialistDetailsPage />} />
           <Route path="/customer/complete-profile" element={<AddCustomerDetailsPage />} />
+          <Route path="/admin/*" element={<AdminRoute />} /> 
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       </BrowserRouter>
