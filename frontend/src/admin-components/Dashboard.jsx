@@ -1,8 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users} from 'lucide-react';
+import { Users } from 'lucide-react';
 import logo from '../images/snapserve.svg';
-
 
 // Mock data - in real app this would come from an API
 const mockUsers = [
@@ -29,10 +28,7 @@ export default function Dashboard() {
   return (
     <div className="container mx-auto px-6 py-8">
       <div className="flex items-center gap-3 mb-6">
-        {/* <LayoutDashboard className="h-8 w-8 text-indigo-600" /> */}
-        
-        <img src={logo}  className="h-8 w-8"/>
-
+        <img src={logo} className="h-8 w-8" />
         <h1 className="text-3xl font-semibold text-gray-800">Admin Dashboard</h1>
       </div>
 
@@ -40,8 +36,8 @@ export default function Dashboard() {
       <div className="bg-white shadow-xl border border-gray-200 rounded-lg">
         <div className="p-6">
           {/* Tabs Navigation */}
-          <div className="flex justify-between items-center mb-4">
-            <div className="flex space-x-4 bg-blue-50 p-2 rounded-md">
+          <div className="flex flex-col md:flex-row justify-between items-center mb-4">
+            <div className="flex flex-wrap justify-start md:space-x-4 bg-blue-50 p-2 rounded-md">
               <button
                 className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg ${
                   activeTab === 'all' ? 'bg-white' : 'hover:bg-indigo-200'
@@ -68,7 +64,7 @@ export default function Dashboard() {
               </button>
             </div>
 
-            <div className="flex items-center gap-2">
+            <div className="flex items-center gap-2 mt-4 md:mt-0">
               <Users className="h-5 w-5 text-indigo-400" />
               <span className="text-sm font-medium text-gray-600">
                 Total Users: {filteredUsers.length}
@@ -106,7 +102,7 @@ export default function Dashboard() {
                     <td className="py-4 px-4 text-right">
                       <button
                         className="text-indigo-600 border border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 text-sm py-1 px-3 rounded-md"
-                        onClick={handleViewDetails}  //${user.id}
+                        onClick={handleViewDetails}
                       >
                         View Details
                       </button>
