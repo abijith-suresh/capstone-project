@@ -37,7 +37,7 @@ export default function Dashboard() {
         <div className="p-6">
           {/* Tabs Navigation */}
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
-            <div className="flex flex-wrap justify-start md:space-x-4 bg-blue-50 p-2 rounded-md">
+            <div className="flex flex-wrap justify-start md:space-x-4 bg-blue-50 p-2 rounded-md w-full md:w-auto">
               <button
                 className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg ${
                   activeTab === 'all' ? 'bg-white' : 'hover:bg-indigo-200'
@@ -74,7 +74,7 @@ export default function Dashboard() {
 
           {/* Users Table */}
           <div className="overflow-x-auto">
-            <table className="w-full table-auto">
+            <table className="min-w-full table-auto">
               <thead>
                 <tr className="border-b border-gray-200">
                   <th className="py-4 px-4 text-sm font-medium text-gray-500 text-left">Sr. No</th>

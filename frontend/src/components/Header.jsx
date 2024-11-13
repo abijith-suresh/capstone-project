@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import logo from '../images/snapserve.svg';
 import {
   Dialog,
   DialogPanel,
@@ -23,9 +24,10 @@ const Header = () => {
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
         <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">SanpServe</span>
-             <img src='src\images\snapserve.svg'   className=" size-8"></img>  
+          <Link to="/" className="flex items-center">
+            {/* <span className="sr-only">SanpServe</span> */}
+             <img src={logo}   className=" h-8 mr-2 "></img> 
+             <span className="text-xl font-semibold font-sans">SnapServe</span> 
           </Link>
         </div>
         <div className="flex lg:hidden">

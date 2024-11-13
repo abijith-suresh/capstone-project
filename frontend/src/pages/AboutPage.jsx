@@ -64,10 +64,10 @@ const AboutPage = () => {
         <section className="flex items-center justify-center py-48 text-gray-800">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h1 className="text-5xl font-bold sm:text-6xl text-gray-900">
-              Welcome to ServiceConnect!
+              Welcome to SnapServe!
             </h1>
             <p className="mt-4 text-lg sm:text-xl max-w-2xl mx-auto">
-              We’re a dedicated team connecting you with trusted specialists
+              We are a dedicated team connecting you with trusted specialists
               when you need them most—whether for a quick home repair, tutoring,
               or personal care. Fast, easy, and reliable.
             </p>
@@ -80,7 +80,7 @@ const AboutPage = () => {
               Our Mission
             </h2>
             <p className="mt-4 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              At ServiceConnect, our mission is simple: to make it easier for
+              At SnapServe, our mission is simple: to make it easier for
               you to find trusted specialists when you need them most. We
               connect you with reliable professionals quickly, so you can focus
               on what matters.
@@ -156,7 +156,7 @@ const AboutPage = () => {
                   className="w-32 h-32 mx-auto rounded-full"
                 />
                 <h3 className="mt-4 text-xl font-semibold text-gray-800">
-                  Aarzoo
+                  Aarzoo 
                 </h3>
                 <p className="text-gray-600">Co-Founder</p>
               </div>

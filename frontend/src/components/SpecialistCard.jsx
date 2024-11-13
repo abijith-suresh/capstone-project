@@ -5,7 +5,7 @@ const SpecialistCard = ({ specialist }) => {
 
   // Navigate to the specialist details page when the card is clicked
   const handleCardClick = () => {
-    navigate(`/specialist/${specialist.id}`);
+    navigate(`/customer/specialist-view/${specialist.id}`);
   };
 
   // Navigate to the create booking page for the selected specialist
