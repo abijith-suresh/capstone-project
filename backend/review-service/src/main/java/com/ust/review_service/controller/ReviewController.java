@@ -1,6 +1,7 @@
 package com.ust.review_service.controller;
 
 import com.ust.review_service.dto.ReviewDto;
+import com.ust.review_service.dto.SpecialistReviewResponseDto;
 import com.ust.review_service.entity.Review;
 import com.ust.review_service.service.ReviewService;
 import org.bson.types.ObjectId;
@@ -20,7 +21,6 @@ public class ReviewController {
 
     @GetMapping
     public Flux<ReviewDto> getAllReviews(){
-
         return reviewService.findAllReviews();
     }
 
@@ -65,15 +65,9 @@ public class ReviewController {
                 .switchIfEmpty(Mono.just(ResponseEntity.notFound().build()));
     }
 
-    @PostMapping("/customer/{customerId}/reviews")
-    public Mono<ReviewDto> createReview(@PathVariable ObjectId customerId, @RequestBody ReviewDto reviewDto) {
-        reviewDto.setCustomerId(customerId);
-        return reviewService.createReview(reviewDto);
-    }
-
     @GetMapping("/specialist/{specialistId}/reviews")
-    public Flux<ReviewDto> getSpecialistReviews(@PathVariable ObjectId specialistId) {
-        return reviewService.getReviewsForSpecialist(specialistId);
+    public Flux<SpecialistReviewResponseDto> getSpecialistReviews(@PathVariable String specialistId) {
+        return reviewService.getReviewsForSpecialist(new ObjectId(specialistId));
     }
 
 

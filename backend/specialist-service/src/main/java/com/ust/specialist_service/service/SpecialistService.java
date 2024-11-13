@@ -2,7 +2,7 @@ package com.ust.specialist_service.service;
 
 import com.ust.specialist_service.dto.EmailUpdateDto;
 import com.ust.specialist_service.dto.AddSpecialistDto;
-import com.ust.specialist_service.dto.SpecialistResponseDto;
+import com.ust.specialist_service.dto.SpecialistDto;
 import com.ust.specialist_service.entity.Specialist;
 import com.ust.specialist_service.repo.SpecialistRepo;
 import org.bson.types.ObjectId;
@@ -49,8 +49,8 @@ public class SpecialistService {
         return addSpecialistDto;
     }
 
-    private SpecialistResponseDto convertToDto(Specialist specialist) {
-        return new SpecialistResponseDto(
+    private SpecialistDto convertToDto(Specialist specialist) {
+        return new SpecialistDto(
                 specialist.getId() != null ? specialist.getId().toString() : null,
                 specialist.getName(),
                 specialist.getEmail(),
@@ -73,12 +73,12 @@ public class SpecialistService {
         return specialistRepo.save(specialist);
     }
 
-    public Flux<SpecialistResponseDto> getAllSpecialists() {
+    public Flux<SpecialistDto> getAllSpecialists() {
         return specialistRepo.findAll()
                 .map(this::convertToDto);
     }
 
-    public Mono<SpecialistResponseDto> getSpecialistById(ObjectId id) {
+    public Mono<SpecialistDto> getSpecialistById(ObjectId id) {
         return specialistRepo.findById(id)
                 .map(this::convertToDto);
     }

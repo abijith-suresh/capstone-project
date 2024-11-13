@@ -125,5 +125,15 @@ public class CustomerController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
+    @GetMapping("/{id}/bookings")
+    public Flux<BookingDto> getBookingsForCustomer(@PathVariable String id) {
+        // Use WebClient to fetch all bookings from the BookingService based on the customerId
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9001/api/booking/customer/{id}", id) // Booking Service endpoint
+                .retrieve()
+                .bodyToFlux(BookingDto.class);
+    }
+
 }
 

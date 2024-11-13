@@ -1,4 +1,4 @@
-package com.ust.specialist_service.dto;
+package com.ust.customer_service.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,7 +9,7 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SpecialistResponseDto {
+public class SpecialistDto {
     private String id;
     private String name;
     private String email;

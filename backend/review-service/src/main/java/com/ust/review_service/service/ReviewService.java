@@ -1,11 +1,14 @@
 package com.ust.review_service.service;
 
+import com.ust.review_service.dto.CustomerDto;
 import com.ust.review_service.dto.ReviewDto;
+import com.ust.review_service.dto.SpecialistReviewResponseDto;
 import com.ust.review_service.entity.Review;
 import com.ust.review_service.repository.ReviewRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -18,9 +21,12 @@ public class ReviewService {
     @Autowired
     private ReviewRepository reviewRepository;
 
+    @Autowired
+    private WebClient.Builder webClientBuilder;
+
     private void dtoToModel(Review review, ReviewDto reviewDto) {
-        review.setCustomerId(reviewDto.getCustomerId());
-        review.setSpecialistId(reviewDto.getSpecialistId());
+        review.setCustomerId(new ObjectId(reviewDto.getCustomerId()));
+        review.setSpecialistId(new ObjectId(reviewDto.getSpecialistId()));
         review.setRating(reviewDto.getRating());
         review.setComment(reviewDto.getComment());
         review.setCreatedAt(reviewDto.getCreatedAt());
@@ -28,8 +34,8 @@ public class ReviewService {
 
     private ReviewDto modelToDto(Review review) {
        ReviewDto reviewDto= new ReviewDto();
-        reviewDto.setCustomerId(review.getCustomerId());
-        reviewDto.setSpecialistId(review.getSpecialistId());
+        reviewDto.setCustomerId(review.getCustomerId().toString());
+        reviewDto.setSpecialistId(review.getSpecialistId().toString());
         reviewDto.setRating(review.getRating());
         reviewDto.setComment(review.getComment());
         reviewDto.setCreatedAt(review.getCreatedAt());
@@ -88,15 +94,26 @@ public class ReviewService {
                         review.getCreatedAt()
                 ));
     }
-    public Flux<ReviewDto> getReviewsForSpecialist(ObjectId specialistId) {
+    public Flux<SpecialistReviewResponseDto> getReviewsForSpecialist(ObjectId specialistId) {
         return reviewRepository.findBySpecialistId(specialistId)
-                .map(review -> new ReviewDto(
-                        review.getCustomerId(),
-                        review.getSpecialistId(),
-                        review.getRating(),
-                        review.getComment(),
-                        review.getCreatedAt()
-                ));
+                .flatMap(review -> {
+                    // Call the CustomerService to get the customer's name by customerId
+                    return webClientBuilder.build()
+                            .get()
+                            .uri("http://localhost:9002/api/customer/{customerId}", review.getCustomerId())
+                            .retrieve()
+                            .bodyToMono(CustomerDto.class)
+                            .map(customerDto -> {
+                                // Create a new ReviewDto with the customer's name as author
+                                SpecialistReviewResponseDto reviewDto = new SpecialistReviewResponseDto();
+                                reviewDto.setAuthor(customerDto.getName());
+                                reviewDto.setRating(review.getRating());
+                                reviewDto.setComment(review.getComment());
+                                reviewDto.setCreatedAt(review.getCreatedAt());
+
+                                return reviewDto;
+                            });
+                });
     }
 
 

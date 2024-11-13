@@ -29,12 +29,12 @@ public class SpecialistController {
     }
 
     @GetMapping
-    public Flux<SpecialistResponseDto> getAllSpecialists() {
+    public Flux<SpecialistDto> getAllSpecialists() {
         return specialistService.getAllSpecialists();
     }
 
     @GetMapping("/id/{id}")
-    public Mono<ResponseEntity<SpecialistResponseDto>> getSpecialistById(@PathVariable String id) {
+    public Mono<ResponseEntity<SpecialistDto>> getSpecialistById(@PathVariable String id) {
         try {
             ObjectId objectId = new ObjectId(id);
 
@@ -69,13 +69,15 @@ public class SpecialistController {
     }
 
     @GetMapping("/{id}/reviews")
-    public  Flux<ReviewDto> getAllReviewsById(@PathVariable ObjectId id) {
+    public Flux<ReviewDto> getAllReviewsById(@PathVariable String id) {
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9004/api/reviews/specialist/{id}/reviews",id)
+                .uri("http://localhost:9004/api/reviews/specialist/{id}/reviews", id)
                 .retrieve()
-                .bodyToFlux(ReviewDto.class);
-
+                .bodyToFlux(ReviewDto.class)
+                .doOnError(error -> {
+                    System.err.println("Error fetching reviews for specialist with ID " + id);
+                });
     }
 
     @GetMapping("/{email}")
@@ -103,6 +105,14 @@ public class SpecialistController {
                 .defaultIfEmpty(ResponseEntity.status(HttpStatus.NOT_FOUND).build()); // If no specialist with the ID is found
     }
 
+    @GetMapping("/{id}/bookings")
+    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable String id) {
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9001/api/booking/specialist/{id}", id) // Booking Service endpoint
+                .retrieve()
+                .bodyToFlux(BookingDto.class);
+    }
 
 }
 

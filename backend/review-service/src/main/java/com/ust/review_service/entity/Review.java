@@ -24,6 +24,4 @@ public class Review {
     private Integer rating;
     private String comment;
     private LocalDate createdAt;
-
-
 }
