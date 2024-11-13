@@ -19,15 +19,6 @@ import AddCustomerDetailsPage from "./pages/AddCustomerDetailsPage";
 import SpecialistDashboardPage from "./pages/SpecialistDashboardPage";
 import AdminRoute from "./admin-components/AdminRoute";
 
-
-const user = {
-  name: "John Doe",
-  accountType: "customer",
-  email: "johndoe@example.com",
-  phone: "+1234567890",
-  profilePicture: "https://via.placeholder.com/150",
-};
-
 function App() {
   return (
     <>
@@ -44,7 +35,7 @@ function App() {
           <Route path="/customer/dashboard" element={<CustomerDashboardPage />} />
           <Route path="/specialist/dashboard" element={<SpecialistDashboardPage />} />
           <Route path="/profile" element={<UserProfile />} />
-          <Route path="/bookings" element={<BookingsPage user={user} />} />
+          <Route path="/bookings" element={<BookingsPage />} />
           <Route path="/specialist/:id" element={<SpecialistDetailsPage />} />
           <Route path="/bookings/:id" element={<BookingDetailsPage />} />
           <Route path="/create-booking/:id" element={<CreateBooking />} />

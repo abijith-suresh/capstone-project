@@ -22,21 +22,17 @@ const Header = () => {
         aria-label="Global"
         className="mx-auto flex max-w-7xl items-center justify-between p-6 lg:px-8"
       >
-        <div className="flex lg:flex-1">
-          <Link to="/" className="-m-1.5 p-1.5">
-            <span className="sr-only">SanpServe</span>
-            {/* <svg
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 24 24"
-              fill="#6366F1"
-              className="size-8"
-            >
-              <path d="M4.913 2.658c2.075-.27 4.19-.408 6.337-.408 2.147 0 4.262.139 6.337.408 1.922.25 3.291 1.861 3.405 3.727a4.403 4.403 0 0 0-1.032-.211 50.89 50.89 0 0 0-8.42 0c-2.358.196-4.04 2.19-4.04 4.434v4.286a4.47 4.47 0 0 0 2.433 3.984L7.28 21.53A.75.75 0 0 1 6 21v-4.03a48.527 48.527 0 0 1-1.087-.128C2.905 16.58 1.5 14.833 1.5 12.862V6.638c0-1.97 1.405-3.718 3.413-3.979Z" />
-              <path d="M15.75 7.5c-1.376 0-2.739.057-4.086.169C10.124 7.797 9 9.103 9 10.609v4.285c0 1.507 1.128 2.814 2.67 2.94 1.243.102 2.5.157 3.768.165l2.782 2.781a.75.75 0 0 0 1.28-.53v-2.39l.33-.026c1.542-.125 2.67-1.433 2.67-2.94v-4.286c0-1.505-1.125-2.811-2.664-2.94A49.392 49.392 0 0 0 15.75 7.5Z" />
-            </svg> */}
-             <img src='src\images\snapserve.svg'   className=" size-8"></img>
+        <div className="flex items-center lg:flex-1">
+          <Link to="/" className="flex items-center -m-1.5 p-1.5">
+            <img
+              src="src/images/snapserve.svg"
+              className="size-7 mr-2"
+              alt="SnapServe logo"
+            />
+            <p className="text-lg font-semibold text-gray-900">SnapServe</p>
           </Link>
         </div>
+
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -47,20 +43,35 @@ const Header = () => {
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
         </div>
+
+        {/* Desktop Navigation Links */}
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <Link to="/about" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/about"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             About
           </Link>
-          <Link to="/contact" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/contact"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             Contact
           </Link>
         </PopoverGroup>
+
+        {/* Desktop Login Link */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/login"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>
+
+      {/* Mobile Menu Dialog */}
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -69,14 +80,14 @@ const Header = () => {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <Link href="#" className="-m-1.5 p-1.5">
+              <span className="sr-only">SnapServe</span>
               <img
-                alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                alt="SnapServe logo"
+                src="src/images/snapserve.svg"
                 className="h-8 w-auto"
               />
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -91,13 +102,13 @@ const Header = () => {
               <div className="space-y-2 py-6">
                 <Link
                   to="/about"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   About
                 </Link>
                 <Link
-                  to="about"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  to="/contact"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Contact
                 </Link>
@@ -105,7 +116,7 @@ const Header = () => {
               <div className="py-6">
                 <Link
                   to="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Log in
                 </Link>
