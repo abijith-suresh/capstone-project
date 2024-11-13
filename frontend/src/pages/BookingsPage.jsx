@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import BookingCard from "../components/BookingCard";
 
-export default function BookingsPage({ user }) {
+export default function BookingsPage() {
   const [bookings, setBookings] = useState([]);
 
   // Fetch bookings data from the API
@@ -39,7 +39,7 @@ export default function BookingsPage({ user }) {
 
   return (
     <>
-      <Navbar userType={user.accountType} />
+      <Navbar userType="customer" />
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 mt-20">
         <h1 className="text-4xl font-semibold text-gray-900 text-center px-4">

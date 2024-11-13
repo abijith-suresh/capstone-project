@@ -30,6 +30,7 @@ const Header = () => {
              <span className="text-xl font-semibold font-sans">SnapServe</span> 
           </Link>
         </div>
+
         <div className="flex lg:hidden">
           <button
             type="button"
@@ -40,20 +41,35 @@ const Header = () => {
             <Bars3Icon aria-hidden="true" className="h-6 w-6" />
           </button>
         </div>
+
+        {/* Desktop Navigation Links */}
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
-          <Link to="/about" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/about"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             About
           </Link>
-          <Link to="/contact" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/contact"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             Contact
           </Link>
         </PopoverGroup>
+
+        {/* Desktop Login Link */}
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
-          <Link to="/login" className="text-sm/6 font-semibold text-gray-900">
+          <Link
+            to="/login"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+          >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>
         </div>
       </nav>
+
+      {/* Mobile Menu Dialog */}
       <Dialog
         open={mobileMenuOpen}
         onClose={setMobileMenuOpen}
@@ -62,14 +78,14 @@ const Header = () => {
         <div className="fixed inset-0 z-10" />
         <DialogPanel className="fixed inset-y-0 right-0 z-10 w-full overflow-y-auto bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
           <div className="flex items-center justify-between">
-            <a href="#" className="-m-1.5 p-1.5">
-              <span className="sr-only">Your Company</span>
+            <Link href="#" className="-m-1.5 p-1.5">
+              <span className="sr-only">SnapServe</span>
               <img
-                alt=""
-                src="https://tailwindui.com/plus/img/logos/mark.svg?color=indigo&shade=600"
+                alt="SnapServe logo"
+                src="src/images/snapserve.svg"
                 className="h-8 w-auto"
               />
-            </a>
+            </Link>
             <button
               type="button"
               onClick={() => setMobileMenuOpen(false)}
@@ -84,13 +100,13 @@ const Header = () => {
               <div className="space-y-2 py-6">
                 <Link
                   to="/about"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   About
                 </Link>
                 <Link
-                  to="about"
-                  className="-mx-3 block rounded-lg px-3 py-2 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  to="/contact"
+                  className="-mx-3 block rounded-lg px-3 py-2 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Contact
                 </Link>
@@ -98,7 +114,7 @@ const Header = () => {
               <div className="py-6">
                 <Link
                   to="/login"
-                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base/7 font-semibold text-gray-900 hover:bg-gray-50"
+                  className="-mx-3 block rounded-lg px-3 py-2.5 text-base font-semibold text-gray-900 hover:bg-gray-50"
                 >
                   Log in
                 </Link>

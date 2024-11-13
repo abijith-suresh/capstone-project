@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
 
 export default function UserProfile() {
@@ -46,7 +47,7 @@ export default function UserProfile() {
   }, []);
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingSpinner />;
   }
 
   if (error) {
@@ -229,15 +230,19 @@ export default function UserProfile() {
                     </div>
                   </div>
 
-                  {/* About Section */}
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-medium text-gray-800">About</h3>
-                    <div className="p-4 bg-gray-50 border rounded-lg border-gray-200">
-                      <p className="text-gray-600">
-                        {user.about || "No description available."}
-                      </p>
+                  {/* Conditionally render the "About" section */}
+                  {user.accountType !== "customer" && (
+                    <div className="space-y-4">
+                      <h3 className="text-xl font-medium text-gray-800">
+                        About
+                      </h3>
+                      <div className="p-4 bg-gray-50 border rounded-lg border-gray-200">
+                        <p className="text-gray-600">
+                          {user.about || "No description available."}
+                        </p>
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             )}
