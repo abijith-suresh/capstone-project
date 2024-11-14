@@ -15,54 +15,77 @@ const HomePage = () => {
   return (
     <div className="bg-white" id="top">
       <Header />
-      <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        >
-          <div
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          />
-        </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-tight text-gray-900 sm:text-7xl">
-              Your Reliable Service Finder
-            </h1>
-            <p className="mt-8 text-lg font-medium text-gray-500 sm:text-xl">
-              Easily connect with trusted professionals for home repairs,
-              cleaning, tutoring, personal care and more.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
+      <div className="mx-auto h-full px-4 py-20 md:py-36 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+        <div className="flex flex-col items-center justify-between lg:flex-row">
+          <div>
+            <div className="lg:max-w-xl lg:pr-5">
+              <p className="flex text-sm uppercase text-blue-600">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="mr-1 inline h-5 w-5"
+                  viewBox="0 0 20 20"
+                  fill="currentColor"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M5 2a1 1 0 011 1v1h1a1 1 0 010 2H6v1a1 1 0 01-2 0V6H3a1 1 0 010-2h1V3a1 1 0 011-1zm0 10a1 1 0 011 1v1h1a1 1 0 110 2H6v1a1 1 0 11-2 0v-1H3a1 1 0 110-2h1v-1a1 1 0 011-1zM12 2a1 1 0 01.967.744L14.146 7.2 17.5 9.134a1 1 0 010 1.732l-3.354 1.935-1.18 4.455a1 1 0 01-1.933 0L9.854 12.8 6.5 10.866a1 1 0 010-1.732l3.354-1.935 1.18-4.455A1 1 0 0112 2z"
+                    clipRule="evenodd"
+                  />
+                </svg>
+                Finding Reliable Specialists Made Easy
+              </p>
+              <h2 className="mb-6 max-w-lg text-3xl font-light leading-snug tracking-tight text-blue-600 sm:text-5xl sm:leading-snug">
+                Simplifying the way you find
+                <span className="my-1 inline-block border-b-8 border-blue-600 bg-orange-400 px-4 font-bold text-white">
+                  trusted specialists
+                </span>
+              </h2>
+              <p className="text-base text-gray-700">
+                Easily find trusted, vetted professionals for home repairs,
+                cleaning, tutoring, and more—without the hassle.
+              </p>
+            </div>
+            <div className="mt-10 flex flex-col items-center md:flex-row">
               <Link
                 to="/signup"
-                className="rounded-md bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-blue-700 px-6 font-medium tracking-wide text-white shadow-md transition hover:bg-blue-800 focus:outline-none md:mr-4 md:mb-0 md:w-auto"
               >
                 Get Started
               </Link>
-              <Link to="/about" className="text-sm font-semibold text-gray-900">
-                Learn more <span aria-hidden="true">→</span>
+              <Link
+                to="/about"
+                aria-label=""
+                className="group inline-flex items-center font-semibold text-blue-600"
+              >
+                Learn More
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  className="ml-4 h-6 w-6 transition-transform group-hover:translate-x-2"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M17 8l4 4m0 0l-4 4m4-4H3"
+                  />
+                </svg>
               </Link>
             </div>
           </div>
-        </div>
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        >
-          <div
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-          />
+
+          <div className="relative hidden lg:block lg:w-1/3 mr-16">
+            <img
+              src="src\images\assets\painting.png" 
+              alt="Your Image Description"
+              className="w-full h-auto object-cover rounded-lg shadow-lg"
+            />
+          </div>
         </div>
       </div>
+
       <Footer />
     </div>
   );

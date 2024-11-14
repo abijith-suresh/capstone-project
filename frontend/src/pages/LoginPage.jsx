@@ -53,76 +53,79 @@ const LoginPage = () => {
   };
 
   return (
-    <>
-      <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-           <img src='src\images\snapserve.svg'   className=" mx-auto h-10 w-auto size-6"></img>
-          <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
-            Welcome Back to SnapServe
-          </h2>
-          <p className="mt-2 text-center text-sm text-gray-600">
-            Sign in to find reliable specialists for your needs.
-          </p>
-        </div>
+    <div className="flex min-h-screen">
+      {/* Left Content Section */}
+      <div class="max-w-md rounded-3xl bg-gradient-to-t from-blue-700 via-blue-700 to-blue-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
+        <p class="mb-20 font-bold tracking-wider">SNAPSERVE</p>
+        <p class="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
+          Start your <br />
+          journey with us
+        </p>
+        <p class="mb-28 leading-relaxed text-gray-200">
+          Find trusted specialists for your needs. Whether you're looking for
+          home repairs, tutors, or personal care, we're here to help.
+        </p>
+      </div>
 
-        <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
+      {/* Right Login Form Section */}
+      <div className="flex-1 flex items-center justify-center px-6 py-12 bg-white">
+        <div className="w-full max-w-md">
+          <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">
+            Sign In
+          </h2>
+          <p className="text-center text-sm text-gray-600 mb-10">
+            Don’t have an account?{" "}
+            <Link
+              to="/signup"
+              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            >
+              Create one
+            </Link>
+          </p>
+
+          {/* Form */}
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label
                 htmlFor="email"
                 className="block text-sm font-medium text-gray-900"
               >
-                Email address
+                Email Address
               </label>
-              <div className="mt-2">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  value={email}
-                  onChange={handleEmailChange}
-                  required
-                  autoComplete="email"
-                  className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                />
-              </div>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                value={email}
+                onChange={handleEmailChange}
+                required
+                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                placeholder="Enter your email"
+              />
             </div>
 
             <div>
-              <div className="flex items-center justify-between">
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-medium text-gray-900"
-                >
-                  Password
-                </label>
-                <div className="text-sm">
-                  <a
-                    href="#"
-                    className="font-semibold text-indigo-600 hover:text-indigo-500"
-                  >
-                    Forgot password?
-                  </a>
-                </div>
-              </div>
-              <div className="mt-2">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  value={password}
-                  onChange={handlePasswordChange}
-                  required
-                  autoComplete="current-password"
-                  className="block pl-3 w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-                />
-              </div>
+              <label
+                htmlFor="password"
+                className="block text-sm font-medium text-gray-900"
+              >
+                Password
+              </label>
+              <input
+                id="password"
+                name="password"
+                type="password"
+                value={password}
+                onChange={handlePasswordChange}
+                required
+                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                placeholder="Enter your password"
+              />
             </div>
 
-            {/* Styled Radio Buttons */}
-            <div className="mb-6 flex flex-col gap-y-2 gap-x-4 lg:flex-row justify-center items-center">
+            <div className="mb-6 flex flex-col gap-y-4 gap-x-4 lg:flex-row">
               {/* Customer Radio Button */}
-              <div className="relative flex items-center justify-center w-44">
+              <div className="relative flex w-full items-center justify-center">
                 <input
                   className="peer hidden"
                   type="radio"
@@ -133,15 +136,21 @@ const LoginPage = () => {
                   id="customerRadio"
                 />
                 <label
+                  className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
+              ${
+                userType === "customer"
+                  ? "bg-blue-600 text-white shadow-xl scale-100"
+                  : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
+              } 
+              active:scale-95`}
                   htmlFor="customerRadio"
-                  className="peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out hover:bg-indigo-200 hover:scale-105 hover:shadow-lg active:scale-95 active:bg-indigo-400"
                 >
-                  Customer
+                  <span className="font-medium text-lg">Customer</span>
                 </label>
               </div>
 
               {/* Specialist Radio Button */}
-              <div className="relative flex items-center justify-center w-44">
+              <div className="relative flex w-full items-center justify-center">
                 <input
                   className="peer hidden"
                   type="radio"
@@ -152,38 +161,33 @@ const LoginPage = () => {
                   id="specialistRadio"
                 />
                 <label
+                  className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
+                ${
+                  userType === "specialist"
+                    ? "bg-blue-600 text-white shadow-xl scale-100"
+                    : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
+                } 
+                active:scale-95`}
                   htmlFor="specialistRadio"
-                  className="hover:scale-105 active:scale-95 peer-checked:bg-indigo-600 peer-checked:text-white peer-checked:ring-2 peer-checked:ring-indigo-600 cursor-pointer flex items-center justify-center w-full h-12 rounded-lg border border-gray-300 bg-gray-100 text-gray-800 font-medium px-4 py-2 transition-all duration-300 ease-in-out hover:bg-indigo-200 hover:shadow-lg active:bg-indigo-400"
                 >
-                  Specialist
+                  <span className="font-medium text-lg">Specialist</span>
                 </label>
               </div>
             </div>
 
             {error && <p className="text-red-500 text-sm">{error}</p>}
 
-            <div>
-              <button
-                type="submit"
-                className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
-              >
-                Sign In
-              </button>
-            </div>
-          </form>
-
-          <p className="mt-10 text-center text-sm text-gray-500">
-            New to Service Finder?{" "}
-            <Link
-              to="/signup"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+            <button
+              type="submit"
+              className="w-full flex items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
+    bg-indigo-600 text-white hover:bg-indigo-500 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-600"
             >
-              Create an account
-            </Link>
-          </p>
+              <span className="font-medium text-lg">Sign In</span>
+            </button>
+          </form>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 

@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import logo from '../images/snapserve.svg';
-
+import logo from "../images/snapserve.svg";
 
 const Navbar = ({ userType }) => {
   const [scrollingDown, setScrollingDown] = useState(false);
@@ -50,9 +49,14 @@ const Navbar = ({ userType }) => {
       <div className="mx-auto flex h-16 items-center justify-between px-6 sm:px-8 lg:px-16">
         {/* Logo Section */}
         <div className="flex items-center">
-          <Link to={`/${userType}/dashboard`} className="text-2xl font-bold text-indigo-600">
-            <img src={logo}   className="size-8"></img>
-          
+          <Link
+            to={`/${userType}/dashboard`}
+            className="text-2xl font-bold flex items-center"
+          >
+            <img src={logo} className="size-8"></img>
+            <span className="ml-2 text-2xl font-bold ">
+              Snapserve
+            </span>
           </Link>
         </div>
 

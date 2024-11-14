@@ -4,9 +4,9 @@ import BookingCard from "../components/BookingCard";
 
 export default function SpecialistDashboardPage() {
   const [bookings, setBookings] = useState([]);
-  const [filteredBookings, setFilteredBookings] = useState([]);
-  const [specialistId, setSpecialistId] = useState(null); 
+  const [specialistId, setSpecialistId] = useState(null);
 
+  // Fetch bookings when the component is mounted
   useEffect(() => {
     const loggedInSpecialistId = localStorage.getItem("specialistId");
     setSpecialistId(loggedInSpecialistId);
@@ -16,20 +16,23 @@ export default function SpecialistDashboardPage() {
         const response = await fetch("http://localhost:5000/bookings");
         const data = await response.json();
 
-        // Filter bookings by specialist ID
+        // Filter bookings by specialist ID and status "Upcoming"
         const specialistBookings = data.filter(
-          (booking) => booking.specialist.id === loggedInSpecialistId
+          (booking) =>
+            booking.specialist.id === loggedInSpecialistId &&
+            booking.status === "Upcoming"
         );
 
         setBookings(specialistBookings);
-        setFilteredBookings(specialistBookings); // Initialize the filteredBookings state
       } catch (error) {
         console.error("Error fetching bookings:", error);
       }
     };
 
-    fetchBookings();
-  }, [specialistId]);
+    if (loggedInSpecialistId) {
+      fetchBookings();
+    }
+  }, []); // Empty dependency array ensures it runs once on mount
 
   return (
     <div className="min-h-screen">
@@ -42,19 +45,19 @@ export default function SpecialistDashboardPage() {
           {/* Page Title */}
           <div className="flex justify-center mb-8">
             <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-              Your Upcoming Bookings
+              Your Upcoming Appointments
             </h2>
           </div>
 
           {/* Booking Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {filteredBookings.length > 0 ? (
-              filteredBookings.map((booking) => (
+            {bookings.length > 0 ? (
+              bookings.map((booking) => (
                 <BookingCard key={booking.id} booking={booking} />
               ))
             ) : (
               <p className="col-span-4 text-center text-lg text-gray-500">
-                No new bookings at the moment
+                No upcoming appointments at the moment.
               </p>
             )}
           </div>

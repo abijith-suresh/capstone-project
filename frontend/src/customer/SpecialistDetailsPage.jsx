@@ -90,7 +90,7 @@ export const SpecialistDetailsPage = () => {
               <div className="flex w-full max-w-[480px] gap-3 sm:w-auto">
                 {/* Book Button */}
                 <button
-                  onClick={() => navigate(`/create-booking/${specialist.id}`)}
+                  onClick={() => navigate(`/customer/create-booking/${specialist.id}`)}
                   className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 sm:flex-auto transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-lg"
                 >
                   <span className="truncate">Book</span>
