@@ -1,56 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import logo from "../images/snapserve.svg";
 
 const AddCustomerDetailsPage = () => {
   const [formData, setFormData] = useState({
-    profileImage: "",
+    profileImage: null,
     name: "",
     email: "",
     phone: "",
-    gender: "male", 
+    gender: "male",
     dob: "",
     address: "",
-    location: {
-      latitude: "",
-      longitude: "",
-      city: "",
-      state: "",
-      country: "",
-    },
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
-
-  // Function to get the user's location using the browser's geolocation API
-  const getLocation = async () => {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        const { latitude, longitude } = position.coords;
-        // Use a geolocation API to get the city, state, and country (you can replace this with your preferred API)
-        fetch(`https://geocode.xyz/${latitude},${longitude}?geoit=json`)
-          .then((response) => response.json())
-          .then((data) => {
-            const { city, state, country } = data;
-            setFormData((prev) => ({
-              ...prev,
-              location: { latitude, longitude, city, state, country },
-            }));
-          })
-          .catch((err) => {
-            console.error("Error getting location:", err);
-          });
-      });
-    } else {
-      console.log("Geolocation is not supported by this browser.");
-    }
-  };
-
-  // Run location fetching on component mount
-  useEffect(() => {
-    getLocation();
-  }, []);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,35 +24,49 @@ const AddCustomerDetailsPage = () => {
     }));
   };
 
-  const handleLocationChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      location: { ...prev.location, [name]: value },
-    }));
+  const handleFileChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      setFormData((prev) => ({
+        ...prev,
+        profileImage: file.name,
+      }));
+    }
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Log the formData to the console (this is where you'd usually send the data to your backend)
-    console.log(formData);
+    // Prepare the form data for sending to the backend
+    const formDataToSend = new FormData();
+    formDataToSend.append("name", formData.name);
+    formDataToSend.append("email", formData.email);
+    formDataToSend.append("phone", formData.phone);
+    formDataToSend.append("gender", formData.gender);
+    formDataToSend.append("dob", formData.dob);
+    formDataToSend.append("address", formData.address);
 
-    // Create a string representation of the formData to display in the alert
-    const formDataString = JSON.stringify(formData, null, 2);
+    // Add the profile image if it's provided
+    if (formData.profileImage) {
+      formDataToSend.append("profileImage", formData.profileImage);
+    }
 
-    // Show the formData in an alert box
-    alert(`Form data to be sent to the backend:\n\n${formDataString}`);
+    try {
+      const response = await fetch("http://localhost:5000/users", {
+        method: "POST",
+        body: formDataToSend, // Using FormData for file uploads
+      });
 
-    // Optionally, you can also log the formData in the console as you did before
-    console.log("Data ready to be sent:", formDataString);
+      if (!response.ok) {
+        throw new Error("Something went wrong while saving your details.");
+      }
 
-    // Simulate navigating to the customer dashboard after the "submit" (for demonstration purposes)
-    // This is where you'd normally call the backend with fetch
-    // navigate("/customer-dashboard");
-
-    setIsSubmitting(false);
+      navigate("/customer-dashboard"); // Redirect after successful submission
+    } catch (error) {
+      console.error("Error:", error);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -110,26 +88,53 @@ const AddCustomerDetailsPage = () => {
         </p>
       </div>
 
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Profile Image URL */}
+      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-3xl">
+        <form
+          onSubmit={handleSubmit}
+          className="grid grid-cols-1 md:grid-cols-2 gap-6"
+        >
+          {/* Profile Image Upload */}
           <div>
             <label
               htmlFor="profileImage"
               className="block text-sm font-medium text-gray-900"
             >
-              Profile Image URL
+              Profile Image
             </label>
             <div className="mt-2">
-              <input
-                id="profileImage"
-                name="profileImage"
-                type="text"
-                value={formData.profileImage}
-                onChange={handleChange}
-                required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-              />
+              <label
+                htmlFor="profileImage"
+                className="w-full flex justify-center items-center px-4 py-1 border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:border-indigo-500 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 cursor-pointer"
+              >
+                <svg
+                  className="w-6 h-6 text-gray-400 mr-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  aria-hidden="true"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 4v16m8-8H4"
+                  />
+                </svg>
+                <span>Choose File</span>
+                <input
+                  id="profileImage"
+                  name="profileImage"
+                  type="file"
+                  onChange={handleFileChange}
+                  className="sr-only"
+                />
+              </label>
+              {formData.profileImage && (
+                <p className="mt-2 text-sm text-gray-500">
+                  {formData.profileImage}
+                </p>
+              )}
             </div>
           </div>
 
@@ -149,7 +154,7 @@ const AddCustomerDetailsPage = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 border-0 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
               />
             </div>
           </div>
@@ -237,30 +242,32 @@ const AddCustomerDetailsPage = () => {
           </div>
 
           {/* Address */}
-          <div>
+          <div className="md:col-span-2">
             <label
               htmlFor="address"
               className="block text-sm font-medium text-gray-900"
             >
               Address
             </label>
-            <input
-              id="address"
-              name="address"
-              type="text"
-              value={formData.address}
-              onChange={handleChange}
-              required
-              className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-            />
+            <div className="mt-2">
+              <input
+                id="address"
+                name="address"
+                type="text"
+                value={formData.address}
+                onChange={handleChange}
+                required
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+              />
+            </div>
           </div>
 
           {/* Submit Button */}
-          <div>
+          <div className="md:col-span-2 flex justify-center">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-indigo-300"
             >
               {isSubmitting ? "Saving..." : "Save Details"}
             </button>
