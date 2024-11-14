@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
 
 export const BookingDetailsPage = () => {
@@ -29,9 +30,7 @@ export const BookingDetailsPage = () => {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex justify-center items-center">
-        <div className="text-lg">Loading...</div>
-      </div>
+      <LoadingSpinner />
     );
   }
 

@@ -1,9 +1,9 @@
 import {Routes, Route } from "react-router-dom";
-import CustomerDashboardPage from "../pages/CustomerDashboardPage";
+import CustomerDashboardPage from "../customer/CustomerDashboardPage";
 
 import UserProfile from "../pages/UserProfile";
-import BookingsPage from "../pages/BookingsPage";
-import SpecialistDetailsPage from "../pages/SpecialistDetailsPage";
+import BookingsPage from "../customer/BookingsPage";
+import SpecialistDetailsPage from "../customer/SpecialistDetailsPage";
 import HomePage from "../pages/HomePage";
 
 

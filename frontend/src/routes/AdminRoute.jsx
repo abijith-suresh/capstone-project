@@ -1,10 +1,9 @@
 import {Routes, Route } from "react-router-dom";
 
-import LoginPage from "./LoginPage";
-import Dashboard from "./Dashboard";
-import UserDetails from "./UserDetails";
-import NotFoundPage from './NotFoundPage';
-import ContactPage from "./ContactPage";
+import LoginPage from "../admin/LoginPage";
+import Dashboard from "../admin/Dashboard";
+import UserDetails from "../admin/UserDetails";
+import ContactPage from "../admin/ContactPage";
 
 function AdminRoute() {
 
@@ -15,7 +14,6 @@ function AdminRoute() {
           <Route path="/dashboard" element={<Dashboard/>} />
           <Route path="/user-details" element={<UserDetails/>} />
           <Route path="/contact" element={<ContactPage/>} />
-          <Route path="/*" element={<NotFoundPage />} />
         </Routes>
       
   );

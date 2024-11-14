@@ -4,13 +4,7 @@ import logo from '../images/snapserve.svg';
 import {
   Dialog,
   DialogPanel,
-  Disclosure,
-  DisclosureButton,
-  DisclosurePanel,
-  Popover,
-  PopoverButton,
   PopoverGroup,
-  PopoverPanel,
 } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
@@ -25,7 +19,6 @@ const Header = () => {
       >
         <div className="flex lg:flex-1">
           <Link to="/" className="flex items-center">
-            {/* <span className="sr-only">SanpServe</span> */}
              <img src={logo}   className=" h-8 mr-2 "></img> 
              <span className="text-xl font-semibold font-sans">SnapServe</span> 
           </Link>
