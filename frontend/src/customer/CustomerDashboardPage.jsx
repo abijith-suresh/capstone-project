@@ -3,7 +3,7 @@ import Navbar from "../components/Navbar";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/solid";
 import SpecialistCard from "../components/SpecialistCard";
 
-export default function CustomerDashboardPage( ) {
+export default function CustomerDashboardPage() {
   const [searchTerm, setSearchTerm] = useState("");
   const [specialists, setSpecialists] = useState([]);
   const [filteredSpecialists, setFilteredSpecialists] = useState([]);
@@ -11,10 +11,22 @@ export default function CustomerDashboardPage( ) {
   useEffect(() => {
     const fetchSpecialists = async () => {
       try {
-        const response = await fetch("http://localhost:5000/specialist");
+        // Make the request to the Customer API's /specialists endpoint
+        const response = await fetch(
+          "http://localhost:9002/api/customer/specialists"
+        );
+
+        // Check if the response is okay
+        if (!response.ok) {
+          throw new Error("Failed to fetch specialists");
+        }
+
+        // Parse the response JSON
         const data = await response.json();
+
+        // Update state with the fetched specialists
         setSpecialists(data);
-        setFilteredSpecialists(data); 
+        setFilteredSpecialists(data);
       } catch (error) {
         console.error("Error fetching specialists:", error);
       }
@@ -44,7 +56,7 @@ export default function CustomerDashboardPage( ) {
   return (
     <div className="min-h-screen">
       {/* Navbar */}
-      <Navbar userType={localStorage.getItem("userRole")} />
+      <Navbar userType={localStorage.getItem("accountType")} />
 
       {/* Main Content */}
       <div className="pt-32 pb-12 px-6 sm:px-8 lg:px-16">

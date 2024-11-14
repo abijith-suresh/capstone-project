@@ -3,14 +3,14 @@ import { Link } from "react-router-dom";
 export default function BookingCard({ booking, onCancel }) {
   return (
     <Link
-      to={`/bookings/${booking.id}`} 
+      to={`/customer/booking/${booking.bookingId}`} 
       className="bg-white p-6 rounded-lg shadow-md flex justify-between items-center hover:shadow-lg hover:scale-105 transition duration-300 cursor-pointer"
     >
       <div>
         <h3 className="text-2xl font-semibold text-gray-800">
           {booking.serviceType}
         </h3>
-        <p className="text-sm text-gray-600">{booking.bookingDetails.date}</p>
+        <p className="text-sm text-gray-600">{booking.bookingDate}</p>
         <div className="mt-2 flex space-x-4">
           <span
             className={`inline-block py-1 px-3 text-sm font-semibold rounded-full ${

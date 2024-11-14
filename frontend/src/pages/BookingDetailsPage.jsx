@@ -11,7 +11,7 @@ export const BookingDetailsPage = () => {
   useEffect(() => {
     const fetchBooking = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/bookings/${id}`);
+        const response = await fetch(`http://localhost:9001/api/booking/${id}`);
         if (response.ok) {
           const data = await response.json();
           setBooking(data);
@@ -52,10 +52,10 @@ export const BookingDetailsPage = () => {
             {/* Booking Info */}
             <div className="flex-1">
               <h3 className="text-2xl font-bold leading-tight tracking-[-0.015em] text-gray-800">
-                {booking.serviceType}
+                {booking.serviceType || "N/A"}
               </h3>
               <p className="text-lg text-gray-600 mt-2">
-                Scheduled on {booking.bookingDetails.date}
+                Scheduled on {booking.bookingDate}
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 Status:{" "}
@@ -70,18 +70,18 @@ export const BookingDetailsPage = () => {
                 </span>
               </p>
               <p className="text-sm text-gray-600 mt-2">
-                Duration: {booking.bookingDetails.duration}
+                Duration: {booking.bookingDuration || "No Duration"}
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 Total Price:{" "}
                 <span className="font-semibold">
-                  {booking.bookingDetails.totalPrice}
+                  {booking.price}
                 </span>
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 Service Notes:{" "}
                 <span className="font-semibold">
-                  {booking.bookingDetails.serviceNotes}
+                  {booking.bookingNotes || "No Notes"}
                 </span>
               </p>
             </div>
@@ -129,7 +129,7 @@ export const BookingDetailsPage = () => {
             <div
               className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 sm:min-h-40 sm:w-40"
               style={{
-                backgroundImage: `url(${booking.customer.profileImage})`,
+                backgroundImage: `url(${booking.customer.profilePictureUrl})`,
               }}
             ></div>
             <div className="flex flex-col justify-center">

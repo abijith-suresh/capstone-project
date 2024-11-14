@@ -19,49 +19,96 @@ const LoginPage = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
-      // Fetch user data from JSON Server using fetch API based on email
-      const response = await fetch(`http://localhost:5000/auth?email=${email}`);
-
+      const response = await fetch("http://localhost:9000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+      });
+  
+      const textResponse = await response.text();
+  
+      // If the response is not OK, throw an error
       if (!response.ok) {
-        throw new Error("Something went wrong while fetching user data.");
+        throw new Error("Invalid email or password. Please try again.");
       }
-
-      const users = await response.json();
-      const user = users[0];
-
-      // Check if user exists and password matches
-      if (user && user.password === password && user.role === userType) {
-        localStorage.setItem("userEmail", user.email);
-        localStorage.setItem("userRole", user.role);
-
-        // Redirect based on the role of the user
-        if (user.role === "customer") {
-          navigate("/customer/dashboard");
-        } else if (user.role === "specialist") {
-          navigate("/specialist/dashboard");
-        }
+  
+      // The response is the JWT token directly as a plain string
+      const token = textResponse.trim();
+  
+      if (!token) {
+        throw new Error("Failed to authenticate. No token received.");
+      }
+  
+      // Store the JWT token in localStorage
+      localStorage.setItem("jwtToken", token);
+      localStorage.setItem("userEmail", email);
+  
+      // Decode the JWT token's payload (without needing to parse the whole response)
+      const decodedToken = atob(token.split(".")[1]);
+      const parsedToken = JSON.parse(decodedToken);
+  
+      // Extract roles from the decoded token
+      const role = parsedToken.roles;
+      localStorage.setItem("accountType", role);
+  
+      // Make a request to fetch user ID based on the role
+      let userId = null;
+      let userEndpoint = null;
+  
+      if (role === "customer") {
+        userEndpoint = `http://localhost:9002/api/customer/email/${email}`;
+      } else if (role === "specialist") {
+        userEndpoint = `http://localhost:9005/api/specialist/email/${email}`;
       } else {
-        // If invalid login, show an error message
-        setError("Invalid email or password. Please try again.");
+        throw new Error("Unknown user role.");
+      }
+  
+      // Fetch user data based on the role and email
+      const userResponse = await fetch(userEndpoint);
+      const userData = await userResponse.json();
+  
+      if (!userData) {
+        throw new Error("User data not found.");
+      }
+  
+      // Assuming the data comes in an array and the user ID is in the first object
+      userId = userData.id;
+  
+      // Store the user ID in localStorage
+      localStorage.setItem("userId", userId);
+  
+      // Handle role-based redirection
+      if (role === "customer") {
+        navigate("/customer/dashboard");
+      } else if (role === "specialist") {
+        navigate("/specialist/dashboard");
+      } else {
+        setError("Unknown user role.");
       }
     } catch (error) {
-      console.error("Error fetching user:", error);
-      setError("Something went wrong. Please try again later.");
+      console.error("Error during login:", error);
+      setError(error.message);
     }
   };
+  
 
   return (
     <div className="flex min-h-screen">
       {/* Left Content Section */}
-      <div class="max-w-md rounded-3xl bg-gradient-to-t from-blue-700 via-blue-700 to-blue-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
-        <p class="mb-20 font-bold tracking-wider">SNAPSERVE</p>
-        <p class="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
+      <div className="max-w-md rounded-3xl bg-gradient-to-t from-blue-700 via-blue-700 to-blue-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
+        <p className="mb-20 font-bold tracking-wider">SNAPSERVE</p>
+        <p className="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
           Start your <br />
           journey with us
         </p>
-        <p class="mb-28 leading-relaxed text-gray-200">
+        <p className="mb-28 leading-relaxed text-gray-200">
           Find trusted specialists for your needs. Whether you're looking for
           home repairs, tutors, or personal care, we're here to help.
         </p>

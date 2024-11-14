@@ -15,7 +15,7 @@ const HomePage = () => {
   return (
     <div className="bg-white" id="top">
       <Header />
-      <div className="mx-auto h-full px-4 py-20 md:py-36 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8">
+      <div className="mx-auto h-full px-4 py-20 md:py-36 sm:max-w-xl md:max-w-full md:px-24 lg:max-w-screen-xl lg:px-8 mt-20">
         <div className="flex flex-col items-center justify-between lg:flex-row">
           <div>
             <div className="lg:max-w-xl lg:pr-5">
@@ -34,9 +34,9 @@ const HomePage = () => {
                 </svg>
                 Finding Reliable Specialists Made Easy
               </p>
-              <h2 className="mb-6 max-w-lg text-3xl font-light leading-snug tracking-tight text-blue-600 sm:text-5xl sm:leading-snug">
+              <h2 className="mb-6 max-w-lg text-3xl font-medium leading-snug tracking-tight sm:text-5xl sm:leading-snug">
                 Simplifying the way you find
-                <span className="my-1 inline-block border-b-8 border-blue-600 bg-orange-400 px-4 font-bold text-white">
+                <span className="my-1 inline-block px-4 font-bold text-blue-600">
                   trusted specialists
                 </span>
               </h2>
@@ -76,11 +76,11 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="relative hidden lg:block lg:w-1/3 mr-16">
+          <div className="relative hidden lg:block lg:w-1/3 mr-16 -ml-12">
             <img
-              src="src\images\assets\painting.png" 
+              src="src\images\undraw_professor_re_mj1s.svg"
               alt="Your Image Description"
-              className="w-full h-auto object-cover rounded-lg shadow-lg"
+              className="w-full h-auto object-cover"
             />
           </div>
         </div>

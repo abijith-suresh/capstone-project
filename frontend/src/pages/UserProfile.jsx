@@ -19,8 +19,9 @@ export default function UserProfile() {
   };
 
   useEffect(() => {
-    // Retrieve email from localStorage
+    // Retrieve email and accountType from localStorage
     const userEmail = localStorage.getItem("userEmail");
+    const accountType = localStorage.getItem("accountType");
 
     if (!userEmail) {
       setError("No user email found in localStorage.");
@@ -28,13 +29,33 @@ export default function UserProfile() {
       return;
     }
 
-    // Fetch user data from the backend
-    fetch(`http://localhost:5000/users?email=${userEmail}`)
+    if (!accountType) {
+      setError("No account type found in localStorage.");
+      setLoading(false);
+      return;
+    }
+
+    // Determine the appropriate API endpoint based on the user's role
+    const endpoint =
+      accountType === "customer"
+        ? `http://localhost:9002/api/customer/email/${userEmail}`
+        : accountType === "specialist"
+        ? `http://localhost:9005/api/specialist/email/${userEmail}`
+        : null;
+
+    if (!endpoint) {
+      setError("Invalid account type.");
+      setLoading(false);
+      return;
+    }
+
+    // Fetch user data from the corresponding endpoint
+    fetch(endpoint)
       .then((response) => response.json())
       .then((data) => {
         // Check if user data exists
-        if (data && data.length > 0) {
-          setUser(data[0]);
+        if (data) {
+          setUser(data); // Assuming the user data is returned as an array
         } else {
           setError("User data not found.");
         }

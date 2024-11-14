@@ -8,15 +8,16 @@ export default function BookingsPage() {
   // Fetch bookings data from the API
   useEffect(() => {
     const fetchBookings = async () => {
+      const id = localStorage.getItem("userId");
       try {
-        const response = await fetch("http://localhost:5000/bookings");
+        const response = await fetch(`http://localhost:9002/api/customer/${id}/bookings`);
         const data = await response.json();
 
         // Sort the bookings: First by status (Upcoming first), then by date (earliest first)
         const sortedBookings = data.sort((a, b) => {
           const statusOrder = a.status === "Upcoming" ? -1 : 1;
           const dateOrder =
-            new Date(a.bookingDetails.date) - new Date(b.bookingDetails.date);
+            new Date(a.bookingDate) - new Date(b.bookingDate);
 
           return statusOrder || dateOrder;
         });
@@ -57,7 +58,7 @@ export default function BookingsPage() {
               {bookings.length > 0 ? (
                 bookings.map((booking) => (
                   <BookingCard
-                    key={booking.id}
+                    key={booking.bookingId}
                     booking={booking}
                     onCancel={handleCancelBooking}
                   />
