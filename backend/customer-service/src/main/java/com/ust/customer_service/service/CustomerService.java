@@ -68,8 +68,9 @@ public class CustomerService {
         return customerRepository.deleteById(id);
     }
 
-    public Mono<Customer> findByEmail(String email) {
-        return customerRepository.findByEmail(email);
+    public Mono<CustomerDto> findByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .map(this::modelToDto);
     }
 
     public Mono<Customer> updateCustomerByEmail(ObjectId id, EmailUpdateDto newEmail) {

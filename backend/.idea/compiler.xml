@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CompilerConfiguration">
+    <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
+      <profile name="Maven default annotation processors profile" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <module name="Customer-service" />
+        <module name="auth-service" />
+        <module name="config-service" />
+        <module name="review-service" />
+        <module name="gateway-service" />
+        <module name="registry-service" />
+        <module name="booking-service" />
+        <module name="specialist-service" />
+        <module name="message-service" />
+        <module name="admin-service" />
+        <module name="notification-service" />
+      </profile>
+    </annotationProcessing>
+  </component>
+  <component name="JavacSettings">
+    <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="Customer-service" options="-parameters" />
+      <module name="admin-service" options="-parameters" />
+      <module name="auth-service" options="-parameters" />
+      <module name="booking-service" options="-parameters" />
+      <module name="config-service" options="-parameters" />
+      <module name="gateway-service" options="-parameters" />
+      <module name="message-service" options="-parameters" />
+      <module name="notification-service" options="-parameters" />
+      <module name="registry-service" options="-parameters" />
+      <module name="review-service" options="-parameters" />
+      <module name="specialist-service" options="-parameters" />
+    </option>
+  </component>
+</project>

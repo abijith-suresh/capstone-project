@@ -1,9 +1,6 @@
 package com.ust.customer_service.controller;
 
-import com.ust.customer_service.dto.BookingDto;
-import com.ust.customer_service.dto.CustomerDto;
-import com.ust.customer_service.dto.EmailUpdateDto;
-import com.ust.customer_service.dto.ReviewDto;
+import com.ust.customer_service.dto.*;
 import com.ust.customer_service.entity.Customer;
 import com.ust.customer_service.service.CustomerService;
 import org.bson.types.ObjectId;
@@ -17,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/customer")
+@CrossOrigin(origins = "*")
 public class CustomerController {
 
     @Autowired
@@ -56,15 +54,6 @@ public class CustomerController {
                 .map(v -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/{id}/bookings")
-    public Flux<BookingDto> getBookingsForCustomer(@PathVariable ObjectId id) {
-        return webClientBuilder.build()
-                .get()
-                .uri("http://localhost:9001/api/booking/customer/{id}/bookings", id)
-                .retrieve()
-                .bodyToFlux(BookingDto.class);
-    }
-
     @GetMapping("/{id}/review")
     public  Flux<ReviewDto> getAllReviewsById(@PathVariable ObjectId id) {
         return webClientBuilder.build()
@@ -87,7 +76,7 @@ public class CustomerController {
     }
 
     @GetMapping("/email/{email}")
-    public Mono<ResponseEntity<Customer>> getCustomerByEmail(@PathVariable String email) {
+    public Mono<ResponseEntity<CustomerDto>> getCustomerByEmail(@PathVariable String email) {
         return customerService.findByEmail(email)
                 .map(customer -> ResponseEntity.ok(customer))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
@@ -114,12 +103,35 @@ public class CustomerController {
 
     @GetMapping("/{id}/bookings")
     public Flux<BookingDto> getBookingsForCustomer(@PathVariable String id) {
-        // Use WebClient to fetch all bookings from the BookingService based on the customerId
         return webClientBuilder.build()
                 .get()
                 .uri("http://localhost:9001/api/booking/customer/{id}", id) // Booking Service endpoint
                 .retrieve()
                 .bodyToFlux(BookingDto.class);
+    }
+
+    @GetMapping("/specialists")
+    public Flux<SpecialistDto> getAllSpecialists() {
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9005/api/specialist")
+                .retrieve()
+                .bodyToFlux(SpecialistDto.class)
+                .doOnError(error -> {
+                    System.err.println("Error fetching specialists");
+                });
+    }
+
+    @GetMapping("/specialist/{id}")
+    public Mono<ResponseEntity<SpecialistDto>> getSpecialistById(@PathVariable String id) {
+        // Use WebClient to call the specialist service by ID
+        return webClientBuilder.build()
+                .get()
+                .uri("http://localhost:9005/api/specialist/id/{id}", id) // Specialist service URL
+                .retrieve()
+                .bodyToMono(SpecialistDto.class)  // Convert response to SpecialistDto
+                .map(specialist -> ResponseEntity.ok(specialist))  // Return 200 if specialist is found
+                .defaultIfEmpty(ResponseEntity.notFound().build());  // Return 404 if no specialist found
     }
 
 }

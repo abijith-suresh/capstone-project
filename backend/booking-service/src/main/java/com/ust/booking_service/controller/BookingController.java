@@ -14,6 +14,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/booking")
+@CrossOrigin(origins = "*")
 public class BookingController {
 
     @Autowired
@@ -32,8 +33,8 @@ public class BookingController {
     }
 
     @GetMapping("/{id}")
-    public Mono<ResponseEntity<BookingResponseDto>> getBookingById(@PathVariable ObjectId id) {
-        return bookingService.getBookingById(id)
+    public Mono<ResponseEntity<BookingResponseDto>> getBookingById(@PathVariable String id) {
+        return bookingService.getBookingById(new ObjectId(id))
                 .map(booking -> ResponseEntity.ok(booking))
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }

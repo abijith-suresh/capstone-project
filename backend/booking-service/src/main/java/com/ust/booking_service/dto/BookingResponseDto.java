@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookingResponseDto {
     private String bookingId;
-    private CustomerDto customerDto;
-    private SpecialistDto specialistDto;
+    private CustomerDto customer;
+    private SpecialistDto specialist;
     private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;
     private String status;

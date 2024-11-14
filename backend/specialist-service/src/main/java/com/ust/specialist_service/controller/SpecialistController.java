@@ -14,7 +14,7 @@ import reactor.core.publisher.Mono;
 
 @RestController
 @RequestMapping("/api/specialist")
-@CrossOrigin(origins = "http://localhost:5173")
+@CrossOrigin(origins = "*")
 public class SpecialistController {
 
     @Autowired
@@ -59,15 +59,6 @@ public class SpecialistController {
                 .map(v -> ResponseEntity.noContent().build());
     }
 
-    @GetMapping("/{id}/bookings")
-    public Flux<BookingDto> getBookingsForSpecialist(@PathVariable ObjectId id) {
-        return webClientBuilder.build()
-                .get()
-                .uri("http://localhost:9001/api/booking/specialist/{id}/bookings", id)
-                .retrieve()
-                .bodyToFlux(BookingDto.class);
-    }
-
     @GetMapping("/{id}/reviews")
     public Flux<ReviewDto> getAllReviewsById(@PathVariable String id) {
         return webClientBuilder.build()
@@ -80,7 +71,7 @@ public class SpecialistController {
                 });
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("/email/{email}")
     public Mono<ResponseEntity<Specialist>> getSpecialistByEmail(@PathVariable String email) {
         return specialistService.findByEmail(email)
                 .map(specialist -> ResponseEntity.ok(specialist))

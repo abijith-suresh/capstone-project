@@ -25,6 +25,4 @@ public class Customer {
     private LocalDate dob;
     private String address;
     private String profilePictureUrl;
-    private Location location;
-
 }
