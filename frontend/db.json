@@ -114,7 +114,7 @@
         }
       ]
     }
-  ],  
+  ],
   "bookings": [
     {
       "id": "B001",
@@ -275,7 +275,7 @@
   ],
   "users": [
     {
-      "id": 1,
+      "id": "1",
       "name": "John Doe",
       "accountType": "customer",
       "email": "johndoe@example.com",
@@ -283,7 +283,7 @@
       "profilePicture": "https://via.placeholder.com/150"
     },
     {
-      "id": 2,
+      "id": "2",
       "name": "Jane Smith",
       "accountType": "specialist",
       "email": "janesmith@example.com",
@@ -291,7 +291,7 @@
       "profilePicture": "https://via.placeholder.com/150"
     },
     {
-      "id": 3,
+      "id": "3",
       "name": "Alice Johnson",
       "accountType": "specialist",
       "email": "alicejohnson@example.com",
@@ -299,7 +299,7 @@
       "profilePicture": "https://via.placeholder.com/150"
     },
     {
-      "id": 4,
+      "id": "4",
       "name": "Bob Williams",
       "accountType": "customer",
       "email": "bobwilliams@example.com",
@@ -307,7 +307,7 @@
       "profilePicture": "https://via.placeholder.com/150"
     },
     {
-      "id": 5,
+      "id": "5",
       "name": "Sara Lee",
       "accountType": "specialist",
       "email": "saralee@example.com",
@@ -315,44 +315,56 @@
       "profilePicture": "https://via.placeholder.com/150"
     },
     {
-      "id": 6,
+      "id": "6",
       "name": "Mike Brown",
       "accountType": "customer",
       "email": "mikebrown@example.com",
       "phone": "+1234567895",
       "profilePicture": "https://via.placeholder.com/150"
+    },
+    {
+      "id": "9528",
+      "email": "johndoe@example.com",
+      "password": "1234",
+      "role": "customer"
     }
   ],
   "auth": [
     {
       "email": "johndoe@example.com",
       "password": "customer123",
-      "role": "customer"
+      "role": "customer",
+      "id": "5daf"
     },
     {
       "email": "janesmith@example.com",
       "password": "specialist123",
-      "role": "specialist"
+      "role": "specialist",
+      "id": "f0f0"
     },
     {
       "email": "alicejohnson@example.com",
       "password": "webdev123",
-      "role": "specialist"
+      "role": "specialist",
+      "id": "1d95"
     },
     {
       "email": "bobwilliams@example.com",
       "password": "customer456",
-      "role": "customer"
+      "role": "customer",
+      "id": "5ec3"
     },
     {
       "email": "saralee@example.com",
       "password": "designer123",
-      "role": "specialist"
+      "role": "specialist",
+      "id": "9668"
     },
     {
       "email": "mikebrown@example.com",
       "password": "appdev123",
-      "role": "specialist"
+      "role": "specialist",
+      "id": "f62b"
     }
   ]
 }

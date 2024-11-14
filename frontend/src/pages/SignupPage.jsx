@@ -22,6 +22,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    // Check if passwords match
     if (password !== confirmPassword) {
       setError("Passwords do not match.");
       return;
@@ -39,8 +40,12 @@ const SignupPage = () => {
         throw new Error("Something went wrong while creating your account.");
       }
 
-      // After successful sign up, navigate to the login page
-      navigate("/login");
+      // After successful sign up, redirect to the respective profile completion page
+      if (userType === "customer") {
+        navigate("/customer/complete-profile");
+      } else if (userType === "specialist") {
+        navigate("/specialist/complete-profile");
+      }
     } catch (error) {
       console.error("Error:", error);
       setError("Something went wrong. Please try again later.");
