@@ -147,7 +147,7 @@ const LoginPage = () => {
                 value={email}
                 onChange={handleEmailChange}
                 required
-                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200 focus:shadow-lg"
                 placeholder="Enter your email"
               />
             </div>
@@ -166,7 +166,7 @@ const LoginPage = () => {
                 value={password}
                 onChange={handlePasswordChange}
                 required
-                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+                className="w-full px-4 py-2 mt-2 border rounded-md border-gray-300 text-gray-900 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-200 focus:shadow-lg"
                 placeholder="Enter your password"
               />
             </div>

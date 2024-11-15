@@ -53,8 +53,8 @@ const Navbar = ({ userType }) => {
             to={`/${userType}/dashboard`}
             className="text-2xl font-bold flex items-center"
           >
-            <img src={logo} className="size-8"></img>
-            <span className="ml-2 text-2xl font-bold ">Snapserve</span>
+            <img src={logo} className="size-7"></img>
+            <span className="ml-2 text-2xl font-bold ">SnapServe</span>
           </Link>
         </div>
 
@@ -66,7 +66,7 @@ const Navbar = ({ userType }) => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-sm font-medium text-gray-900 hover:text-grey-600 hover:scale-105 active:scale-95"
+                className="text-sm font-medium text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200"
               >
                 {item.name}
               </Link>
@@ -77,7 +77,7 @@ const Navbar = ({ userType }) => {
           <div className="sm:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-gray-600 hover:text-indigo-600"
+              className="text-gray-600"
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -106,7 +106,7 @@ const Navbar = ({ userType }) => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="block px-6 py-2 text-gray-700 hover:text-indigo-600"
+                className="block px-6 py-2 text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200"
               >
                 {item.name}
               </Link>

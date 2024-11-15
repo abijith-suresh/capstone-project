@@ -137,7 +137,7 @@ const AddSpecialistDetailsPage = () => {
             <div className="mt-2">
               <label
                 htmlFor="profileImage"
-                className="w-full flex justify-center items-center px-4 py-1 border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:border-indigo-500 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 cursor-pointer"
+                className="w-full flex justify-center items-center px-4 py-1 border-2 border-dashed border-gray-300 rounded-md text-sm font-medium text-gray-700 hover:border-gray-600 hover:text-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-offset-2 cursor-pointer"
               >
                 <svg
                   className="w-6 h-6 text-gray-400 mr-2"
@@ -187,7 +187,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.name}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -208,7 +208,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.email}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -229,7 +229,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.phoneNumber}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -250,7 +250,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.title}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -271,7 +271,7 @@ const AddSpecialistDetailsPage = () => {
                 onChange={handleChange}
                 required
                 rows="3"
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -292,7 +292,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.experience}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -313,7 +313,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.price}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -387,7 +387,7 @@ const AddSpecialistDetailsPage = () => {
                 value={formData.address}
                 onChange={handleChange}
                 required
-                className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>
           </div>
@@ -397,7 +397,7 @@ const AddSpecialistDetailsPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-black rounded-md shadow-md hover:bg-gray-800 disabled:bg-gray-600 hover:scale-105 active:scale-95 transform transition-all"
+              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-black rounded-md shadow-md disabled:bg-gray-600 hover:scale-105 active:scale-95 transform transition-all"
             >
               {isSubmitting ? "Saving..." : "Save Details"}
             </button>

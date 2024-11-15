@@ -6,19 +6,48 @@ export default function UserProfile() {
   // State to manage selected tab and dropdown label
   const [activeTab, setActiveTab] = useState("profile");
   const [dropdownLabel, setDropdownLabel] = useState("Profile");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   // State to store user data
   const [user, setUser] = useState(null);
-  const [editableUser, setEditableUser] = useState(null); // Editable user state
-  const [profileImage, setProfileImage] = useState(null); // State for profile image
+  const [editableUser, setEditableUser] = useState(null);
+  const [profileImage, setProfileImage] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+
+  const handleUpdatePassword = () => {
+    // Validation for current password and new password
+    if (!currentPassword || !newPassword) {
+      alert("Please fill in both fields");
+      return;
+    }
+
+    if (currentPassword === newPassword) {
+      alert("New password cannot be the same as current password");
+      return;
+    }
+
+    // Log the password update (In real implementation, call API here)
+    console.log("Updating password...");
+    console.log("Current Password:", currentPassword);
+    console.log("New Password:", newPassword);
+
+    // Simulate successful password update
+    alert("Password updated successfully!");
+
+    // Reset the password fields (Optional, if needed after update)
+    setCurrentPassword("");
+    setNewPassword("");
+  };
 
   // Handle tab selection and update dropdown label
   const handleTabSelection = (tab, label) => {
     setActiveTab(tab);
     setDropdownLabel(label);
+    setIsDropdownOpen(false);
   };
 
   // Fetch user data (Mocked for now)
@@ -98,16 +127,19 @@ export default function UserProfile() {
         </p>
 
         <div className="mt-6 grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Mobile Navigation */}
           <div className="relative my-4 w-56 sm:block md:hidden mx-auto">
             <input
               className="peer hidden"
               type="checkbox"
               name="select-1"
               id="select-1"
+              checked={isDropdownOpen}
+              onChange={() => setIsDropdownOpen(!isDropdownOpen)}
             />
             <label
               htmlFor="select-1"
-              className="flex w-full cursor-pointer select-none rounded-lg border p-2 px-3 text-sm text-gray-700 ring-blue-700 peer-checked:ring"
+              className="flex w-full cursor-pointer select-none rounded-lg border p-2 px-3 text-sm text-gray-700 ring-gray-700 peer-checked:ring"
             >
               {dropdownLabel}
             </label>
@@ -128,27 +160,21 @@ export default function UserProfile() {
             <ul className="max-h-0 select-none flex-col overflow-hidden rounded-b-lg shadow-md transition-all duration-300 peer-checked:max-h-56 peer-checked:py-3">
               <li
                 onClick={() => handleTabSelection("profile", "Profile")}
-                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600"
               >
                 Profile
-              </li>
-              <li
-                onClick={() => handleTabSelection("email", "Email Settings")}
-                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
-              >
-                Email Settings
               </li>
               <li
                 onClick={() =>
                   handleTabSelection("password", "Password Settings")
                 }
-                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600"
               >
                 Password Settings
               </li>
               <li
                 onClick={() => handleTabSelection("delete", "Delete Account")}
-                className="cursor-pointer px-3 py-2 text-sm text-slate-600 hover:bg-blue-700 hover:text-white"
+                className="cursor-pointer px-3 py-2 text-sm text-slate-600"
               >
                 Delete Account
               </li>
@@ -160,32 +186,30 @@ export default function UserProfile() {
             <ul className="space-y-4">
               <li
                 onClick={() => setActiveTab("profile")}
-                className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:bg-blue-50 transition ${
-                  activeTab === "profile" ? "bg-blue-100" : ""
+                className={`focus:outline-none focus:ring-2 focus:ring-gray-600 shadow-lg hover:shadow-xl cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:scale-105 active:scale-95 transform transition-all duration-300 ${
+                  activeTab === "profile"
+                    ? "bg-gray-800 text-white shadow-xl scale-100"
+                    : "bg-white text-gray-600 shadow-md hover:bg-gray-100"
                 }`}
               >
                 Profile
               </li>
               <li
-                onClick={() => setActiveTab("email")}
-                className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:bg-blue-50 transition ${
-                  activeTab === "email" ? "bg-blue-100" : ""
-                }`}
-              >
-                Email Settings
-              </li>
-              <li
                 onClick={() => setActiveTab("password")}
-                className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:bg-blue-50 transition ${
-                  activeTab === "password" ? "bg-blue-100" : ""
+                className={`focus:outline-none focus:ring-2 focus:ring-gray-600 shadow-lg hover:shadow-xl cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:scale-105 active:scale-95 transform transition-all duration-300 ${
+                  activeTab === "password"
+                    ? "bg-gray-800 text-white shadow-xl scale-100"
+                    : "bg-white text-gray-600 shadow-md hover:bg-gray-100"
                 }`}
               >
                 Password Settings
               </li>
               <li
                 onClick={() => setActiveTab("delete")}
-                className={`cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:bg-blue-50 transition ${
-                  activeTab === "delete" ? "bg-blue-100" : ""
+                className={`focus:outline-none focus:ring-2 focus:ring-gray-600 shadow-lg hover:shadow-xl cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:scale-105 active:scale-95 transform transition-all duration-300 ${
+                  activeTab === "delete"
+                    ? "bg-gray-800 text-white shadow-xl scale-100"
+                    : "bg-white text-gray-600 shadow-md hover:bg-gray-100"
                 }`}
               >
                 Delete Account
@@ -224,7 +248,9 @@ export default function UserProfile() {
                         onClick={() =>
                           document.querySelector('input[type="file"]').click()
                         }
-                        className={`absolute bottom-0 right-0 p-1 bg-emerald-500 text-white rounded-full ${!isEditing ? 'hidden cursor-pointer' : ''}`}
+                        className={`absolute bottom-0 right-0 p-1 bg-emerald-500 text-white rounded-full ${
+                          !isEditing ? "hidden cursor-pointer" : ""
+                        }`}
                       >
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
@@ -253,7 +279,7 @@ export default function UserProfile() {
                       <input
                         type="text"
                         id="name"
-                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
                         value={editableUser.name}
                         onChange={(e) =>
                           setEditableUser({
@@ -292,7 +318,7 @@ export default function UserProfile() {
                       <input
                         type="email"
                         id="email"
-                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
                         value={editableUser.email}
                         onChange={(e) =>
                           setEditableUser({
@@ -314,7 +340,7 @@ export default function UserProfile() {
                       <input
                         type="tel"
                         id="phone"
-                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
                         value={editableUser.phone}
                         onChange={(e) =>
                           setEditableUser({
@@ -355,7 +381,7 @@ export default function UserProfile() {
                     {!isEditing ? (
                       <button
                         onClick={() => setIsEditing(true)}
-                        className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-gray-600 ease-in-out"
+                        className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
                       >
                         Edit Profile
                       </button>
@@ -363,13 +389,13 @@ export default function UserProfile() {
                       <>
                         <button
                           onClick={handleSaveChanges}
-                          className="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-emerald-500 ease-in-out"
+                          className="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
                         >
                           Save Changes
                         </button>
                         <button
                           onClick={handleCancelEdit}
-                          className="mt-4 ml-4 bg-gray-700 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-gray-600 ease-in-out"
+                          className="mt-4 ml-4 bg-gray-700 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
                         >
                           Cancel
                         </button>
@@ -380,60 +406,52 @@ export default function UserProfile() {
               </div>
             )}
 
-            {/* Email Settings Section */}
-            {activeTab === "email" && (
-              <div className="bg-white p-6 rounded-lg shadow-md sm:p-8">
-                <h2 className="text-2xl font-semibold">Email Settings</h2>
-                <hr className="mt-4 mb-8" />
-                <p className="text-lg font-semibold">Email Address</p>
-                <div className="flex items-center justify-between">
-                  <p className="text-gray-600">
-                    Your email address is <strong>{user.email}</strong>
-                  </p>
-                  <button className="inline-flex text-sm font-semibold text-blue-600 underline">
-                    Change
-                  </button>
-                </div>
-              </div>
-            )}
-
             {/* Password Settings Section */}
             {activeTab === "password" && (
-              <div className="bg-white p-6 rounded-lg shadow-md sm:p-8">
-                <h2 className="text-2xl font-semibold">Password Settings</h2>
-                <hr className="mt-4 mb-8" />
-                <div className="space-y-4">
-                  <div className="flex flex-col sm:flex-row sm:space-x-4">
+              <div className="bg-white p-6 rounded-3xl shadow-lg sm:p-8">
+                <h2 className="text-2xl font-semibold text-gray-900">
+                  Password Settings
+                </h2>
+                <hr className="mt-4 mb-8 border-gray-300" />
+                <div className="space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:space-x-6">
                     <div className="w-full">
                       <label
                         htmlFor="current-password"
-                        className="block text-sm font-semibold text-gray-700"
+                        className="block text-sm font-semibold text-gray-900"
                       >
                         Current Password
                       </label>
                       <input
                         type="password"
                         id="current-password"
-                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-2"
+                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-1 px-2 text-gray-900 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
                         placeholder="**********"
+                        value={currentPassword}
+                        onChange={(e) => setCurrentPassword(e.target.value)}
                       />
                     </div>
                     <div className="w-full">
                       <label
                         htmlFor="new-password"
-                        className="block text-sm font-semibold text-gray-700"
+                        className="block text-sm font-semibold text-gray-900"
                       >
                         New Password
                       </label>
                       <input
                         type="password"
                         id="new-password"
-                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-2"
+                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-1 px-2 text-gray-900 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
                         placeholder="**********"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
                       />
                     </div>
                   </div>
-                  <button className="mt-4 rounded-lg bg-blue-600 px-4 py-2 text-white">
+                  <button
+                    onClick={handleUpdatePassword}
+                    className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
+                  >
                     Save Password
                   </button>
                 </div>
@@ -442,12 +460,12 @@ export default function UserProfile() {
 
             {/* Delete Account Section */}
             {activeTab === "delete" && (
-              <div className="bg-white p-6 rounded-lg shadow-md sm:p-8">
+              <div className="p-6 rounded-lg shadow-md sm:p-8">
                 <h2 className="text-2xl font-semibold text-red-600">
                   Delete Account
                 </h2>
-                <hr className="mt-4 mb-8" />
-                <p className="text-lg">
+                <hr className="mt-4 mb-6 border-gray-300" />
+                <p className="text-lg text-gray-800">
                   Are you sure you want to delete your account? This action is
                   irreversible.
                 </p>
@@ -455,7 +473,7 @@ export default function UserProfile() {
                   Please make sure you have backed up all your data before
                   proceeding with account deletion.
                 </p>
-                <button className="mt-4 text-sm font-semibold text-red-600 underline">
+                <button className="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out">
                   Proceed with Deletion
                 </button>
               </div>
