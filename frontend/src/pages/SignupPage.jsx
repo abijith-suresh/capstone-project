@@ -64,7 +64,7 @@ const SignupPage = () => {
             Already have an account?{" "}
             <Link
               to="/login"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-bold text-gray-700 hover:text-gray-600"
             >
               Log in
             </Link>
@@ -143,12 +143,12 @@ const SignupPage = () => {
                 />
                 <label
                   className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-              ${
-                userType === "customer"
-                  ? "bg-blue-600 text-white shadow-xl scale-100"
-                  : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
-              } 
-              active:scale-95`}
+      ${
+        userType === "customer"
+          ? "bg-gray-800 text-white shadow-xl scale-100"
+          : "bg-white text-gray-600 shadow-md hover:bg-gray-100 hover:shadow-xl hover:scale-105"
+      } 
+      active:scale-95`}
                   htmlFor="customerRadio"
                 >
                   <span className="font-medium text-lg">Customer</span>
@@ -168,12 +168,12 @@ const SignupPage = () => {
                 />
                 <label
                   className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-              ${
-                userType === "specialist"
-                  ? "bg-blue-600 text-white shadow-xl scale-100"
-                  : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
-              } 
-              active:scale-95`}
+      ${
+        userType === "specialist"
+          ? "bg-gray-800 text-white shadow-xl scale-100"
+          : "bg-white text-gray-600 shadow-md hover:bg-gray-100 hover:shadow-xl hover:scale-105"
+      } 
+      active:scale-95`}
                   htmlFor="specialistRadio"
                 >
                   <span className="font-medium text-lg">Specialist</span>
@@ -186,17 +186,19 @@ const SignupPage = () => {
             <button
               type="submit"
               className="w-full flex items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-          bg-indigo-600 text-white hover:bg-indigo-500 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+    bg-gray-800 text-white hover:bg-gray-700 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-600"
             >
-              <span className="font-medium text-lg">Sign Up</span>
+              <span className="font-medium text-lg">Sign In</span>
             </button>
           </form>
         </div>
       </div>
 
       {/* Right Content Section */}
-      <div className="max-w-md rounded-3xl bg-gradient-to-t from-blue-700 via-blue-700 to-blue-600 px-4 py-10 text-white sm:px-10 md:m-6 md:ml-8">
-        <p className="mb-20 font-bold tracking-wider">SNAPSERVE</p>
+      <div className="max-w-md rounded-3xl bg-gradient-to-t from-gray-800 via-gray-700 to-gray-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
+        <p className="mb-20 font-bold tracking-wider text-gray-300">
+          SNAPSERVE
+        </p>
         <p className="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
           Start your <br />
           journey with us

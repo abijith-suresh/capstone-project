@@ -14,9 +14,9 @@ const AddSpecialistDetailsPage = () => {
     price: "",
     services: [],
     address: "",
-    photos: [], // Can add functionality to upload multiple photos
+    photos: [], 
   });
-  const [newService, setNewService] = useState(""); // Separate state for new service input
+  const [newService, setNewService] = useState(""); 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 

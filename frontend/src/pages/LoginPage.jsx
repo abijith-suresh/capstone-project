@@ -19,7 +19,7 @@ const LoginPage = () => {
   // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
+
     try {
       const response = await fetch("http://localhost:9000/api/auth/login", {
         method: "POST",
@@ -31,37 +31,37 @@ const LoginPage = () => {
           password,
         }),
       });
-  
+
       const textResponse = await response.text();
-  
+
       // If the response is not OK, throw an error
       if (!response.ok) {
         throw new Error("Invalid email or password. Please try again.");
       }
-  
+
       // The response is the JWT token directly as a plain string
       const token = textResponse.trim();
-  
+
       if (!token) {
         throw new Error("Failed to authenticate. No token received.");
       }
-  
+
       // Store the JWT token in localStorage
       localStorage.setItem("jwtToken", token);
       localStorage.setItem("userEmail", email);
-  
+
       // Decode the JWT token's payload (without needing to parse the whole response)
       const decodedToken = atob(token.split(".")[1]);
       const parsedToken = JSON.parse(decodedToken);
-  
+
       // Extract roles from the decoded token
       const role = parsedToken.roles;
       localStorage.setItem("accountType", role);
-  
+
       // Make a request to fetch user ID based on the role
       let userId = null;
       let userEndpoint = null;
-  
+
       if (role === "customer") {
         userEndpoint = `http://localhost:9002/api/customer/email/${email}`;
       } else if (role === "specialist") {
@@ -69,21 +69,21 @@ const LoginPage = () => {
       } else {
         throw new Error("Unknown user role.");
       }
-  
+
       // Fetch user data based on the role and email
       const userResponse = await fetch(userEndpoint);
       const userData = await userResponse.json();
-  
+
       if (!userData) {
         throw new Error("User data not found.");
       }
-  
+
       // Assuming the data comes in an array and the user ID is in the first object
       userId = userData.id;
-  
+
       // Store the user ID in localStorage
       localStorage.setItem("userId", userId);
-  
+
       // Handle role-based redirection
       if (role === "customer") {
         navigate("/customer/dashboard");
@@ -97,13 +97,14 @@ const LoginPage = () => {
       setError(error.message);
     }
   };
-  
 
   return (
     <div className="flex min-h-screen">
       {/* Left Content Section */}
-      <div className="max-w-md rounded-3xl bg-gradient-to-t from-blue-700 via-blue-700 to-blue-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
-        <p className="mb-20 font-bold tracking-wider">SNAPSERVE</p>
+      <div className="max-w-md rounded-3xl bg-gradient-to-t from-gray-800 via-gray-700 to-gray-600 px-4 py-10 text-white sm:px-10 md:m-6 md:mr-8">
+        <p className="mb-20 font-bold tracking-wider text-gray-300">
+          SNAPSERVE
+        </p>
         <p className="mb-4 text-3xl font-bold md:text-4xl md:leading-snug">
           Start your <br />
           journey with us
@@ -124,7 +125,7 @@ const LoginPage = () => {
             Don’t have an account?{" "}
             <Link
               to="/signup"
-              className="font-semibold text-indigo-600 hover:text-indigo-500"
+              className="font-bold text-gray-700 hover:text-gray-500"
             >
               Create one
             </Link>
@@ -184,12 +185,12 @@ const LoginPage = () => {
                 />
                 <label
                   className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-              ${
-                userType === "customer"
-                  ? "bg-blue-600 text-white shadow-xl scale-100"
-                  : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
-              } 
-              active:scale-95`}
+      ${
+        userType === "customer"
+          ? "bg-gray-800 text-white shadow-xl scale-100"
+          : "bg-white text-gray-600 shadow-md hover:bg-gray-100 hover:shadow-xl hover:scale-105"
+      } 
+      active:scale-95`}
                   htmlFor="customerRadio"
                 >
                   <span className="font-medium text-lg">Customer</span>
@@ -209,12 +210,12 @@ const LoginPage = () => {
                 />
                 <label
                   className={`flex w-full items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-                ${
-                  userType === "specialist"
-                    ? "bg-blue-600 text-white shadow-xl scale-100"
-                    : "bg-white text-blue-800 shadow-md hover:bg-blue-200 hover:shadow-xl hover:scale-105"
-                } 
-                active:scale-95`}
+      ${
+        userType === "specialist"
+          ? "bg-gray-800 text-white shadow-xl scale-100"
+          : "bg-white text-gray-600 shadow-md hover:bg-gray-100 hover:shadow-xl hover:scale-105"
+      } 
+      active:scale-95`}
                   htmlFor="specialistRadio"
                 >
                   <span className="font-medium text-lg">Specialist</span>
@@ -227,7 +228,7 @@ const LoginPage = () => {
             <button
               type="submit"
               className="w-full flex items-center justify-center rounded-lg py-2 cursor-pointer transition-all duration-300 shadow-lg 
-    bg-indigo-600 text-white hover:bg-indigo-500 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-indigo-600"
+    bg-gray-800 text-white hover:bg-gray-700 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-600"
             >
               <span className="font-medium text-lg">Sign In</span>
             </button>
