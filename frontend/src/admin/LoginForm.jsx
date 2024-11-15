@@ -25,7 +25,7 @@ function LoginForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 text-sm text-red-500 bg-red-50 rounded-lg">
+        <div className="p-3 text-sm text-[#1F2937] bg-[#F8FAFC] rounded-lg">
           {error}
         </div>
       )}
@@ -33,20 +33,20 @@ function LoginForm() {
       <div>
         <label
           htmlFor="email"
-          className="block text-sm font-medium text-slate-700 mb-1"
+          className="block text-sm font-medium text-[#1F2937] mb-1"
         >
           Email address
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Mail className="h-5 w-5 text-slate-400" />
+            <Mail className="h-5 w-5 text-[#1F2937]" />
           </div>
           <input
             id="email"
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition duration-200 text-slate-800 placeholder-slate-400"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[#F8FAFC] rounded-lg focus:ring-2 focus:ring-[#1F2937] focus:border-transparent bg-[#F8FAFC] backdrop-blur-sm transition duration-200 text-[#1F2937] placeholder-[#1F2937]"
             placeholder="admin@gmail.com"
             required
           />
@@ -56,20 +56,20 @@ function LoginForm() {
       <div>
         <label
           htmlFor="password"
-          className="block text-sm font-medium text-slate-700 mb-1"
+          className="block text-sm font-medium text-[#1F2937] mb-1"
         >
           Password
         </label>
         <div className="relative">
           <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-            <Lock className="h-5 w-5 text-slate-400" />
+            <Lock className="h-5 w-5 text-[#1F2937]" />
           </div>
           <input
             id="password"
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-transparent bg-white/50 backdrop-blur-sm transition duration-200 text-slate-800"
+            className="block w-full pl-10 pr-3 py-2.5 border border-[#F8FAFC] rounded-lg focus:ring-2 focus:ring-[#1F2937] focus:border-transparent bg-[#F8FAFC] backdrop-blur-sm transition duration-200 text-[#1F2937]"
             placeholder="******"
             required
           />
@@ -81,23 +81,23 @@ function LoginForm() {
           <input
             id="remember-me"
             type="checkbox"
-            className="h-4 w-4 text-indigo-500 focus:ring-indigo-500 border-slate-300 rounded cursor-pointer"
+            className="h-4 w-4 text-[#1F2937] focus:ring-[#1F2937] border-[#F8FAFC] rounded cursor-pointer"
           />
           <label
             htmlFor="remember-me"
-            className="ml-2 block text-sm text-slate-600 cursor-pointer"
+            className="ml-2 block text-sm text-[#1F2937] cursor-pointer"
           >
             Remember me
           </label>
         </div>
-        {/* <button type="button" className="text-sm font-medium text-indigo-600 hover:text-indigo-500">
+        {/* <button type="button" className="text-sm font-medium text-[#1F2937] hover:text-[#1F2937]/80">
           Forgot password?
         </button> */}
       </div>
 
       <button
         type="submit"
-        className="w-full flex justify-center py-2.5 px-4 border border-transparent rounded-lg shadow-sm text-sm font-medium text-white bg-gradient-to-r from-indigo-500 to-purple-500 hover:from-indigo-600 hover:to-purple-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 transition duration-200"
+        className="w-full flex justify-center py-2.5 px-4 rounded-lg text-sm font-medium text-[#F8FAFC] bg-gradient-to-r from-[#1F2937] to-[#222c2a] shadow-lg hover:bg-gray-400 hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-[#1F2937] transition duration-200"
       >
         Sign in
       </button>

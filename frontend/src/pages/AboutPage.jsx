@@ -8,6 +8,7 @@ import {
   ShieldCheckIcon,
 } from "@heroicons/react/24/outline";
 import { scroller } from "react-scroll";
+import ValuesSection from "./ValueSection";
 
 const values = [
   {
@@ -76,7 +77,7 @@ const AboutPage = () => {
           </div>
         </section>
 
-        <section className="py-24">
+        {/* <section className="py-24">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h2 className="text-4xl font-semibold text-gray-800">Our Values</h2>
 
@@ -101,7 +102,8 @@ const AboutPage = () => {
               </dl>
             </div>
           </div>
-        </section>
+        </section> */}
+        <ValuesSection/>
 
         <section className="py-24">
           <div className="max-w-7xl mx-auto px-6 text-center">

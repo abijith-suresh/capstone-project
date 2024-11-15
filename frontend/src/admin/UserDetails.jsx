@@ -19,10 +19,10 @@ const mockUserDetails = {
       uploadDate: '2024-03-10'
     },
     { 
-        type: 'Certifications', 
-        url: 'https://www.pngkey.com/png/detail/233-2332677_ega-png.png',
-        uploadDate: '2024-03-10'
-      }
+      type: 'Certifications', 
+      url: 'https://www.pngkey.com/png/detail/233-2332677_ega-png.png',
+      uploadDate: '2024-03-10'
+    }
   ],
   applicationDate: '2024-03-15',
   additionalInfo: 'Requesting approval for account verification. All required documents have been submitted.'
@@ -44,22 +44,22 @@ export default function UserDetails() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl ">
+    <div className="container mx-auto px-4 py-8 max-w-5xl bg-gray-100">
       {/* Back to Dashboard Button */}
       <button
         onClick={() => navigate('/admin/dashboard')}
-        className="mb-6 text-zinc-600 hover:text-zinc-800 flex items-center"
+        className="mb-6 text-zinc-600 hover:text-[#191a19]  hover:scale-105 active:scale-95 flex items-center"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />
         Back to Dashboard
       </button>
 
-      <div className="grid gap-6 ">
+      <div className="grid gap-6">
         {/* User Details Card */}
         <div className="border-0 shadow-xl rounded-lg bg-white">
           <div className="border-b border-zinc-100 bg-white p-4">
             <div className="flex items-center gap-3">
-              <User className="h-6 w-6 text-indigo-600" />
+              <User className="h-6 w-6 text-[#10B981]" />
               <h2 className="text-xl text-zinc-800">User Details</h2>
             </div>
           </div>
@@ -124,13 +124,12 @@ export default function UserDetails() {
 
               <div className="border-t border-zinc-200 my-6"></div>
 
-            
+              {/* Action Buttons */}
               <div className="flex justify-end gap-4">
                 <button
                   onClick={() => handleStatusUpdate('rejected')}
-
                   disabled={isProcessing}
-                  className="border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 text-sm py-2 px-4 rounded-md flex items-center"
+                  className="border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700  hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
                 >
                   <XCircle className="mr-2 h-4 w-4" />
                   Reject Application
@@ -138,7 +137,7 @@ export default function UserDetails() {
                 <button
                   onClick={() => handleStatusUpdate('approved')}
                   disabled={isProcessing}
-                  className="bg-emerald-600 text-white hover:bg-emerald-700 text-sm py-2 px-4 rounded-md flex items-center"
+                  className="border border-green-200 text-green-600 hover:bg-green-50 hover:text-green-700  hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
                   Approve Application

@@ -8,7 +8,6 @@ export default function Navbar() {
   const location = useLocation();
   const [activeTab, setActiveTab] = useState('specialists'); 
 
- 
   useEffect(() => {
     if (location.pathname.includes('complaints')) {
       setActiveTab('complaints'); 
@@ -19,7 +18,6 @@ export default function Navbar() {
 
   const handleTabClick = (tab) => {
     setActiveTab(tab);
-   
     if (tab === 'specialists') {
       navigate('/admin/dashboard'); 
     } else if (tab === 'complaints') {
@@ -28,11 +26,11 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="flex items-center justify-between px-6 py-4 shadow-md bg-gradient-to-r from-indigo-300 to-purple-600 text-white">
+    <nav className="flex items-center justify-between px-6 py-4 shadow-md bg-transparent backdrop-blur-lg text-white">
       {/* Logo and Title */}
       <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin')}>
         <img src={logo} alt="SnapServe Logo" className="h-8 w-8 drop-shadow-lg " />
-        <h1 className="text-2xl font-bold text-gray-900 tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-800 shadow-md">
+        <h1 className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#1F2937] to-[#10B981] shadow-md">
           Admin Dashboard
         </h1>
       </div>
@@ -43,16 +41,15 @@ export default function Navbar() {
           <button
             key={tab}
             onClick={() => handleTabClick(tab)}
-            className={`relative font-medium px-4 py-2 transition-all ${
-              activeTab === tab ? 'text-white' : 'text-indigo-200 hover:text-white'
+            className={`relative font-bold px-4 py-2 transition-all ${
+              activeTab === tab ? 'text-gray-700' : 'text-gray-700 hover:text-[#10B981]'
             }`}
           >
             {tab.charAt(0).toUpperCase() + tab.slice(1)}
-
             {activeTab === tab && (
               <motion.div
                 layoutId="underline"
-                className="absolute bottom-0 left-0 right-0 h-[2px] bg-white rounded"
+                className="absolute bottom-0 left-0 right-0 h-[2px] bg-[#10B981] rounded"
               />
             )}
           </button>
