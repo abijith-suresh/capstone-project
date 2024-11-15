@@ -1,10 +1,10 @@
-package com.ust.message_service;
+package com.ust.complaint_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MessageServiceApplicationTests {
+class ComplaintServiceApplicationTests {
 
 	@Test
 	void contextLoads() {

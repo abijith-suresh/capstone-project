@@ -47,7 +47,7 @@ export default function UserDetails() {
     <div className="container mx-auto px-4 py-8 max-w-5xl ">
       {/* Back to Dashboard Button */}
       <button
-        onClick={() => navigate('/dashboard')}
+        onClick={() => navigate('/admin/dashboard')}
         className="mb-6 text-zinc-600 hover:text-zinc-800 flex items-center"
       >
         <ArrowLeft className="mr-2 h-4 w-4" />

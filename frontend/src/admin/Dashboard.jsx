@@ -1,9 +1,10 @@
+// Dashboard Component
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Users } from 'lucide-react';
-import logo from '../images/snapserve.svg';
+import { motion } from 'framer-motion';
+import Navbar from './Navbar';
 
-// Mock data - in real app this would come from an API
+// Mock data
 const mockUsers = [
   { id: 1, name: 'John Doe', status: 'pending' },
   { id: 2, name: 'Jane Smith', status: 'approved' },
@@ -13,66 +14,43 @@ const mockUsers = [
 ];
 
 export default function Dashboard() {
-  const navigate = useNavigate();
-  
-  const handleViewDetails = () => {
-    navigate('/admin/user-details'); 
-  };
-
   const [activeTab, setActiveTab] = useState('all');
-
-  const filteredUsers = mockUsers.filter(user => 
-    activeTab === 'all' || user.status === activeTab
+  const filteredUsers = mockUsers.filter(
+    (user) => activeTab === 'all' || user.status === activeTab
   );
 
-  return (
-    <div className="container mx-auto px-6 py-8">
-      <div className="flex items-center gap-3 mb-6">
-        <img src={logo} className="h-8 w-8" />
-        <h1 className="text-3xl font-semibold text-gray-800">Admin Dashboard</h1>
-      </div>
+  const navigate = useNavigate();
+  const handleViewDetails = (id) => {
+    navigate(`/admin/user-details/${id}`);
+  };
 
-      {/* Card Container */}
-      <div className="bg-white shadow-xl border border-gray-200 rounded-lg">
-        <div className="p-6">
-          {/* Tabs Navigation */}
+  return (
+    <div className="min-h-screen bg-gray-100">
+      <Navbar />
+
+      <div className="container mx-auto px-6 py-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="bg-white shadow-xl border border-gray-200 rounded-lg p-6"
+        >
           <div className="flex flex-col md:flex-row justify-between items-center mb-4">
             <div className="flex flex-wrap justify-start md:space-x-4 bg-blue-50 p-2 rounded-md w-full md:w-auto">
-              <button
-                className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg ${
-                  activeTab === 'all' ? 'bg-white' : 'hover:bg-indigo-200'
-                }`}
-                onClick={() => setActiveTab('all')}
-              >
-                All Users
-              </button>
-              <button
-                className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg ${
-                  activeTab === 'pending' ? 'bg-white' : 'hover:bg-indigo-200'
-                }`}
-                onClick={() => setActiveTab('pending')}
-              >
-                Pending
-              </button>
-              <button
-                className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg ${
-                  activeTab === 'approved' ? 'bg-white' : 'hover:bg-indigo-200'
-                }`}
-                onClick={() => setActiveTab('approved')}
-              >
-                Approved
-              </button>
-            </div>
-
-            <div className="flex items-center gap-2 mt-4 md:mt-0">
-              <Users className="h-5 w-5 text-indigo-400" />
-              <span className="text-sm font-medium text-gray-600">
-                Total Users: {filteredUsers.length}
-              </span>
+              {['all', 'pending', 'approved'].map((status) => (
+                <button
+                  key={status}
+                  className={`py-2 px-4 text-sm font-medium text-gray-700 rounded-lg transition-colors ${
+                    activeTab === status ? 'bg-white' : 'hover:bg-indigo-200'
+                  }`}
+                  onClick={() => setActiveTab(status)}
+                >
+                  {status.charAt(0).toUpperCase() + status.slice(1)} Users
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* Users Table */}
           <div className="overflow-x-auto">
             <table className="min-w-full table-auto">
               <thead>
@@ -85,7 +63,13 @@ export default function Dashboard() {
               </thead>
               <tbody>
                 {filteredUsers.map((user, index) => (
-                  <tr key={user.id} className="border-b border-gray-100 hover:bg-blue-50">
+                  <motion.tr
+                    key={user.id}
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.3, delay: index * 0.1 }}
+                    className="border-b border-gray-100 hover:bg-blue-50"
+                  >
                     <td className="py-4 px-4 text-sm text-gray-600">{index + 1}</td>
                     <td className="py-4 px-4 text-sm font-medium text-gray-700">{user.name}</td>
                     <td className="py-4 px-4">
@@ -93,6 +77,8 @@ export default function Dashboard() {
                         className={`inline-block text-sm font-medium py-1 px-2 rounded-full ${
                           user.status === 'approved'
                             ? 'bg-green-100 text-green-700'
+                            : user.status === 'rejected'
+                            ? 'bg-red-100 text-red-700'
                             : 'bg-yellow-100 text-yellow-700'
                         }`}
                       >
@@ -102,17 +88,17 @@ export default function Dashboard() {
                     <td className="py-4 px-4 text-right">
                       <button
                         className="text-indigo-600 border border-indigo-200 hover:bg-indigo-50 hover:text-indigo-700 text-sm py-1 px-3 rounded-md"
-                        onClick={handleViewDetails}
+                        onClick={() => handleViewDetails(user.id)}
                       >
                         View Details
                       </button>
                     </td>
-                  </tr>
+                  </motion.tr>
                 ))}
               </tbody>
             </table>
           </div>
-        </div>
+        </motion.div>
       </div>
     </div>
   );
