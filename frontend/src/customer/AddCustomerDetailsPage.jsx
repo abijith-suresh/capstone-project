@@ -80,7 +80,7 @@ const AddCustomerDetailsPage = () => {
       </div>
 
       <div className="sm:mx-auto sm:w-full sm:max-w-sm">
-        <h2 className="mt-10 text-center text-2xl font-bold tracking-tight text-gray-900">
+        <h2 className="mt-4 text-center text-2xl font-bold tracking-tight text-gray-900">
           Customer Details
         </h2>
         <p className="mt-2 text-center text-sm text-gray-600">
@@ -169,7 +169,7 @@ const AddCustomerDetailsPage = () => {
             </label>
             <div className="mt-2">
               <input
-                id="email"
+                id="email" 
                 name="email"
                 type="email"
                 value={formData.email}
@@ -267,7 +267,7 @@ const AddCustomerDetailsPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-indigo-300"
+              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-black rounded-md shadow-md hover:bg-gray-800 disabled:bg-gray-600 hover:scale-105 active:scale-95 transform transition-all"
             >
               {isSubmitting ? "Saving..." : "Save Details"}
             </button>

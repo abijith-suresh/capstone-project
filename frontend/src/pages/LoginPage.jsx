@@ -125,7 +125,7 @@ const LoginPage = () => {
             Don’t have an account?{" "}
             <Link
               to="/signup"
-              className="font-bold text-gray-700 hover:text-gray-500"
+              className="font-bold text-emerald-600 hover:text-emerald-500"
             >
               Create one
             </Link>

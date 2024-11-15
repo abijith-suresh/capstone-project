@@ -19,12 +19,12 @@ const HomePage = () => {
         <div className="flex flex-col items-center justify-between lg:flex-row">
           <div>
             <div className="lg:max-w-xl lg:pr-5">
-              <p className="flex text-sm uppercase text-blue-600">
+              <p className="flex text-sm uppercase text-gray-600">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="mr-1 inline h-5 w-5"
                   viewBox="0 0 20 20"
-                  fill="currentColor"
+                  fill="#10b981"
                 >
                   <path
                     fillRule="evenodd"
@@ -36,11 +36,11 @@ const HomePage = () => {
               </p>
               <h2 className="mb-6 max-w-lg text-3xl font-medium leading-snug tracking-tight sm:text-5xl sm:leading-snug">
                 Simplifying the way you find
-                <span className="my-1 inline-block px-4 font-bold text-blue-600">
+                <span className="my-1 inline-block px-4 font-bold text-emerald-500">
                   trusted specialists
                 </span>
               </h2>
-              <p className="text-base text-gray-700">
+              <p className="text-base text-gray-600">
                 Easily find trusted, vetted professionals for home repairs,
                 cleaning, tutoring, and more—without the hassle.
               </p>
@@ -48,14 +48,15 @@ const HomePage = () => {
             <div className="mt-10 flex flex-col items-center md:flex-row">
               <Link
                 to="/signup"
-                className="mb-3 inline-flex h-12 w-full items-center justify-center rounded bg-blue-700 px-6 font-medium tracking-wide text-white shadow-md transition hover:bg-blue-800 focus:outline-none md:mr-4 md:mb-0 md:w-auto"
+                className="mb-3 inline-flex h-12 w-full items-center justify-center rounded-lg bg-gray-800 px-6 font-medium text-white shadow-md transition-transform duration-200 hover:scale-105 active:scale-95 focus:outline-none md:mr-4 md:mb-0 md:w-auto"
               >
                 Get Started
               </Link>
+
               <Link
                 to="/about"
                 aria-label=""
-                className="group inline-flex items-center font-semibold text-blue-600"
+                className="group inline-flex items-center font-semibold text-gray-700"
               >
                 Learn More
                 <svg
@@ -78,7 +79,7 @@ const HomePage = () => {
 
           <div className="relative hidden lg:block lg:w-1/3 mr-16 -ml-12">
             <img
-              src="src\images\undraw_professor_re_mj1s.svg"
+              src="https://snapserve.s3.us-east-1.amazonaws.com/undraw_professor.svg"
               alt="Your Image Description"
               className="w-full h-auto object-cover"
             />

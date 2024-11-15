@@ -54,9 +54,7 @@ const Navbar = ({ userType }) => {
             className="text-2xl font-bold flex items-center"
           >
             <img src={logo} className="size-8"></img>
-            <span className="ml-2 text-2xl font-bold ">
-              Snapserve
-            </span>
+            <span className="ml-2 text-2xl font-bold ">Snapserve</span>
           </Link>
         </div>
 
@@ -68,7 +66,7 @@ const Navbar = ({ userType }) => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-sm font-medium text-gray-900 hover:text-indigo-600"
+                className="text-sm font-medium text-gray-900 hover:text-grey-600 hover:scale-105 active:scale-95"
               >
                 {item.name}
               </Link>

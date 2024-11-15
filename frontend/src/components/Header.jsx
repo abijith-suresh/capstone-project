@@ -39,13 +39,13 @@ const Header = () => {
         <PopoverGroup className="hidden lg:flex lg:gap-x-12">
           <Link
             to="/about"
-            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600 hover:scale-105 active:scale-95 transform transition-all ease-in-out duration-300"
           >
             About
           </Link>
           <Link
             to="/contact"
-            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600 hover:scale-105 active:scale-95 transform transition-all ease-in-out duration-300"
           >
             Contact
           </Link>
@@ -55,7 +55,7 @@ const Header = () => {
         <div className="hidden lg:flex lg:flex-1 lg:justify-end">
           <Link
             to="/login"
-            className="text-sm font-semibold text-gray-900 hover:text-gray-600"
+            className="text-sm font-semibold text-gray-900 hover:text-gray-600 hover:scale-105 active:scale-95 transform transition-all ease-in-out duration-300"
           >
             Log in <span aria-hidden="true">&rarr;</span>
           </Link>

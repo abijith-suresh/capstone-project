@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState } from "react";
+import Footer from "../components/Footer";
+import Header from "../components/Header";
 
 export default function ContactUsPage() {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: '',
-    attachment: '',  // Updated to be a string (URL or base64)
+    name: "",
+    email: "",
+    message: "",
+    attachment: "",
   });
   const [loading, setLoading] = useState(false);
   const [successMessage, setSuccessMessage] = useState(null);
@@ -23,7 +25,7 @@ export default function ContactUsPage() {
       reader.onloadend = () => {
         setFormData((prev) => ({ ...prev, attachment: reader.result }));
       };
-      reader.readAsDataURL(file);  // Convert file to base64
+      reader.readAsDataURL(file);
     }
   };
 
@@ -37,44 +39,51 @@ export default function ContactUsPage() {
       name: formData.name,
       email: formData.email,
       message: formData.message,
-      attachment: formData.attachment,  // Sending base64 or URL as a string
+      attachment: formData.attachment,
     };
 
     try {
-      const response = await fetch('http://localhost:9007/api/complaints/submit-complaint', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json', // Send JSON instead of multipart/form-data
-        },
-        body: JSON.stringify(formPayload),
-      });
+      const response = await fetch(
+        "http://localhost:9007/api/complaints/submit-complaint",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formPayload),
+        }
+      );
 
       if (response.ok) {
-        setSuccessMessage('Your message has been sent successfully!');
-        setFormData({ name: '', email: '', message: '', attachment: '' }); // Reset form
+        setSuccessMessage("Your message has been sent successfully!");
+        setFormData({ name: "", email: "", message: "", attachment: "" });
       } else {
-        setErrorMessage('There was an error submitting your message.');
+        setErrorMessage("There was an error submitting your message.");
       }
     } catch (error) {
       console.error(error);
-      setErrorMessage('There was an error submitting your message.');
+      setErrorMessage("There was an error submitting your message.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="bg-white py-12 sm:py-16 lg:py-24">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8">
+    <div className="bg-white mt-24 sm:mt-30 lg:mt-36">
+      <Header />
+      <div className="max-w-7xl mx-auto px-6 lg:px-8 mb-16">
         <div className="text-center">
           <h2 className="text-3xl font-semibold text-gray-900">Contact Us</h2>
           <p className="mt-4 text-lg text-gray-600">
-            Have a question or need assistance? We’re here to help. Fill out the form below, and we’ll get back to you as soon as possible.
+            Have a question or need assistance? We’re here to help. Fill out the
+            form below, and we’ll get back to you as soon as possible.
           </p>
         </div>
 
         {/* Success/Error Message Display */}
-        {successMessage && <p className="text-green-500 mt-4">{successMessage}</p>}
+        {successMessage && (
+          <p className="text-green-500 mt-4">{successMessage}</p>
+        )}
         {errorMessage && <p className="text-red-500 mt-4">{errorMessage}</p>}
 
         <div className="mt-10 max-w-lg mx-auto">
@@ -82,7 +91,10 @@ export default function ContactUsPage() {
             <div className="space-y-8">
               {/* Full Name Field */}
               <div>
-                <label htmlFor="name" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="name"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Full Name
                 </label>
                 <div className="mt-2">
@@ -94,14 +106,17 @@ export default function ContactUsPage() {
                     value={formData.name}
                     onChange={handleChange}
                     placeholder="Your Full Name"
-                    className="block w-full rounded-md border-0 py-2 px-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                    className="block w-full rounded-md border-0 py-2 px-3 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-gray-500 transition-all duration-300 ease-in-out focus:shadow-lg"
                   />
                 </div>
               </div>
 
               {/* Email Address Field */}
               <div>
-                <label htmlFor="email" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="email"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Email Address
                 </label>
                 <div className="mt-2">
@@ -113,14 +128,17 @@ export default function ContactUsPage() {
                     value={formData.email}
                     onChange={handleChange}
                     placeholder="you@example.com"
-                    className="block w-full rounded-md border-0 py-2 px-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                    className="block w-full rounded-md border-0 py-2 px-3 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-gray-500 transition-all duration-300 ease-in-out focus:shadow-lg"
                   />
                 </div>
               </div>
 
               {/* Message Field */}
               <div>
-                <label htmlFor="message" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="message"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Your Message
                 </label>
                 <div className="mt-2">
@@ -132,20 +150,23 @@ export default function ContactUsPage() {
                     onChange={handleChange}
                     rows={4}
                     placeholder="Write your message here"
-                    className="block w-full rounded-md border-0 py-2 px-2 text-sm text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                    className="block w-full rounded-md border-0 py-2 px-3 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg sm:text-sm"
                   />
                 </div>
               </div>
 
               {/* Attachment Field (Optional) */}
               <div>
-                <label htmlFor="attachment" className="block text-sm font-medium text-gray-900">
+                <label
+                  htmlFor="attachment"
+                  className="block text-sm font-medium text-gray-700"
+                >
                   Attachment (Optional)
                 </label>
                 <div className="mt-2 flex items-center">
                   <button
                     type="button"
-                    className="ml-2 text-sm font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none"
+                    className="ml-2 text-sm font-medium text-teal-600 hover:text-teal-500 focus:outline-none hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
                   >
                     Attach a file
                   </button>
@@ -164,22 +185,30 @@ export default function ContactUsPage() {
             <div className="mt-8 flex items-center justify-end gap-x-6">
               <button
                 type="reset"
-                className="text-sm font-semibold text-gray-900"
-                onClick={() => setFormData({ name: '', email: '', message: '', attachment: '' })}
+                className="text-sm font-semibold text-gray-700"
+                onClick={() =>
+                  setFormData({
+                    name: "",
+                    email: "",
+                    message: "",
+                    attachment: "",
+                  })
+                }
               >
                 Clear
               </button>
               <button
                 type="submit"
                 disabled={loading}
-                className="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+                className="rounded-md bg-gray-800 px-4 py-2 text-sm font-semibold text-white shadow-sm hover:bg-gray-600 hover:shadow-xl hover:scale-105 active:scale-95 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300"
               >
-                {loading ? 'Sending...' : 'Send Message'}
+                {loading ? "Sending..." : "Send Message"}
               </button>
             </div>
           </form>
         </div>
       </div>
+      <Footer />
     </div>
   );
 }

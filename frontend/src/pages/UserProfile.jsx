@@ -9,8 +9,11 @@ export default function UserProfile() {
 
   // State to store user data
   const [user, setUser] = useState(null);
+  const [editableUser, setEditableUser] = useState(null); // Editable user state
+  const [profileImage, setProfileImage] = useState(null); // State for profile image
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   // Handle tab selection and update dropdown label
   const handleTabSelection = (tab, label) => {
@@ -18,54 +21,57 @@ export default function UserProfile() {
     setDropdownLabel(label);
   };
 
+  // Fetch user data (Mocked for now)
   useEffect(() => {
-    // Retrieve email and accountType from localStorage
-    const userEmail = localStorage.getItem("userEmail");
-    const accountType = localStorage.getItem("accountType");
-
-    if (!userEmail) {
-      setError("No user email found in localStorage.");
-      setLoading(false);
-      return;
-    }
-
-    if (!accountType) {
-      setError("No account type found in localStorage.");
-      setLoading(false);
-      return;
-    }
-
-    // Determine the appropriate API endpoint based on the user's role
-    const endpoint =
-      accountType === "customer"
-        ? `http://localhost:9002/api/customer/email/${userEmail}`
-        : accountType === "specialist"
-        ? `http://localhost:9005/api/specialist/email/${userEmail}`
-        : null;
-
-    if (!endpoint) {
-      setError("Invalid account type.");
-      setLoading(false);
-      return;
-    }
-
-    // Fetch user data from the corresponding endpoint
-    fetch(endpoint)
-      .then((response) => response.json())
-      .then((data) => {
-        // Check if user data exists
-        if (data) {
-          setUser(data); // Assuming the user data is returned as an array
-        } else {
-          setError("User data not found.");
-        }
-        setLoading(false);
-      })
-      .catch((err) => {
-        setError("Failed to fetch user data.");
-        setLoading(false);
-      });
+    setUser({
+      name: "John Doe", // Example Name
+      email: "johndoe@example.com", // Example Email
+      phone: "(123) 456-7890", // Example Phone
+      profilePicture: "https://via.placeholder.com/150", // Placeholder profile picture URL
+      accountType: "customer", // Example Account Type
+      about: "I'm a customer who loves tech and software development.", // Example About Text
+    });
+    setEditableUser({
+      name: "John Doe",
+      email: "johndoe@example.com",
+      phone: "(123) 456-7890",
+      about: "I'm a customer who loves tech and software development.",
+      accountType: "customer",
+    });
+    setLoading(false);
   }, []);
+
+  // Handle image upload for profile picture
+  const handleImageUpload = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setProfileImage(reader.result); // Set uploaded image as profile image
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // Handle save changes (Update user profile)
+  const handleSaveChanges = () => {
+    // For now, just log the changes. In a real application, this would update the data.
+    console.log("Saving changes:", editableUser, profileImage);
+    setIsEditing(false);
+  };
+
+  // Handle cancel edits and reset to original state
+  const handleCancelEdit = () => {
+    setEditableUser({
+      name: user.name,
+      email: user.email,
+      phone: user.phone,
+      about: user.about,
+      accountType: user.accountType,
+    });
+    setProfileImage(user.profilePicture); // Reset profile image to original
+    setIsEditing(false);
+  };
 
   if (loading) {
     return <LoadingSpinner />;
@@ -200,70 +206,176 @@ export default function UserProfile() {
                   {/* Profile Header Section */}
                   <div className="flex items-center space-x-6">
                     <div className="relative">
-                      <img
-                        src={user.profilePicture}
-                        alt="Profile Picture"
-                        className="h-20 w-20 rounded-full object-cover ring-4 ring-indigo-500"
+                      {/* Profile Picture */}
+                      <input
+                        type="file"
+                        accept="image/*"
+                        className="absolute inset-0 opacity-0"
+                        onChange={handleImageUpload}
+                        disabled={!isEditing}
                       />
+                      <img
+                        src={profileImage || user.profilePicture}
+                        alt="Profile Picture"
+                        className="h-20 w-20 rounded-full object-cover"
+                      />
+                      <button
+                        type="button"
+                        onClick={() =>
+                          document.querySelector('input[type="file"]').click()
+                        }
+                        className={`absolute bottom-0 right-0 p-1 bg-emerald-500 text-white rounded-full ${!isEditing ? 'hidden cursor-pointer' : ''}`}
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-4 w-4"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M12 4v16m8-8H4"
+                          />
+                        </svg>
+                      </button>
                     </div>
-                    <div>
-                      <p className="text-2xl font-semibold text-gray-800">
-                        {user.name}
-                      </p>
-                      <p className="text-sm text-gray-500">
-                        {user.accountType}
-                      </p>
+
+                    <div className="flex-1">
+                      <label
+                        htmlFor="name"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Full Name
+                      </label>
+                      <input
+                        type="text"
+                        id="name"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        value={editableUser.name}
+                        onChange={(e) =>
+                          setEditableUser({
+                            ...editableUser,
+                            name: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                      />
+
+                      <label
+                        htmlFor="account-type"
+                        className="block text-sm font-medium text-gray-700 mt-4"
+                      >
+                        Account Type
+                      </label>
+                      <input
+                        type="text"
+                        id="account-type"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        value={editableUser.accountType}
+                        disabled
+                      />
                     </div>
                   </div>
 
                   {/* Contact Info Section */}
-                  <div className="space-y-4">
-                    <div className="flex items-center space-x-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="size-6"
+                  <div className="space-y-4 mt-6">
+                    <div>
+                      <label
+                        htmlFor="email"
+                        className="block text-sm font-medium text-gray-700"
                       >
-                        <path
-                          fillRule="evenodd"
-                          d="M17.834 6.166a8.25 8.25 0 1 0 0 11.668.75.75 0 0 1 1.06 1.06c-3.807 3.808-9.98 3.808-13.788 0-3.808-3.807-3.808-9.98 0-13.788 3.807-3.808 9.98-3.808 13.788 0A9.722 9.722 0 0 1 21.75 12c0 .975-.296 1.887-.809 2.571-.514.685-1.28 1.179-2.191 1.179-.904 0-1.666-.487-2.18-1.164a5.25 5.25 0 1 1-.82-6.26V8.25a.75.75 0 0 1 1.5 0V12c0 .682.208 1.27.509 1.671.3.401.659.579.991.579.332 0 .69-.178.991-.579.3-.4.509-.99.509-1.671a8.222 8.222 0 0 0-2.416-5.834ZM15.75 12a3.75 3.75 0 1 0-7.5 0 3.75 3.75 0 0 0 7.5 0Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <p className="text-lg text-gray-700">{user.email}</p>
+                        Email Address
+                      </label>
+                      <input
+                        type="email"
+                        id="email"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        value={editableUser.email}
+                        onChange={(e) =>
+                          setEditableUser({
+                            ...editableUser,
+                            email: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                      />
                     </div>
-                    <div className="flex items-center space-x-4">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        viewBox="0 0 24 24"
-                        fill="currentColor"
-                        className="size-6"
-                      >
-                        <path d="M10.5 18.75a.75.75 0 0 0 0 1.5h3a.75.75 0 0 0 0-1.5h-3Z" />
-                        <path
-                          fillRule="evenodd"
-                          d="M8.625.75A3.375 3.375 0 0 0 5.25 4.125v15.75a3.375 3.375 0 0 0 3.375 3.375h6.75a3.375 3.375 0 0 0 3.375-3.375V4.125A3.375 3.375 0 0 0 15.375.75h-6.75ZM7.5 4.125C7.5 3.504 8.004 3 8.625 3H9.75v.375c0 .621.504 1.125 1.125 1.125h2.25c.621 0 1.125-.504 1.125-1.125V3h1.125c.621 0 1.125.504 1.125 1.125v15.75c0 .621-.504 1.125-1.125 1.125h-6.75A1.125 1.125 0 0 1 7.5 19.875V4.125Z"
-                          clipRule="evenodd"
-                        />
-                      </svg>
-                      <p className="text-lg text-gray-700">{user.phone}</p>
-                    </div>
-                  </div>
 
-                  {/* Conditionally render the "About" section */}
-                  {user.accountType !== "customer" && (
-                    <div className="space-y-4">
-                      <h3 className="text-xl font-medium text-gray-800">
-                        About
-                      </h3>
-                      <div className="p-4 bg-gray-50 border rounded-lg border-gray-200">
-                        <p className="text-gray-600">
-                          {user.about || "No description available."}
-                        </p>
-                      </div>
+                    <div>
+                      <label
+                        htmlFor="phone"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Phone Number
+                      </label>
+                      <input
+                        type="tel"
+                        id="phone"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                        value={editableUser.phone}
+                        onChange={(e) =>
+                          setEditableUser({
+                            ...editableUser,
+                            phone: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                      />
                     </div>
-                  )}
+
+                    {/* About Section (Optional based on accountType) */}
+                    {user.accountType !== "customer" && (
+                      <div>
+                        <label
+                          htmlFor="about"
+                          className="block text-sm font-medium text-gray-700"
+                        >
+                          About You
+                        </label>
+                        <textarea
+                          id="about"
+                          className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
+                          rows="4"
+                          value={editableUser.about || ""}
+                          onChange={(e) =>
+                            setEditableUser({
+                              ...editableUser,
+                              about: e.target.value,
+                            })
+                          }
+                          disabled={!isEditing}
+                          placeholder="Tell us a little about yourself..."
+                        />
+                      </div>
+                    )}
+                    {/* Edit Mode Toggle */}
+                    {!isEditing ? (
+                      <button
+                        onClick={() => setIsEditing(true)}
+                        className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-gray-600 ease-in-out"
+                      >
+                        Edit Profile
+                      </button>
+                    ) : (
+                      <>
+                        <button
+                          onClick={handleSaveChanges}
+                          className="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-emerald-500 ease-in-out"
+                        >
+                          Save Changes
+                        </button>
+                        <button
+                          onClick={handleCancelEdit}
+                          className="mt-4 ml-4 bg-gray-700 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 hover:bg-gray-600 ease-in-out"
+                        >
+                          Cancel
+                        </button>
+                      </>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

@@ -49,18 +49,6 @@ const AboutPage = () => {
     <div className="bg-white" id="top">
       <Header />
       <div className="relative isolate px-6 pt-14 lg:px-8">
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 -top-40 -z-10 transform-gpu overflow-hidden blur-3xl sm:-top-80"
-        >
-          <div
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-            className="relative left-[calc(50%-11rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
-          />
-        </div>
         <section className="flex items-center justify-center py-48 text-gray-800">
           <div className="max-w-7xl mx-auto px-6 text-center">
             <h1 className="text-5xl font-bold sm:text-6xl text-gray-900">
@@ -80,23 +68,11 @@ const AboutPage = () => {
               Our Mission
             </h2>
             <p className="mt-4 text-lg sm:text-xl text-gray-600 max-w-2xl mx-auto">
-              At SnapServe, our mission is simple: to make it easier for
-              you to find trusted specialists when you need them most. We
-              connect you with reliable professionals quickly, so you can focus
-              on what matters.
+              At SnapServe, our mission is simple: to make it easier for you to
+              find trusted specialists when you need them most. We connect you
+              with reliable professionals quickly, so you can focus on what
+              matters.
             </p>
-          </div>
-          <div
-            aria-hidden="true"
-            className="absolute inset-x-0 top-1/3 transform-gpu -z-10 overflow-hidden blur-3xl"
-          >
-            <div
-              style={{
-                clipPath:
-                  "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-              }}
-              className="relative left-1/2 -translate-x-1/2 aspect-[1155/678] w-[36.125rem] sm:w-[72.1875rem] rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30"
-            />
           </div>
         </section>
 
@@ -109,7 +85,7 @@ const AboutPage = () => {
                 {values.map((value) => (
                   <div key={value.name} className="relative pl-16">
                     <dt className="text-2xl font-semibold text-gray-900">
-                      <div className="absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-600">
+                      <div className="absolute left-0 top-0 flex h-12 w-12 items-center justify-center rounded-lg bg-gray-800">
                         <value.icon
                           aria-hidden="true"
                           className="h-6 w-6 text-white"
@@ -156,25 +132,13 @@ const AboutPage = () => {
                   className="w-32 h-32 mx-auto rounded-full"
                 />
                 <h3 className="mt-4 text-xl font-semibold text-gray-800">
-                  Aarzoo 
+                  Aarzoo
                 </h3>
                 <p className="text-gray-600">Co-Founder</p>
               </div>
             </div>
           </div>
         </section>
-        <div
-          aria-hidden="true"
-          className="absolute inset-x-0 top-[calc(100%-13rem)] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[calc(100%-30rem)]"
-        >
-          <div
-            style={{
-              clipPath:
-                "polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
-            }}
-            className="relative left-[calc(50%+3rem)] aspect-[1155/678] w-[36.125rem] -translate-x-1/2 bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%+36rem)] sm:w-[72.1875rem]"
-          />
-        </div>
       </div>
       <Footer />
     </div>

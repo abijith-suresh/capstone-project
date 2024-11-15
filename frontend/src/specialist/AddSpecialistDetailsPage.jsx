@@ -14,9 +14,9 @@ const AddSpecialistDetailsPage = () => {
     price: "",
     services: [],
     address: "",
-    photos: [], 
+    photos: [],
   });
-  const [newService, setNewService] = useState(""); 
+  const [newService, setNewService] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
@@ -397,7 +397,7 @@ const AddSpecialistDetailsPage = () => {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-indigo-600 rounded-md shadow-sm hover:bg-indigo-500 focus:outline-none focus:ring-2 focus:ring-indigo-600 focus:ring-offset-2 disabled:bg-indigo-300"
+              className="w-auto px-6 py-2 text-sm font-semibold text-white bg-black rounded-md shadow-md hover:bg-gray-800 disabled:bg-gray-600 hover:scale-105 active:scale-95 transform transition-all"
             >
               {isSubmitting ? "Saving..." : "Save Details"}
             </button>
