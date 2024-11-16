@@ -16,6 +16,7 @@ public class BookingResponseDto {
     private SpecialistDto specialist;
     private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;
+    private String service;
     private String status;
-    private double price;
+    private String price;
 }

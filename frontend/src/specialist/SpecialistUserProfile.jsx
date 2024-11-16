@@ -24,30 +24,54 @@ export default function SpecialistUserProfile() {
   const [newAvailability, setNewAvailability] = useState([]);
   const [newPrice, setNewPrice] = useState("");
 
-  // Fetch specialist data (Mocked for now)
+  // Fetch specialist data
   useEffect(() => {
-    setSpecialist({
-      name: "Jane Doe",
-      email: "janedoe@example.com",
-      phoneNumber: "(987) 654-3210",
-      title: "Expert Consultant",
-      bio: "I specialize in providing top-notch tech solutions for businesses.",
-      price: "$100/hr",
-      rating: 4.9,
-      profileImageUrl: "https://via.placeholder.com/150",
-      services: ["Consulting", "Project Management", "Tech Strategy"],
-      availability: ["2024-11-16T09:00:00", "2024-11-17T13:00:00"],
-      photos: [
-        "https://via.placeholder.com/300",
-        "https://via.placeholder.com/300",
-      ],
-      experience: 8,
-      address: "123 Tech Lane, Cityville",
-    });
-    setEditableSpecialist({
-      ...specialist,
-    });
-    setLoading(false);
+    const userEmail = localStorage.getItem("userEmail");
+    const accountType = localStorage.getItem("accountType");
+
+    if (!userEmail) {
+      setError("No user email found in localStorage.");
+      setLoading(false);
+      return;
+    }
+
+    if (!accountType) {
+      setError("No account type found in localStorage.");
+      setLoading(false);
+      return;
+    }
+
+    if (accountType !== "specialist") {
+      setError("Invalid account type. Only 'specialist' is supported.");
+      setLoading(false);
+      return;
+    }
+
+    const endpoint = `http://localhost:9005/api/specialist/email/${userEmail}`;
+
+    setLoading(true); // Start loading before fetching data
+
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch specialist data.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          setSpecialist(data);
+          setEditableSpecialist(data);
+        } else {
+          setError("Specialist data not found.");
+        }
+        setLoading(false); // Stop loading once data is fetched
+      })
+      .catch((err) => {
+        console.error("Error fetching data:", err); // Log error if fetch fails
+        setError("Failed to fetch specialist data.");
+        setLoading(false); // Stop loading even if there's an error
+      });
   }, []);
 
   const handleUpdatePassword = () => {

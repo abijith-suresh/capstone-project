@@ -62,10 +62,10 @@ export const SpecialistDetailsPage = () => {
       <Navbar userType="customer" />
       <div className="max-w-7xl mx-auto">
         {/* Specialist Info Section */}
-        <div className="bg-white p-8">
+        <div className="bg-white p-8 shadow-sm rounded-xl">
           <div className="flex p-4 container">
             <div className="flex w-full flex-col gap-4 items-start">
-              <div className="flex gap-4 flex-col ">
+              <div className="flex gap-4 flex-col">
                 {/* Profile Image */}
                 <div
                   className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
@@ -75,10 +75,10 @@ export const SpecialistDetailsPage = () => {
                 ></div>
                 <div className="flex flex-col justify-center">
                   {/* Specialist Name and Rating */}
-                  <p className="text-[22px] font-bold leading-tight tracking-[-0.015em]">
+                  <p className="text-[22px] font-bold leading-tight tracking-[-0.015em] text-gray-800">
                     {specialist.name}
                   </p>
-                  <p className="text-base font-normal leading-normal">
+                  <p className="text-base font-normal leading-normal text-gray-600">
                     {specialist.title}, {specialist.experience} years experience
                   </p>
                 </div>
@@ -89,7 +89,7 @@ export const SpecialistDetailsPage = () => {
                   onClick={() =>
                     navigate(`/customer/create-booking/${specialist.id}`)
                   }
-                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-blue-600 text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 sm:flex-auto transition-all duration-300 hover:bg-blue-700 hover:scale-105 active:scale-95 shadow-lg"
+                  className="flex min-w-[84px] max-w-[480px] cursor-pointer items-center justify-center overflow-hidden rounded-xl h-10 px-4 bg-emerald-600 text-white text-sm font-bold leading-normal tracking-[0.015em] flex-1 sm:flex-auto transition-all duration-300 hover:bg-emerald-700 hover:scale-105 active:scale-95 shadow-lg"
                 >
                   <span className="truncate">Book</span>
                 </button>
@@ -99,16 +99,16 @@ export const SpecialistDetailsPage = () => {
 
           {/* Services Section */}
           <div className="mt-8">
-            <h2 className=" text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+            <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 text-gray-800">
               Services
             </h2>
             <div className="flex gap-3 p-3 flex-wrap pr-4">
               {specialist.services.map((service, index) => (
                 <div
                   key={index}
-                  className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-[#293038] pl-4 pr-4"
+                  className="flex h-8 shrink-0 items-center justify-center gap-x-2 rounded-xl bg-gray-200 pl-4 pr-4"
                 >
-                  <p className="text-white text-sm font-medium leading-normal">
+                  <p className="text-gray-800 text-sm font-medium leading-normal">
                     {service}
                   </p>
                 </div>
@@ -117,17 +117,17 @@ export const SpecialistDetailsPage = () => {
           </div>
 
           <div className="mt-8">
-            <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+            <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 text-gray-800">
               About me
             </h2>
-            <p className="text-base font-normal leading-normal pb-3 pt-1 px-4">
+            <p className="text-base font-normal leading-normal pb-3 pt-1 px-4 text-gray-700">
               {specialist.bio}
             </p>
           </div>
 
           {/* Photos Section */}
           <div className="mt-12">
-            <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5">
+            <h2 className="text-[22px] font-bold leading-tight tracking-[-0.015em] px-4 pb-3 pt-5 text-gray-800">
               Photos
             </h2>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
@@ -143,10 +143,10 @@ export const SpecialistDetailsPage = () => {
           </div>
 
           {/* Reviews Section */}
-          <div className="my-10 max-w-screen-md px-10 py-16">
+          <div className="my-10 max-w-screen-md px-10 py-16 bg-gray-50 rounded-xl shadow-sm">
             <div className="flex w-full flex-col">
               <div className="flex flex-col sm:flex-row">
-                <h1 className="max-w-sm text-3xl font-bold">
+                <h1 className="max-w-sm text-3xl font-bold text-gray-800">
                   What people think about {specialist.name}
                 </h1>
                 <div className="my-4 rounded-xl bg-white py-2 px-4 shadow sm:my-0 sm:ml-auto">
@@ -171,7 +171,7 @@ export const SpecialistDetailsPage = () => {
                   {ratingBreakdown.map(({ rating, percentage, count }) => (
                     <li
                       key={rating}
-                      className="flex items-center text-sm font-medium"
+                      className="flex items-center text-sm font-medium text-gray-700"
                     >
                       <span className="w-3">{rating}</span>
                       <span className="mr-4 text-yellow-400">
@@ -199,7 +199,10 @@ export const SpecialistDetailsPage = () => {
           </div>
           <ul className="max-w-3xl">
             {reviews.map((review) => (
-              <li key={review.id} className="py-8 text-left border px-4 m-2">
+              <li
+                key={review.id}
+                className="py-8 text-left border px-4 m-2 border-gray-200 rounded-lg"
+              >
                 <div className="flex items-start">
                   <img
                     className="block h-10 w-10 flex-shrink-0 rounded-full align-middle"
