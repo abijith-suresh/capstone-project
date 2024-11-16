@@ -29,18 +29,29 @@ const SignupPage = () => {
     }
 
     try {
-      // Assuming you're sending a POST request to save the new user
-      const response = await fetch("http://localhost:5000/users", {
+      const userData = {
+        email,
+        password,
+        roles: userType,
+      };
+
+      // Send a POST request to register the user
+      const response = await fetch("http://localhost:9000/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, password, role: userType }),
+        body: JSON.stringify(userData), // Send the user data as JSON
       });
 
+      // Check if the registration was successful
       if (!response.ok) {
-        throw new Error("Something went wrong while creating your account.");
+        const errorData = await response.json();
+        throw new Error(
+          errorData.message ||
+            "Something went wrong while creating your account."
+        );
       }
 
-      // After successful sign up, redirect to the respective profile completion page
+      // After successful registration, redirect to the profile completion page
       if (userType === "customer") {
         navigate("/customer/complete-profile");
       } else if (userType === "specialist") {
@@ -48,7 +59,9 @@ const SignupPage = () => {
       }
     } catch (error) {
       console.error("Error:", error);
-      setError("Something went wrong. Please try again later.");
+      setError(
+        error.message || "Something went wrong. Please try again later."
+      );
     }
   };
 
