@@ -29,9 +29,7 @@ export const BookingDetailsPage = () => {
   }, [id]);
 
   if (loading) {
-    return (
-      <LoadingSpinner />
-    );
+    return <LoadingSpinner />;
   }
 
   if (!booking) {
@@ -45,17 +43,19 @@ export const BookingDetailsPage = () => {
   return (
     <div className="min-h-screen py-12 px-6 sm:px-8 lg:px-16 mt-16">
       <Navbar userType="customer" />
+
       <div className="max-w-7xl mx-auto">
         {/* Booking Info Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
           <div className="flex flex-col sm:flex-row gap-8">
             {/* Booking Info */}
             <div className="flex-1">
-              <h3 className="text-2xl font-bold leading-tight tracking-[-0.015em] text-gray-800">
-                {booking.serviceType || "N/A"}
+              <h3 className="text-2xl font-semibold text-gray-800">
+                {booking.service}
               </h3>
               <p className="text-lg text-gray-600 mt-2">
-                Scheduled on {booking.bookingDate}
+                Scheduled on{" "}
+                {new Date(booking.appointmentTime).toLocaleString()}
               </p>
               <p className="text-sm text-gray-500 mt-1">
                 Status:{" "}
@@ -66,17 +66,12 @@ export const BookingDetailsPage = () => {
                       : "bg-gray-100 text-gray-700"
                   }`}
                 >
-                  {booking.status}
+                  {booking.status || "Pending"}
                 </span>
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Duration: {booking.bookingDuration || "No Duration"}
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 Total Price:{" "}
-                <span className="font-semibold">
-                  {booking.price}
-                </span>
+                <span className="font-semibold">{booking.price}</span>
               </p>
               <p className="text-sm text-gray-600 mt-2">
                 Service Notes:{" "}
@@ -89,74 +84,146 @@ export const BookingDetailsPage = () => {
         </div>
 
         {/* Specialist Info Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Specialist Details
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-6 items-start">
-            <div
-              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 sm:min-h-40 sm:w-40"
-              style={{
-                backgroundImage: `url(${booking.specialist.profileImage})`,
-              }}
-            ></div>
-            <div className="flex flex-col justify-center">
-              <p className="text-xl font-bold text-gray-900">
-                {booking.specialist.name}
-              </p>
-              <p className="text-sm text-gray-600">
-                {booking.specialist.title}
-              </p>
-              <p className="text-sm text-gray-500 mt-2">
-                {booking.specialist.bio}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Rating: {booking.specialist.rating} ⭐
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Price: {booking.specialist.price}
-              </p>
-            </div>
-          </div>
-        </div>
+        {localStorage.getItem("accountType") === "customer" && (
+          <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              Specialist Details
+            </h2>
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div
+                className={`bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 sm:min-h-40 sm:w-40 flex items-center justify-center ${
+                  booking.specialist.profileImage
+                    ? ""
+                    : "bg-gray-200 text-gray-900 font-semibold text-7xl"
+                }`}
+                style={{
+                  backgroundImage: booking.specialist.profileImage
+                    ? `url(${booking.specialist.profileImage})`
+                    : "none",
+                }}
+              >
+                {!booking.specialist.profileImage && (
+                  <span>{booking.specialist.name.charAt(0).toUpperCase()}</span>
+                )}
+              </div>
 
-        {/* Customer Info Section */}
-        <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
-          <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-            Customer Details
-          </h2>
-          <div className="flex flex-col sm:flex-row gap-6 items-start">
-            <div
-              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 sm:min-h-40 sm:w-40"
-              style={{
-                backgroundImage: `url(${booking.customer.profilePictureUrl})`,
-              }}
-            ></div>
-            <div className="flex flex-col justify-center">
-              <p className="text-xl font-bold text-gray-900 mt-2">
-                {booking.customer.name}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                {booking.customer.contact}
-              </p>
-              <p className="text-sm text-gray-600 mt-2">
-                {booking.customer.phone}
-              </p>
-            </div>
-          </div>
-        </div>
+              <div className="flex flex-col justify-center">
+                <p className="text-xl font-bold text-gray-900">
+                  {booking.specialist.name}
+                </p>
+                <p className="text-sm text-gray-600">
+                  {booking.specialist.title}
+                </p>
+                <p className="text-sm text-gray-500 mt-2">
+                  {booking.specialist.bio}
+                </p>
+                <p className="text-sm text-gray-600 mt-2 flex items-center">
+                  Rating:{" "}
+                  <span className="ml-1 font-semibold">
+                    {booking.specialist.rating}
+                  </span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 24 24"
+                    fill="#fcd34d"
+                    className="w-4 h-4 ml-1"
+                  >
+                    <path
+                      fillRule="evenodd"
+                      d="M10.788 3.21c.448-1.077 1.976-1.077 2.424 0l2.082 5.006 5.404.434c1.164.093 1.636 1.545.749 2.305l-4.117 3.527 1.257 5.273c.271 1.136-.964 2.033-1.96 1.425L12 18.354 7.373 21.18c-.996.608-2.231-.29-1.96-1.425l1.257-5.273-4.117-3.527c-.887-.76-.415-2.212.749-2.305l5.404-.434 2.082-5.005Z"
+                      clipRule="evenodd"
+                    />
+                  </svg>
+                </p>
 
-        {/* Cancel Booking Button */}
-        {booking.status === "Upcoming" && (
-          <div className="flex justify-center mt-8">
-            <button
-              onClick={() => alert("Booking canceled!")}
-              className="px-6 py-3 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300"
-            >
-              Cancel Booking
-            </button>
+                <p className="text-sm text-gray-600 mt-2">
+                  Price: {booking.specialist.price}
+                </p>
+              </div>
+            </div>
           </div>
         )}
+
+        {/* Customer Info Section */}
+        {localStorage.getItem("accountType") === "specialist" && (
+          <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              Customer Details
+            </h2>
+            <div className="flex flex-col sm:flex-row gap-6 items-start">
+              <div
+                className={`bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 sm:min-h-40 sm:w-40 flex items-center justify-center ${
+                  booking.customer.profilePictureUrl
+                    ? ""
+                    : "bg-gray-200 text-gray-900 font-semibold text-7xl"
+                }`}
+                style={{
+                  backgroundImage: booking.customer.profilePictureUrl
+                    ? `url(${booking.customer.profilePictureUrl})`
+                    : "none",
+                }}
+              >
+                {!booking.customer.profilePictureUrl && (
+                  <span>{booking.customer.name.charAt(0).toUpperCase()}</span>
+                )}
+              </div>
+
+              <div className="flex flex-col justify-center">
+                <p className="text-xl font-bold text-gray-900 mt-2">
+                  {booking.customer.name}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  {booking.customer.email}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  {booking.customer.phoneNumber || "Phone number not available"}
+                </p>
+                <p className="text-sm text-gray-600 mt-2">
+                  {booking.customer.address || "Address not available"}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Cancel Booking Button for Customer */}
+        {booking.status !== "Completed" &&
+          localStorage.getItem("accountType") === "customer" && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={() => alert("Booking canceled!")}
+                className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                Cancel Booking
+              </button>
+            </div>
+          )}
+
+        {/* Accept or Decline Booking Button for Specialist */}
+        {booking.status === "Pending" &&
+          localStorage.getItem("accountType") === "specialist" && (
+            <div className="flex justify-center gap-4 mt-8">
+              {/* Accept Button */}
+              <button
+                onClick={() => {
+                  alert("Booking accepted!");
+                }}
+                className="px-5 py-2 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                Accept Booking
+              </button>
+
+              {/* Decline Button */}
+              <button
+                onClick={() => {
+                  alert("Booking declined!");
+                }}
+                className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                Decline Booking
+              </button>
+            </div>
+          )}
       </div>
     </div>
   );

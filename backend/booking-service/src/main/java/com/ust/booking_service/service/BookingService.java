@@ -29,6 +29,7 @@ public class BookingService {
         booking.setBookingDate(bookingDto.getBookingDate());
         booking.setAppointmentTime(bookingDto.getAppointmentTime());
         booking.setPrice(bookingDto.getPrice());
+        booking.setService(bookingDto.getService());
 
         return booking;
     }
@@ -65,6 +66,7 @@ public class BookingService {
                                 specialistDto,
                                 booking.getBookingDate(),
                                 booking.getAppointmentTime(),
+                                booking.getService(),
                                 booking.getStatus(),
                                 booking.getPrice()
                         );
@@ -98,6 +100,7 @@ public class BookingService {
                                 specialistDto,
                                 booking.getBookingDate(),
                                 booking.getAppointmentTime(),
+                                booking.getService(),
                                 booking.getStatus(),
                                 booking.getPrice()
                         );
@@ -140,6 +143,7 @@ public class BookingService {
                                 specialistDto,
                                 booking.getBookingDate(),
                                 booking.getAppointmentTime(),
+                                booking.getService(),
                                 booking.getStatus(),
                                 booking.getPrice()
                         );
@@ -173,6 +177,7 @@ public class BookingService {
                                 specialistDto,
                                 booking.getBookingDate(),
                                 booking.getAppointmentTime(),
+                                booking.getService(),
                                 booking.getStatus(),
                                 booking.getPrice()
                         );

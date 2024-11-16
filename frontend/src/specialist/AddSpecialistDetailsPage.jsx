@@ -39,23 +39,23 @@ const AddSpecialistDetailsPage = () => {
   };
 
   const handleCustomServiceChange = (e) => {
-    setNewService(e.target.value); // Update new service input
+    setNewService(e.target.value);
   };
 
   const handleAddCustomService = () => {
     if (newService && !formData.services.includes(newService)) {
       setFormData((prev) => ({
         ...prev,
-        services: [...prev.services, newService], // Add new service to the list
+        services: [...prev.services, newService],
       }));
-      setNewService(""); // Clear the input field after adding the service
+      setNewService("");
     }
   };
 
   const handleRemoveService = (service) => {
     setFormData((prev) => ({
       ...prev,
-      services: prev.services.filter((s) => s !== service), // Remove service from the list
+      services: prev.services.filter((s) => s !== service),
     }));
   };
 
@@ -64,38 +64,38 @@ const AddSpecialistDetailsPage = () => {
     setIsSubmitting(true);
 
     // Prepare the form data for sending to the backend
-    const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phoneNumber", formData.phoneNumber);
-    formDataToSend.append("title", formData.title);
-    formDataToSend.append("bio", formData.bio);
-    formDataToSend.append("experience", formData.experience);
-    formDataToSend.append("price", formData.price);
-    formDataToSend.append("address", formData.address);
-    formDataToSend.append("profileImage", formData.profileImage);
-
-    // Add services
-    formData.services.forEach((service) => {
-      formDataToSend.append("services[]", service);
-    });
-
-    // Add photos if needed
-    formData.photos.forEach((photo) => {
-      formDataToSend.append("photos[]", photo);
-    });
+    const requestPayload = {
+      name: formData.name,
+      email: formData.email,
+      phoneNumber: formData.phoneNumber,
+      title: formData.title,
+      bio: formData.bio,
+      experience: formData.experience,
+      price: formData.price,
+      address: formData.address,
+      profileImage: formData.profileImage || null,
+      services: formData.services || [],
+      photos:
+        formData.photos && formData.photos.length > 0 ? formData.photos : null,
+    };
 
     try {
-      const response = await fetch("http://localhost:5000/specialists", {
+      const response = await fetch("http://localhost:9005/api/specialist", {
         method: "POST",
-        body: formDataToSend, // Using FormData for file uploads
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestPayload),
       });
 
       if (!response.ok) {
+        const errorText = await response.text();
+        console.log(errorText);
         throw new Error("Something went wrong while saving your details.");
       }
 
-      navigate("/specialist-dashboard"); // Redirect after successful submission
+      // Redirect after successful submission
+      navigate("/specialist/dashboard");
     } catch (error) {
       console.error("Error:", error);
       setIsSubmitting(false);
@@ -325,7 +325,7 @@ const AddSpecialistDetailsPage = () => {
               htmlFor="newService"
               className="block text-sm font-medium text-gray-900"
             >
-              Add a Custom Service
+              Add a Service
             </label>
             <div className="mt-2 flex">
               <input
@@ -334,13 +334,13 @@ const AddSpecialistDetailsPage = () => {
                 type="text"
                 value={newService}
                 onChange={handleCustomServiceChange}
-                className="block w-full rounded-md border-0 pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
+                className="block w-full rounded-md pl-3 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
                 placeholder="Enter a new service"
               />
               <button
                 type="button"
                 onClick={handleAddCustomService}
-                className="ml-2 text-indigo-600 hover:text-indigo-700"
+                className="ml-2 text-gray-600 hover:text-gray-700 border border-gray-300 rounded-md py-1 px-2 text-sm focus:outline-none focus:ring-2 focus:ring-gray-300"
               >
                 Add
               </button>
@@ -356,13 +356,13 @@ const AddSpecialistDetailsPage = () => {
               {formData.services.map((service, index) => (
                 <div
                   key={index}
-                  className="inline-flex items-center bg-gray-200 px-4 py-2 rounded-lg text-sm"
+                  className="inline-flex items-center border border-gray-300 bg-gray-50 px-3 py-1.5 rounded-md text-sm text-gray-700"
                 >
                   <span>{service}</span>
                   <button
                     type="button"
                     onClick={() => handleRemoveService(service)}
-                    className="ml-2 text-red-600"
+                    className="ml-2 text-gray-500 hover:text-gray-700 focus:outline-none"
                   >
                     &times;
                   </button>

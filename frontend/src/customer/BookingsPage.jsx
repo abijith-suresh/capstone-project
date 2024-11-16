@@ -10,14 +10,14 @@ export default function BookingsPage() {
     const fetchBookings = async () => {
       const id = localStorage.getItem("userId");
       try {
-        const response = await fetch(`http://localhost:9002/api/customer/${id}/bookings`);
+        const response = await fetch(
+          `http://localhost:9002/api/customer/${id}/bookings`
+        );
         const data = await response.json();
 
-        // Sort the bookings: First by status (Upcoming first), then by date (earliest first)
         const sortedBookings = data.sort((a, b) => {
           const statusOrder = a.status === "Upcoming" ? -1 : 1;
-          const dateOrder =
-            new Date(a.bookingDate) - new Date(b.bookingDate);
+          const dateOrder = new Date(a.bookingDate) - new Date(b.bookingDate);
 
           return statusOrder || dateOrder;
         });
@@ -32,7 +32,6 @@ export default function BookingsPage() {
   }, []);
 
   const handleCancelBooking = (bookingId) => {
-    // This is where you would call an API to cancel the booking, or update local state
     setBookings((prevBookings) =>
       prevBookings.filter((b) => b.id !== bookingId)
     );
@@ -50,24 +49,19 @@ export default function BookingsPage() {
           View and manage your bookings.
         </p>
 
-        <div className="mt-6 grid grid-cols-1 gap-8">
-
-          <div className="md:col-span-2">
-            <div className="space-y-6">
-
-              {bookings.length > 0 ? (
-                bookings.map((booking) => (
-                  <BookingCard
-                    key={booking.bookingId}
-                    booking={booking}
-                    onCancel={handleCancelBooking}
-                  />
-                ))
-              ) : (
-                <p className="text-gray-600">You have no bookings.</p>
-              )}
-            </div>
-          </div>
+        {/* Horizontal Card Layout */}
+        <div className="mt-6 flex flex-col">
+          {bookings.length > 0 ? (
+            bookings.map((booking) => (
+              <BookingCard
+                key={booking.bookingId}
+                booking={booking}
+                onCancel={handleCancelBooking}
+              />
+            ))
+          ) : (
+            <p className="text-gray-600">You have no bookings.</p>
+          )}
         </div>
       </div>
     </>

@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
 
-export default function UserProfile() {
+export default function CustomerUserProfile() {
   // State to manage selected tab and dropdown label
   const [activeTab, setActiveTab] = useState("profile");
   const [dropdownLabel, setDropdownLabel] = useState("Profile");
@@ -50,24 +50,52 @@ export default function UserProfile() {
     setIsDropdownOpen(false);
   };
 
-  // Fetch user data (Mocked for now)
   useEffect(() => {
-    setUser({
-      name: "John Doe", // Example Name
-      email: "johndoe@example.com", // Example Email
-      phone: "(123) 456-7890", // Example Phone
-      profilePicture: "https://via.placeholder.com/150", // Placeholder profile picture URL
-      accountType: "customer", // Example Account Type
-      about: "I'm a customer who loves tech and software development.", // Example About Text
-    });
-    setEditableUser({
-      name: "John Doe",
-      email: "johndoe@example.com",
-      phone: "(123) 456-7890",
-      about: "I'm a customer who loves tech and software development.",
-      accountType: "customer",
-    });
-    setLoading(false);
+    const userEmail = localStorage.getItem("userEmail");
+    const accountType = localStorage.getItem("accountType");
+
+    if (!userEmail) {
+      setError("No user email found in localStorage.");
+      setLoading(false);
+      return;
+    }
+
+    if (!accountType) {
+      setError("No account type found in localStorage.");
+      setLoading(false);
+      return;
+    }
+
+    // Only allow "customer" as a valid account type
+    if (accountType !== "customer") {
+      setError("Invalid account type. Only 'customer' is supported.");
+      setLoading(false);
+      return;
+    }
+
+    // Set the API endpoint for the customer role
+    const endpoint = `http://localhost:9002/api/customer/email/${userEmail}`;
+
+    fetch(endpoint)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Failed to fetch user data.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        if (data) {
+          setUser(data);
+          setEditableUser(data);
+        } else {
+          setError("User data not found.");
+        }
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError("Failed to fetch user data.");
+        setLoading(false);
+      });
   }, []);
 
   // Handle image upload for profile picture
@@ -116,7 +144,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <Navbar userType={user.accountType} />
+      <Navbar userType="customer" />
 
       <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8 mt-20">
         <h1 className="text-4xl font-semibold text-gray-900 text-center px-4">
@@ -289,20 +317,6 @@ export default function UserProfile() {
                         }
                         disabled={!isEditing}
                       />
-
-                      <label
-                        htmlFor="account-type"
-                        className="block text-sm font-medium text-gray-700 mt-4"
-                      >
-                        Account Type
-                      </label>
-                      <input
-                        type="text"
-                        id="account-type"
-                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
-                        value={editableUser.accountType}
-                        disabled
-                      />
                     </div>
                   </div>
 
@@ -352,31 +366,28 @@ export default function UserProfile() {
                       />
                     </div>
 
-                    {/* About Section (Optional based on accountType) */}
-                    {user.accountType !== "customer" && (
-                      <div>
-                        <label
-                          htmlFor="about"
-                          className="block text-sm font-medium text-gray-700"
-                        >
-                          About You
-                        </label>
-                        <textarea
-                          id="about"
-                          className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2"
-                          rows="4"
-                          value={editableUser.about || ""}
-                          onChange={(e) =>
-                            setEditableUser({
-                              ...editableUser,
-                              about: e.target.value,
-                            })
-                          }
-                          disabled={!isEditing}
-                          placeholder="Tell us a little about yourself..."
-                        />
-                      </div>
-                    )}
+                    {/* Address Section */}
+                    <div className="mt-6">
+                      <label
+                        htmlFor="bio"
+                        className="block text-sm font-medium text-gray-700"
+                      >
+                        Address
+                      </label>
+                      <textarea
+                        id="bio"
+                        className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
+                        value={editableUser.address}
+                        onChange={(e) =>
+                          setEditableUser({
+                            ...editableUser,
+                            address: e.target.value,
+                          })
+                        }
+                        disabled={!isEditing}
+                      />
+                    </div>
+
                     {/* Edit Mode Toggle */}
                     {!isEditing ? (
                       <button
