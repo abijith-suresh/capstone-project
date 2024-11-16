@@ -79,7 +79,7 @@ const HomePage = () => {
 
           <div className="relative hidden lg:block lg:w-1/3 mr-16 -ml-12">
             <img
-              src="https://snapserve.s3.us-east-1.amazonaws.com/undraw_professor.svg"
+              src="src/images/home-img.svg"
               alt="Your Image Description"
               className="w-full h-auto object-cover"
             />

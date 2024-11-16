@@ -82,6 +82,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         } else if (requestUri.contains("/customer")) {
             return roles.contains("customer");
         }
+        else if (requestUri.contains("/admin")) {
+            return roles.contains("admin");
+        }
         return true;
     }
 }

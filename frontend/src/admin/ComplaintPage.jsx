@@ -40,7 +40,7 @@ export default function ComplaintPage() {
   return (
     <div>
       <Navbar />
-      <div className="bg-gradient-to-t from-[#F8FAFC] to-[#e8e8eb] py-12 sm:py-16 lg:py-24  transition-all duration-300 ease-in-out">
+      <div className="bg-gradient-to-t from-[#F8FAFC] to-[#E8E8EB] py-6 sm:py-8 lg:py-12 transition-all duration-300 ease-in-out">
         <div className="max-w-7xl mx-auto px-6 sm:px-8">
 
           {errorMessage && (

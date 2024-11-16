@@ -22,4 +22,5 @@ public class SpecialistDto {
     private List<String> services;
     private List<String> photos;
     private int experience;
+    private String status;
 }

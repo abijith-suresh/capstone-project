@@ -29,6 +29,7 @@ public class SpecialistService {
         specialist.setExperience(addSpecialistDto.getExperience());
         specialist.setEmail(addSpecialistDto.getEmail());
         specialist.setPhoneNumber(addSpecialistDto.getPhoneNumber());
+        specialist.setStatus(specialist.getStatus());
     }
 
 
@@ -46,6 +47,7 @@ public class SpecialistService {
         addSpecialistDto.setExperience(specialist.getExperience());
         addSpecialistDto.setPhoneNumber(specialist.getPhoneNumber());
         addSpecialistDto.setEmail(addSpecialistDto.getEmail());
+
         return addSpecialistDto;
     }
 
@@ -62,7 +64,8 @@ public class SpecialistService {
                 specialist.getProfileImage(),
                 specialist.getServices(),
                 specialist.getPhotos(),
-                specialist.getExperience()
+                specialist.getExperience(),
+                specialist.getStatus()
         );
     }
 
@@ -105,6 +108,22 @@ public class SpecialistService {
                 });
 
     }
+
+    public Flux<SpecialistDto> getSpecialistsByStatus(String status) {
+        return specialistRepo.findByStatus(status)
+                .map(this::convertToDto);
+    }
+
+    public Mono<Void> updateSpecialistStatus(ObjectId id, String status) {
+        return specialistRepo.findById(id)
+                .flatMap(specialist -> {
+                    specialist.setStatus(status);
+                    return specialistRepo.save(specialist);
+                })
+                .then();
+    }
+
+
 
 
 }

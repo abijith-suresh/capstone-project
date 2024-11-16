@@ -23,6 +23,10 @@ export default function Navbar() {
     } else if (tab === 'complaints') {
       navigate('/admin/complaints'); 
     }
+    else if (tab === 'log out') {
+      navigate('/admin/logout'); 
+    }
+   
   };
 
   return (
@@ -30,14 +34,14 @@ export default function Navbar() {
       {/* Logo and Title */}
       <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin')}>
         <img src={logo} alt="SnapServe Logo" className="h-8 w-8 drop-shadow-lg " />
-        <h1 className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#1F2937] to-[#10B981] shadow-md">
+        <h1 className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#1F2937] to-[#3a554b] shadow-md">
           Admin Dashboard
         </h1>
       </div>
 
       {/* Tabs */}
       <div className="flex gap-6 relative">
-        {['specialists', 'complaints'].map((tab) => (
+        {['specialists', 'complaints','log out'].map((tab) => (
           <button
             key={tab}
             onClick={() => handleTabClick(tab)}
@@ -53,7 +57,9 @@ export default function Navbar() {
               />
             )}
           </button>
+          
         ))}
+        
       </div>
     </nav>
   );
