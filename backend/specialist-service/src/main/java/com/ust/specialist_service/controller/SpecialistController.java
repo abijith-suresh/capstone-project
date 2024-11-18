@@ -116,27 +116,24 @@ public class SpecialistController {
                 .bodyToFlux(BookingDto.class);
     }
 
-    // Endpoint to filter specialists by status
     @GetMapping("/status")
     public Flux<SpecialistDto> getSpecialistsByStatus(@RequestParam(name = "status", required = false) String status) {
         if (status != null && !status.isEmpty()) {
+            // Normalize status input (trim spaces, convert to lowercase)
+            status = status.trim().toLowerCase();
+
+            // Validate the normalized status
             if (!isValidStatus(status)) {
                 return Flux.error(new IllegalArgumentException("Invalid status value. Allowed values: pending, approved, rejected"));
             }
 
             return specialistService.getSpecialistsByStatus(status);
         }
+        // Return all specialists if no status is provided
         return specialistService.getAllSpecialists();
     }
-
-    // Helper method to validate the status
     private boolean isValidStatus(String status) {
-        for (String validStatus : VALID_STATUSES) {
-            if (validStatus.equalsIgnoreCase(status)) {
-                return true;
-            }
-        }
-        return false;
+        return "pending".equalsIgnoreCase(status) || "approved".equalsIgnoreCase(status) || "rejected".equalsIgnoreCase(status);
     }
 
     @PatchMapping("/{id}/status")

@@ -6,6 +6,7 @@ export default function ContactUsPage() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    booking_id: "",
     message: "",
     attachment: "",
   });
@@ -38,6 +39,7 @@ export default function ContactUsPage() {
     const formPayload = {
       name: formData.name,
       email: formData.email,
+      booking_id: formData.booking_id,
       message: formData.message,
       attachment: formData.attachment,
     };
@@ -56,7 +58,7 @@ export default function ContactUsPage() {
 
       if (response.ok) {
         setSuccessMessage("Your message has been sent successfully!");
-        setFormData({ name: "", email: "", message: "", attachment: "" });
+        setFormData({ name: "", email: "", booking_id: "", message: "", attachment: "" });
       } else {
         setErrorMessage("There was an error submitting your message.");
       }
@@ -133,6 +135,28 @@ export default function ContactUsPage() {
                 </div>
               </div>
 
+              {/* Booking ID Field */}
+              <div>
+                <label
+                  htmlFor="booking_id"
+                  className="block text-sm font-medium text-gray-700"
+                >
+                  Enter Booking ID
+                </label>
+                <div className="mt-2">
+                  <input
+                    id="booking_id"
+                    name="booking_id"
+                    type="text"
+                    required
+                    value={formData.booking_id}
+                    onChange={handleChange}
+                    placeholder="Enter booking ID"
+                    className="block w-full rounded-md border-0 py-2 px-3 text-sm text-gray-700 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-gray-500 transition-all duration-300 ease-in-out focus:shadow-lg"
+                  />
+                </div>
+              </div>
+
               {/* Message Field */}
               <div>
                 <label
@@ -164,12 +188,12 @@ export default function ContactUsPage() {
                   Attachment (Optional)
                 </label>
                 <div className="mt-2 flex items-center">
-                  <button
-                    type="button"
-                    className="ml-2 text-sm font-medium text-teal-600 hover:text-teal-500 focus:outline-none hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
+                  <label
+                    htmlFor="attachment"
+                    className="cursor-pointer text-sm font-medium text-teal-600 hover:text-teal-500 focus:outline-none hover:scale-105 active:scale-95 transition-all duration-300 ease-in-out"
                   >
                     Attach a file
-                  </button>
+                  </label>
                   <input
                     id="attachment"
                     name="attachment"
@@ -177,6 +201,9 @@ export default function ContactUsPage() {
                     onChange={handleFileChange}
                     className="sr-only"
                   />
+                  {formData.attachment && (
+                    <span className="text-sm text-gray-500 ml-2">{formData.attachment.split(",")[0]}</span>
+                  )}
                 </div>
               </div>
             </div>
@@ -186,14 +213,7 @@ export default function ContactUsPage() {
               <button
                 type="reset"
                 className="text-sm font-semibold text-gray-700"
-                onClick={() =>
-                  setFormData({
-                    name: "",
-                    email: "",
-                    message: "",
-                    attachment: "",
-                  })
-                }
+                onClick={() => setFormData({ name: "", email: "", booking_id: "", message: "", attachment: "" })}
               >
                 Clear
               </button>

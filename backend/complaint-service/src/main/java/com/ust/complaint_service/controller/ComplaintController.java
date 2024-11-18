@@ -17,7 +17,7 @@ public class ComplaintController {
 
     // Endpoint to submit a complaint
     @PostMapping("/submit-complaint")
-    public Mono<Complaint> submitComplaint(@RequestBody  Complaint complaint) {
+    public Mono<ComplaintDto> submitComplaint(@RequestBody  Complaint complaint) {
         return complaintService.submitComplaint(complaint);
     }
 
@@ -26,5 +26,6 @@ public class ComplaintController {
     public Flux<ComplaintDto> getAllComplaints() {
         return complaintService.getAllComplaints();
     }
+
 }
 
