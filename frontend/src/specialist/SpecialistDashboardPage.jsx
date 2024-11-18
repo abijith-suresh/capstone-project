@@ -8,18 +8,17 @@ export default function SpecialistDashboardPage() {
 
   // Fetch bookings when the component is mounted
   useEffect(() => {
-    const loggedInSpecialistId = localStorage.getItem("specialistId");
-    setSpecialistId(loggedInSpecialistId);
+    setSpecialistId(localStorage.getItem("specialistId"));
 
     const fetchBookings = async () => {
       try {
-        const response = await fetch("http://localhost:5000/bookings");
+        const response = await fetch(`http://localhost:9005/api/specialist/${specialistId}/bookings`);
         const data = await response.json();
 
         // Filter bookings by specialist ID and status "Upcoming"
         const specialistBookings = data.filter(
           (booking) =>
-            booking.specialist.id === loggedInSpecialistId &&
+            booking.specialist.id === specialistId &&
             booking.status === "Upcoming"
         );
 
@@ -29,7 +28,7 @@ export default function SpecialistDashboardPage() {
       }
     };
 
-    if (loggedInSpecialistId) {
+    if (specialistId) {
       fetchBookings();
     }
   }, []); // Empty dependency array ensures it runs once on mount

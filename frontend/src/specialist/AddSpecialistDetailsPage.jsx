@@ -15,6 +15,7 @@ const AddSpecialistDetailsPage = () => {
     services: [],
     address: "",
     photos: [],
+    status: "",
   });
   const [newService, setNewService] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -77,10 +78,11 @@ const AddSpecialistDetailsPage = () => {
       services: formData.services || [],
       photos:
         formData.photos && formData.photos.length > 0 ? formData.photos : null,
+      status: "pending",
     };
 
     try {
-      const response = await fetch("http://localhost:9005/api/specialist", {
+      const response = await fetch("http://localhost:9005/api/specialists", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

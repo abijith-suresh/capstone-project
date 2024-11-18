@@ -19,7 +19,6 @@ export default function CustomerUserProfile() {
   const [newPassword, setNewPassword] = useState("");
 
   const handleUpdatePassword = () => {
-    // Validation for current password and new password
     if (!currentPassword || !newPassword) {
       alert("Please fill in both fields");
       return;
@@ -30,17 +29,43 @@ export default function CustomerUserProfile() {
       return;
     }
 
-    // Log the password update (In real implementation, call API here)
-    console.log("Updating password...");
-    console.log("Current Password:", currentPassword);
-    console.log("New Password:", newPassword);
+    const userEmail = localStorage.getItem("userEmail");
 
-    // Simulate successful password update
-    alert("Password updated successfully!");
+    if (!userEmail) {
+      alert("No user email found.");
+      return;
+    }
 
-    // Reset the password fields (Optional, if needed after update)
-    setCurrentPassword("");
-    setNewPassword("");
+    const updatePasswordPayload = {
+      email: userEmail,
+      oldPassword: currentPassword,
+      newPassword: newPassword,
+    };
+
+    fetch("http://localhost:9000/api/auth/update/password", {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(updatePasswordPayload),
+    })
+      .then((response) => {
+        if (!response.ok) {
+          return response.text().then((text) => {
+            throw new Error(text || "Failed to update password");
+          });
+        }
+        return response.text(); 
+      })
+      .then((data) => {
+        alert(data); 
+
+        setCurrentPassword("");
+        setNewPassword("");
+      })
+      .catch((error) => {
+        alert(`Error: ${error.message}`);
+      });
   };
 
   // Handle tab selection and update dropdown label

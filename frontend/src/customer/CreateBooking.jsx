@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; // To extract the 'id' from the URL
+import { useParams, useNavigate } from "react-router-dom"; 
 
 const CreateBooking = () => {
 

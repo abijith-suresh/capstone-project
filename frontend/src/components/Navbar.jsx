@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import logo from "../images/snapserve.svg";
 
 const Navbar = ({ userType }) => {
   const [scrollingDown, setScrollingDown] = useState(false);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isOpen, setIsOpen] = useState(false);
+
+  const location = useLocation(); // Use useLocation to get the current route
 
   const customerNavigation = [
     { name: "Dashboard", href: "/customer/dashboard" },
@@ -40,6 +42,9 @@ const Navbar = ({ userType }) => {
     };
   }, [lastScrollY]);
 
+  // Function to determine if a link is active based on the current location
+  const isActive = (href) => location.pathname === href;
+
   return (
     <nav
       className={`${
@@ -53,8 +58,8 @@ const Navbar = ({ userType }) => {
             to={`/${userType}/dashboard`}
             className="text-2xl font-bold flex items-center"
           >
-            <img src={logo} className="size-7"></img>
-            <span className="ml-2 text-2xl font-bold ">SnapServe</span>
+            <img src={logo} className="size-7" />
+            <span className="ml-2 text-2xl font-bold">SnapServe</span>
           </Link>
         </div>
 
@@ -66,7 +71,11 @@ const Navbar = ({ userType }) => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="text-sm font-medium text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200"
+                className={`text-sm font-medium text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200 ${
+                  isActive(item.href)
+                    ? "border-b-2 border-emerald-500" 
+                    : ""
+                }`}
               >
                 {item.name}
               </Link>
@@ -106,7 +115,11 @@ const Navbar = ({ userType }) => {
               <Link
                 key={item.name}
                 to={item.href}
-                className="block px-6 py-2 text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200"
+                className={`block px-6 py-2 text-gray-900 hover:scale-105 active:scale-95 transition-all duration-200 ${
+                  isActive(item.href)
+                    ? "border-b-2 border-emerald-500" 
+                    : ""
+                }`}
               >
                 {item.name}
               </Link>

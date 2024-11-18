@@ -16,14 +16,6 @@ const AddCustomerDetailsPage = () => {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const navigate = useNavigate();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
-
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -34,40 +26,53 @@ const AddCustomerDetailsPage = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-
+  
     // Prepare the form data for sending to the backend
-    const formDataToSend = new FormData();
-    formDataToSend.append("name", formData.name);
-    formDataToSend.append("email", formData.email);
-    formDataToSend.append("phone", formData.phone);
-    formDataToSend.append("gender", formData.gender);
-    formDataToSend.append("dob", formData.dob);
-    formDataToSend.append("address", formData.address);
-
-    // Add the profile image if it's provided
-    if (formData.profileImage) {
-      formDataToSend.append("profileImage", formData.profileImage);
-    }
-
+    const requestPayload = {
+      name: formData.name,
+      email: formData.email,
+      phone: formData.phone,
+      gender: formData.gender,
+      dob: formData.dob,
+      address: formData.address,
+      profileImage: formData.profileImage || null,
+    };
+  
     try {
-      const response = await fetch("http://localhost:5000/users", {
+      const response = await fetch("http://localhost:9002/api/customer", {
         method: "POST",
-        body: formDataToSend, // Using FormData for file uploads
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(requestPayload),
       });
-
+  
       if (!response.ok) {
         throw new Error("Something went wrong while saving your details.");
       }
 
-      navigate("/customer-dashboard"); // Redirect after successful submission
+      localStorage.setItem("userEmail", email);
+
+  
+      // Redirect after successful submission
+      navigate("/customer/dashboard");
     } catch (error) {
       console.error("Error:", error);
       setIsSubmitting(false);
     }
   };
+  
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">

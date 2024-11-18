@@ -3,6 +3,7 @@ import Header from "../components/Header";
 import { Link } from "react-router-dom";
 import { useEffect } from "react";
 import { scroller } from "react-scroll";
+import { motion } from "framer-motion";
 
 const HomePage = () => {
   useEffect(() => {
@@ -19,7 +20,12 @@ const HomePage = () => {
         <div className="flex flex-col items-center justify-between lg:flex-row">
           <div>
             <div className="lg:max-w-xl lg:pr-5">
-              <p className="flex text-sm uppercase text-gray-600">
+              <motion.p
+                className="flex text-sm uppercase text-gray-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 1 }}
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="mr-1 inline h-5 w-5"
@@ -33,19 +39,36 @@ const HomePage = () => {
                   />
                 </svg>
                 Finding Reliable Specialists Made Easy
-              </p>
-              <h2 className="mb-6 max-w-lg text-3xl font-medium leading-snug tracking-tight sm:text-5xl sm:leading-snug">
+              </motion.p>
+
+              <motion.h2
+                className="mb-6 max-w-lg text-3xl font-medium leading-snug tracking-tight sm:text-5xl sm:leading-snug"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.3, duration: 0.5 }}
+              >
                 Simplifying the way you find
                 <span className="my-1 inline-block px-4 font-bold text-emerald-500">
                   trusted specialists
                 </span>
-              </h2>
-              <p className="text-base text-gray-600">
+              </motion.h2>
+
+              <motion.p
+                className="text-base text-gray-600"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.5, duration: 0.5 }}
+              >
                 Easily find trusted, vetted professionals for home repairs,
                 cleaning, tutoring, and more—without the hassle.
-              </p>
+              </motion.p>
             </div>
-            <div className="mt-10 flex flex-col items-center md:flex-row">
+            <motion.div
+              className="mt-10 flex flex-col items-center md:flex-row"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7, duration: 0.5 }}
+            >
               <Link
                 to="/signup"
                 className="mb-3 inline-flex h-12 w-full items-center justify-center rounded-lg bg-gray-800 px-6 font-medium text-white shadow-md transition-transform duration-200 hover:scale-105 active:scale-95 focus:outline-none md:mr-4 md:mb-0 md:w-auto"
@@ -55,7 +78,6 @@ const HomePage = () => {
 
               <Link
                 to="/about"
-                aria-label=""
                 className="group inline-flex items-center font-semibold text-gray-700"
               >
                 Learn More
@@ -74,14 +96,17 @@ const HomePage = () => {
                   />
                 </svg>
               </Link>
-            </div>
+            </motion.div>
           </div>
 
           <div className="relative hidden lg:block lg:w-1/3 mr-16 -ml-12">
-            <img
+            <motion.img
               src="src/images/home-img.svg"
               alt="Your Image Description"
               className="w-full h-auto object-cover"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.1, duration: 0.5 }}
             />
           </div>
         </div>
