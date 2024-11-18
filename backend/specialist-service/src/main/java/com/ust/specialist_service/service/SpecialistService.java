@@ -109,10 +109,6 @@ public class SpecialistService {
 
     }
 
-    public Flux<SpecialistDto> getSpecialistsByStatus(String status) {
-        return specialistRepo.findByStatus(status)
-                .map(this::convertToDto);
-    }
 
     public Mono<Void> updateSpecialistStatus(ObjectId id, String status) {
         return specialistRepo.findById(id)
@@ -122,8 +118,13 @@ public class SpecialistService {
                 })
                 .then();
     }
+    public Flux<SpecialistDto> getSpecialistsByStatus(String status) {
 
+        if (status == null || status.isEmpty()) {
+            return Flux.error(new IllegalArgumentException("Status cannot be null or empty"));
+        }
 
-
+        return specialistRepo.findByStatus(status);
+    }
 
 }

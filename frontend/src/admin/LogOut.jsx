@@ -31,7 +31,7 @@ const LogOut = () => {
         <button
           onClick={handleLogOut}
           disabled={isLoggingOut}
-          className="flex items-center justify-center gap-3 rounded-lg bg-gray-600 px-6 py-3 text-white font-semibold w-full transition-all duration-300 ease-in-out hover:bg-gray-700 disabled:bg-gray-600"
+          className="flex items-center justify-center gap-3 rounded-lg bg-white px-6 py-3 text-black font-semibold w-full transition-all duration-300 ease-in-out hover:bg-gray-700 disabled:bg-gray-600"
         >
           {/* Spinner while logging out */}
           <svg
