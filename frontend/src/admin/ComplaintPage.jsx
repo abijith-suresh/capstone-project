@@ -13,6 +13,7 @@ export default function ComplaintPage() {
       const response = await fetch('http://localhost:9007/api/complaints/all-complaints');
       if (response.ok) {
         const data = await response.json();
+        console.log('Fetched complaints:', data); // Check data structure in the console
         setComplaints(data);
       } else {
         setErrorMessage('Failed to fetch complaints');
@@ -73,7 +74,7 @@ export default function ComplaintPage() {
                         </div>
                         <div className="min-w-0 flex-1">
                           <p className="text-lg font-medium text-gray-800">{complaint.name}</p>
-                          <p className="text-sm text-gray-500">{complaint.email}</p>
+                          <p className="text-sm text-gray-500">Booking ID: {complaint.booking.bookingId || 'N/A'}</p>
                         </div>
                         <button
                           onClick={() => handleViewDetails(complaint)}
@@ -90,7 +91,7 @@ export default function ComplaintPage() {
           </div>
         </div>
 
-        {/* Modal */}
+        {/* Modal for Viewing Full Booking Details */}
         {selectedComplaint && (
           <div className="fixed inset-0 bg-gray-800 bg-opacity-40 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
             <div className="bg-[#F8FAFC] rounded-lg shadow-lg max-w-lg w-full p-6 animate-scale-up">
@@ -102,23 +103,15 @@ export default function ComplaintPage() {
               </div>
               <div className="mt-4">
                 <p className="text-lg font-medium text-gray-800">Name: {selectedComplaint.name}</p>
-                <p className="text-sm text-gray-500">Email: {selectedComplaint.email}</p>
-                <p className="mt-2 text-gray-700">{selectedComplaint.message}</p>
-                {selectedComplaint.attachments && (
-                  <div className="mt-2 text-sm text-[#348a6c]">
-                    <a href={selectedComplaint.attachments} target="_blank">
-                      View Attachment
-                    </a>
-                  </div>
-                )}
-              </div>
-              <div className="mt-6 text-right">
-                <button
-                  onClick={closeModal}
-                  className="bg-[#0f0f0f] text-white px-4 py-2 rounded-lg hover:bg-gray-600  hover:scale-105 active:scale-95 transition-all duration-200"
-                >
-                  Close
-                </button>
+                <p className="mt-2 font-semibold text-gray-700">Message: {selectedComplaint.message}</p>  
+                <p className="mt-2 font-semibold text-gray-700">Booking ID: {selectedComplaint.booking.bookingId}</p>
+                <p className="mt-2 text-gray-500">Email: {selectedComplaint.email}</p> 
+                <p className="mt-2 text-gray-500">Customer Name: {selectedComplaint.booking.customer.name}</p>
+                <p className="mt-2 text-gray-500">Specialist Name: {selectedComplaint.booking.specialist.name}</p>
+                <p className="mt-2 text-gray-500">Appointment Time: {selectedComplaint.booking.appointmentTime}</p>
+                <p className="mt-2 text-gray-500">Service: {selectedComplaint.booking.service}</p>
+                <p className="mt-2 text-gray-500">Price: {selectedComplaint.booking.price}</p>
+               
               </div>
             </div>
           </div>
