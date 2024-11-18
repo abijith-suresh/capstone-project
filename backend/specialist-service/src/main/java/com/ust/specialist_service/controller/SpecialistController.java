@@ -144,7 +144,7 @@ public class SpecialistController {
 
         return specialistService.updateSpecialistStatus(id, statusUpdateDto.getStatus())
                 .map(updated -> ResponseEntity.noContent().build())
-                .defaultIfEmpty(ResponseEntity.notFound().build());
+                ;
     }
 
     @DeleteMapping("/email/{email}")

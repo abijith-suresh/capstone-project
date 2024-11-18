@@ -17,4 +17,5 @@ public class BookingDto {
     private LocalDateTime appointmentTime;
     private String status;
     private double price;
+
 }

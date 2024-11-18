@@ -29,7 +29,7 @@ public class SpecialistService {
         specialist.setExperience(addSpecialistDto.getExperience());
         specialist.setEmail(addSpecialistDto.getEmail());
         specialist.setPhoneNumber(addSpecialistDto.getPhoneNumber());
-        specialist.setStatus(specialist.getStatus());
+        specialist.setStatus(addSpecialistDto.getStatus());
     }
 
 
@@ -46,7 +46,8 @@ public class SpecialistService {
         addSpecialistDto.setPhotos(specialist.getPhotos());
         addSpecialistDto.setExperience(specialist.getExperience());
         addSpecialistDto.setPhoneNumber(specialist.getPhoneNumber());
-        addSpecialistDto.setEmail(addSpecialistDto.getEmail());
+        addSpecialistDto.setEmail(specialist.getEmail());
+        addSpecialistDto.setStatus(specialist.getStatus());
 
         return addSpecialistDto;
     }
