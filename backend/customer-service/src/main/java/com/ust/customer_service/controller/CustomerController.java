@@ -114,7 +114,7 @@ public class CustomerController {
     public Flux<SpecialistDto> getAllSpecialists() {
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9005/api/specialist")
+                .uri("http://localhost:9005/api/specialists")
                 .retrieve()
                 .bodyToFlux(SpecialistDto.class)
                 .doOnError(error -> {
@@ -127,7 +127,7 @@ public class CustomerController {
         // Use WebClient to call the specialist service by ID
         return webClientBuilder.build()
                 .get()
-                .uri("http://localhost:9005/api/specialist/id/{id}", id) // Specialist service URL
+                .uri("http://localhost:9005/api/specialists/id/{id}", id) // Specialist service URL
                 .retrieve()
                 .bodyToMono(SpecialistDto.class)  // Convert response to SpecialistDto
                 .map(specialist -> ResponseEntity.ok(specialist))  // Return 200 if specialist is found

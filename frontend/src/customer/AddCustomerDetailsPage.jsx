@@ -6,7 +6,7 @@ const AddCustomerDetailsPage = () => {
   const [formData, setFormData] = useState({
     profileImage: null,
     name: "",
-    email: "",
+    email: `${localStorage.getItem("userEmail")}`,
     phone: "",
     gender: "male",
     dob: "",
@@ -37,7 +37,7 @@ const AddCustomerDetailsPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
-  
+
     // Prepare the form data for sending to the backend
     const requestPayload = {
       name: formData.name,
@@ -48,7 +48,7 @@ const AddCustomerDetailsPage = () => {
       address: formData.address,
       profileImage: formData.profileImage || null,
     };
-  
+
     try {
       const response = await fetch("http://localhost:9002/api/customer", {
         method: "POST",
@@ -57,14 +57,14 @@ const AddCustomerDetailsPage = () => {
         },
         body: JSON.stringify(requestPayload),
       });
-  
+
       if (!response.ok) {
         throw new Error("Something went wrong while saving your details.");
       }
 
       localStorage.setItem("userEmail", email);
+      localStorage.setItem("userId", response.json().id);
 
-  
       // Redirect after successful submission
       navigate("/customer/dashboard");
     } catch (error) {
@@ -72,7 +72,6 @@ const AddCustomerDetailsPage = () => {
       setIsSubmitting(false);
     }
   };
-  
 
   return (
     <div className="flex min-h-full flex-1 flex-col justify-center px-6 py-12 lg:px-8">
@@ -179,7 +178,7 @@ const AddCustomerDetailsPage = () => {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                required
+                disabled
                 className="block w-full rounded-md pl-3 border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-gray-300 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-600 transition-all duration-300 focus:shadow-lg sm:text-sm"
               />
             </div>

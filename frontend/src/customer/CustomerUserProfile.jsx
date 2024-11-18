@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
+import DeleteAccount from "../components/DeleteAccount";
+import PasswordSettings from "../components/PasswordSettings";
 
 export default function CustomerUserProfile() {
   // State to manage selected tab and dropdown label
@@ -15,58 +17,6 @@ export default function CustomerUserProfile() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
-  const [currentPassword, setCurrentPassword] = useState("");
-  const [newPassword, setNewPassword] = useState("");
-
-  const handleUpdatePassword = () => {
-    if (!currentPassword || !newPassword) {
-      alert("Please fill in both fields");
-      return;
-    }
-
-    if (currentPassword === newPassword) {
-      alert("New password cannot be the same as current password");
-      return;
-    }
-
-    const userEmail = localStorage.getItem("userEmail");
-
-    if (!userEmail) {
-      alert("No user email found.");
-      return;
-    }
-
-    const updatePasswordPayload = {
-      email: userEmail,
-      oldPassword: currentPassword,
-      newPassword: newPassword,
-    };
-
-    fetch("http://localhost:9000/api/auth/update/password", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatePasswordPayload),
-    })
-      .then((response) => {
-        if (!response.ok) {
-          return response.text().then((text) => {
-            throw new Error(text || "Failed to update password");
-          });
-        }
-        return response.text(); 
-      })
-      .then((data) => {
-        alert(data); 
-
-        setCurrentPassword("");
-        setNewPassword("");
-      })
-      .catch((error) => {
-        alert(`Error: ${error.message}`);
-      });
-  };
 
   // Handle tab selection and update dropdown label
   const handleTabSelection = (tab, label) => {
@@ -291,11 +241,23 @@ export default function CustomerUserProfile() {
                         onChange={handleImageUpload}
                         disabled={!isEditing}
                       />
-                      <img
-                        src={profileImage || user.profilePicture}
-                        alt="Profile Picture"
-                        className="h-20 w-20 rounded-full object-cover"
-                      />
+                      {/* Display profile image or fallback to first letter */}
+                      {profileImage || user.profilePicture ? (
+                        <img
+                          src={profileImage || user.profilePicture}
+                          alt="Profile Picture"
+                          className="h-20 w-20 rounded-full object-cover"
+                        />
+                      ) : (
+                        <div
+                          className="h-20 w-20 flex items-center justify-center bg-gray-300 text-gray-900 text-3xl rounded-full"
+                          aria-label="User Initial"
+                        >
+                          {user.name?.[0].toUpperCase()}{" "}
+                          {/* Show the first letter of the user's name */}
+                        </div>
+                      )}
+
                       <button
                         type="button"
                         onClick={() =>
@@ -444,75 +406,12 @@ export default function CustomerUserProfile() {
 
             {/* Password Settings Section */}
             {activeTab === "password" && (
-              <div className="bg-white p-6 rounded-3xl shadow-lg sm:p-8">
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Password Settings
-                </h2>
-                <hr className="mt-4 mb-8 border-gray-300" />
-                <div className="space-y-6">
-                  <div className="flex flex-col sm:flex-row sm:space-x-6">
-                    <div className="w-full">
-                      <label
-                        htmlFor="current-password"
-                        className="block text-sm font-semibold text-gray-900"
-                      >
-                        Current Password
-                      </label>
-                      <input
-                        type="password"
-                        id="current-password"
-                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-1 px-2 text-gray-900 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
-                        placeholder="**********"
-                        value={currentPassword}
-                        onChange={(e) => setCurrentPassword(e.target.value)}
-                      />
-                    </div>
-                    <div className="w-full">
-                      <label
-                        htmlFor="new-password"
-                        className="block text-sm font-semibold text-gray-900"
-                      >
-                        New Password
-                      </label>
-                      <input
-                        type="password"
-                        id="new-password"
-                        className="mt-2 w-full border-2 border-gray-300 rounded-lg p-1 px-2 text-gray-900 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
-                        placeholder="**********"
-                        value={newPassword}
-                        onChange={(e) => setNewPassword(e.target.value)}
-                      />
-                    </div>
-                  </div>
-                  <button
-                    onClick={handleUpdatePassword}
-                    className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
-                  >
-                    Save Password
-                  </button>
-                </div>
-              </div>
+              <PasswordSettings />
             )}
 
             {/* Delete Account Section */}
             {activeTab === "delete" && (
-              <div className="p-6 rounded-lg shadow-md sm:p-8">
-                <h2 className="text-2xl font-semibold text-red-600">
-                  Delete Account
-                </h2>
-                <hr className="mt-4 mb-6 border-gray-300" />
-                <p className="text-lg text-gray-800">
-                  Are you sure you want to delete your account? This action is
-                  irreversible.
-                </p>
-                <p className="mt-4 text-sm text-gray-600">
-                  Please make sure you have backed up all your data before
-                  proceeding with account deletion.
-                </p>
-                <button className="mt-4 bg-red-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out">
-                  Proceed with Deletion
-                </button>
-              </div>
+              <DeleteAccount />
             )}
           </div>
         </div>

@@ -17,7 +17,7 @@ const CreateBooking = () => {
     const fetchSpecialist = async () => {
       try {
         const response = await fetch(
-          `http://localhost:9005/api/specialist/id/${id}`
+          `http://localhost:9005/api/specialists/id/${id}`
         );
         if (response.ok) {
           const data = await response.json();

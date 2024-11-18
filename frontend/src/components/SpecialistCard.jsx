@@ -23,9 +23,22 @@ const SpecialistCard = ({ specialist }) => {
       <div className="relative">
         <img
           alt="Image of a specialist"
-          src={specialist.profileImage}
-          className="h-56 w-full object-cover rounded-xl"
+          src={specialist.profileImage || ""}
+          className={`h-56 w-full object-cover rounded-xl ${
+            !specialist.profileImage ? "hidden" : ""
+          }`}
         />
+
+        {/* Fallback if no profile image */}
+        {!specialist.profileImage && (
+          <div
+            className="h-56 w-full flex items-center justify-center bg-gray-300 text-gray-900 text-7xl rounded-xl"
+            aria-label="Specialist Initial"
+          >
+            {specialist.name?.[0].toUpperCase()}{" "}
+            {/* Show the first letter of the name */}
+          </div>
+        )}
 
         {/* Rating Overlay */}
         <div className="absolute bottom-3 left-3 inline-flex items-center rounded-lg bg-white p-2 shadow-md">

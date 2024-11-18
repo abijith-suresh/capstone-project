@@ -1,10 +1,5 @@
-<<<<<<< HEAD
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-=======
-import  { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
->>>>>>> c87c5eaf4bf556395c5ac68e788e7a8c6cf56074
 import logo from "../images/snapserve.svg";
 
 const Navbar = ({ userType }) => {
