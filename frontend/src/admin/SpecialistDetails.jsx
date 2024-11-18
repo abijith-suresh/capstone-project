@@ -1,4 +1,7 @@
 import { useState, useEffect } from 'react';
+import { toast} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, User, Mail, Phone, Calendar, FileText, Star } from 'lucide-react';
 
@@ -10,7 +13,6 @@ export default function SpecialistDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  
   useEffect(() => {
     const fetchUserDetails = async () => {
       setLoading(true);
@@ -18,7 +20,7 @@ export default function SpecialistDetails() {
         const response = await fetch(`http://localhost:9005/api/specialists/id/${id}`);
         if (response.ok) {
           const data = await response.json();
-          setUser(data); 
+          setUser(data);
         } else {
           throw new Error('Failed to fetch user details');
         }
@@ -35,7 +37,7 @@ export default function SpecialistDetails() {
   // Handle status update (approve/reject)
   const handleStatusUpdate = async (newStatus) => {
     setIsProcessing(true);
-
+  
     try {
       const response = await fetch(`http://localhost:9005/api/specialists/${id}/status`, {
         method: 'PATCH',
@@ -43,26 +45,68 @@ export default function SpecialistDetails() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          status: newStatus, 
+          status: newStatus,
         }),
       });
-
-      if (response.ok) {
-        const data = await response.json();
-        alert(`Application ${newStatus} successfully`);
-        setUser(prevUser => ({
-          ...prevUser,
-          status: newStatus 
-        }));
-      } else {
-        throw new Error('Failed to update status');
+  
+      if (!response.ok) {
+        throw new Error(`Failed to update status: ${response.statusText}`);
       }
+  
+      const text = await response.text();
+      const data = text ? JSON.parse(text) : {};
+  
+      if (newStatus === 'approved') {
+        toast.success(`Application approved successfully`, { 
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#fff", 
+            color: "#4CAF50",          
+            borderRadius: "10px",   
+            padding: "16px",        
+            fontSize: "16px",      
+          },
+        });
+      } else if (newStatus === 'rejected') {
+        toast.success(`Application rejected successfully`, { 
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#fff", 
+            color: "#D32F2F",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          },
+        });
+      }
+
+      
+  
+      setUser(prevUser => ({
+        ...prevUser,
+        status: newStatus,
+      }));
+    } catch (error) {
+      toast.error(`Failed to update application status`, { 
+        position: "top-center",
+        duration: 3000,
+        style: {
+          background: "#D32F2F",  
+          color: "#fff",          
+          borderRadius: "10px",   
+          padding: "16px",         
+          fontSize: "16px",        
+        },
+      });
+      
     } finally {
-      alert(`Application ${newStatus} successfully`);
       setIsProcessing(false);
       navigate('/admin/dashboard');
     }
   };
+  
 
   // Show loading or error messages
   if (loading) {
@@ -104,7 +148,6 @@ export default function SpecialistDetails() {
           </div>
           <div className="p-6">
             <div className="grid gap-6">
-
               {/* Basic Information */}
               <div className="grid gap-4">
                 <h3 className="font-semibold text-zinc-800">Basic Information</h3>
@@ -171,8 +214,8 @@ export default function SpecialistDetails() {
               <div className="grid gap-4">
                 <h3 className="font-semibold text-zinc-800">Services</h3>
                 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
-                  {user.services?.map((service, index) => (
-                    <div key={index} className="p-4 bg-zinc-50 rounded-lg border border-zinc-200">
+                  {user.services?.map((service) => (
+                    <div key={service.id || service} className="p-4 bg-zinc-50 rounded-lg border border-zinc-200">
                       <p className="text-sm text-zinc-500">{service}</p>
                     </div>
                   )) || <p>No services available</p>}
@@ -186,14 +229,15 @@ export default function SpecialistDetails() {
                 <h3 className="font-semibold text-zinc-800">Photos</h3>
                 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                   {user.photos?.map((photo, index) => (
-                    <div key={index} className="border border-zinc-200 rounded-lg overflow-hidden">
-                      <img 
-                        src={photo} 
+                    <div key={`${photo}-${index}`} className="border border-zinc-200 rounded-lg overflow-hidden">
+                      <img
+                        src={photo}
                         alt={`photo-${index}`}
                         className="w-full h-48 object-cover"
                       />
                     </div>
                   )) || <p>No photos available</p>}
+
                 </div>
               </div>
 
@@ -214,6 +258,7 @@ export default function SpecialistDetails() {
                   <CheckCircle className="mr-2 h-4 w-4" />
                   Approve Application
                 </button>
+                
               </div>
             </div>
           </div>

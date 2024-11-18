@@ -7,7 +7,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class GlobalCorsConfig implements WebMvcConfigurer {
 
-    public void addCorsMappings(CorsRegistry registry) {
+    public void a43ddCorsMappings(CorsRegistry registry) {
         // Configure CORS for all endpoints
         registry.addMapping("/**")  // Allow CORS for all API endpoints
                 .allowedOrigins("*")  // Allow requests from all origins (you can restrict to specific domains)
