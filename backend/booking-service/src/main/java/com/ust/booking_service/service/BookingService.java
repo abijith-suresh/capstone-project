@@ -53,7 +53,7 @@ public class BookingService {
                     // Fetch Specialist details from Specialist Service
                     Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
                             .get()
-                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId().toString())
+                            .uri("http://localhost:9005/api/specialists/id/{id}", booking.getSpecialistId().toString())
                             .retrieve()
                             .bodyToMono(SpecialistDto.class);
 
@@ -87,7 +87,7 @@ public class BookingService {
                     // Fetch Specialist details from Specialist Service
                     Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
                             .get()
-                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId())  // Assuming specialist service is on port 9003
+                            .uri("http://localhost:9005/api/specialists/id/{id}", booking.getSpecialistId())  // Assuming specialist service is on port 9003
                             .retrieve()
                             .bodyToMono(SpecialistDto.class);
 
@@ -130,7 +130,7 @@ public class BookingService {
                     // Fetch Specialist details from Specialist Service
                     Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
                             .get()
-                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId().toString())
+                            .uri("http://localhost:9005/api/specialists/id/{id}", booking.getSpecialistId().toString())
                             .retrieve()
                             .bodyToMono(SpecialistDto.class);
 
@@ -164,7 +164,7 @@ public class BookingService {
                     // Fetch Specialist details from Specialist Service
                     Mono<SpecialistDto> specialistDtoMono = webClientBuilder.build()
                             .get()
-                            .uri("http://localhost:9005/api/specialist/id/{id}", booking.getSpecialistId().toString())
+                            .uri("http://localhost:9005/api/specialists/id/{id}", booking.getSpecialistId().toString())
                             .retrieve()
                             .bodyToMono(SpecialistDto.class);
 

@@ -1,5 +1,6 @@
 package com.ust.complaint_service.entity;
 
+import com.ust.complaint_service.dto.BookingDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,6 +20,7 @@ public class Complaint {
     private String name;
     private String email;
     private String message;
+    private String booking_id;
     private String attachments;
 
 }

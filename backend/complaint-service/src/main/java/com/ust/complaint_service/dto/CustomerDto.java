@@ -4,16 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-public class ComplaintDto {
+@NoArgsConstructor
+public class CustomerDto {
     private String id;
     private String name;
     private String email;
-    private String message;
-    private BookingDto booking;
-    private String attachments;
-
+    private String phoneNumber;
+    private String gender;
+    private LocalDate dob;
+    private String address;
+    private String profilePictureUrl;
 }
