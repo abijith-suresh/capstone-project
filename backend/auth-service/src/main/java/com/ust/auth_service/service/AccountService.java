@@ -115,5 +115,15 @@ public class AccountService {
         account.setEmail(updateEmailDto.getNewEmail());
         accountRepo.save(account);
     }
+
+    public void deleteAccountByEmail(String email) {
+        Optional<Account> accountOptional = accountRepo.findByEmail(email);
+        if (accountOptional.isEmpty()) {
+            throw new RuntimeException("Account with the given email does not exist");
+        }
+
+        Account account = accountOptional.get();
+        accountRepo.delete(account);
+    }
 }
 

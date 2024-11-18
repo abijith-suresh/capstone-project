@@ -81,5 +81,10 @@ public class CustomerService {
         });
     }
 
+    public Mono<Void> deleteCustomerByEmail(String email) {
+        return customerRepository.findByEmail(email)
+                .flatMap(customer -> customerRepository.delete(customer));
+    }
+
 }
 

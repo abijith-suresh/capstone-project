@@ -76,4 +76,14 @@ public class AccountController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
     }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteAccount(@RequestParam String email) {
+        try {
+            accountService.deleteAccountByEmail(email);
+            return ResponseEntity.ok("Account deleted successfully");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+        }
+    }
 }

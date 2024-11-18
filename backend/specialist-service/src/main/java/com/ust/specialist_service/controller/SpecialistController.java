@@ -147,5 +147,11 @@ public class SpecialistController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 
+    @DeleteMapping("/email/{email}")
+    public Mono<ResponseEntity<Object>> deleteSpecialistByEmail(@PathVariable String email) {
+        return specialistService.deleteSpecialistByEmail(email)
+                .then(Mono.just(ResponseEntity.noContent().build())) // Returns Mono<ResponseEntity<Void>> when deletion is successful
+                .defaultIfEmpty(ResponseEntity.notFound().build()); // Returns Mono<ResponseEntity<Void>> with 404 when the specialist is not found
+    }
 
 }

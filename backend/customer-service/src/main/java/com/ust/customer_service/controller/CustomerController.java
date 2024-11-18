@@ -134,5 +134,12 @@ public class CustomerController {
                 .defaultIfEmpty(ResponseEntity.notFound().build());  // Return 404 if no specialist found
     }
 
+    @DeleteMapping("/email/{email}")
+    public Mono<ResponseEntity<Object>> deleteCustomerByEmail(@PathVariable String email) {
+        return customerService.deleteCustomerByEmail(email)
+                .then(Mono.just(ResponseEntity.noContent().build()))  // Returns 204 No Content on success
+                .defaultIfEmpty(ResponseEntity.notFound().build());  // Returns 404 if customer not found
+    }
+
 }
 

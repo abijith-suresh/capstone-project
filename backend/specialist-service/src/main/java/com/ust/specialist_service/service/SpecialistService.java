@@ -123,8 +123,12 @@ public class SpecialistService {
         if (status == null || status.isEmpty()) {
             return Flux.error(new IllegalArgumentException("Status cannot be null or empty"));
         }
-
         return specialistRepo.findByStatus(status);
+    }
+
+    public Mono<Void> deleteSpecialistByEmail(String email) {
+        return specialistRepo.findByEmail(email)
+                .flatMap(specialist -> specialistRepo.delete(specialist)); // Deletes the specialist if found
     }
 
 }
