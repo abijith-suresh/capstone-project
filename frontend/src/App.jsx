@@ -26,6 +26,7 @@ function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/terms-of-service" element={<TermsOfService />} />
           <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          
           <Route path="/admin/*" element={<AdminRoute />} /> 
           <Route path="/customer/*" element={<CustomerRoute />} /> 
           <Route path="/specialist/*" element={<SpecialistRoute />} /> 
