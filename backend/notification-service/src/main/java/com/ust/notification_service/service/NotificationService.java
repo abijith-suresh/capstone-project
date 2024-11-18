@@ -1,63 +1,43 @@
 package com.ust.notification_service.service;
 
-import com.ust.notification_service.model.NotificationEvent;
-import com.ust.notification_service.model.NotificationLog;
-import com.ust.notification_service.repo.NotificationRepository;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailException;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-import reactor.core.publisher.Mono;
-
-import java.time.LocalDateTime;
-import java.util.List;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 @Service
 public class NotificationService {
 
     @Autowired
-    private NotificationRepository notificationRepository;
+    private JavaMailSender javaMailSender;
 
-    public Mono<List<NotificationLog>> getAllNotificationLogs() {
-        return notificationRepository.findAll()
-                .collectList();
-    }
+    @Autowired
+    private TemplateEngine templateEngine;
 
-    public Mono<String> processNotificationEvent(NotificationEvent event) {
-        return switch (event.getType()) {
-            case "BOOKING_REQUEST" -> sendBookingRequestNotification(event);
-            case "BOOKING_STATUS" -> sendBookingStatusNotification(event);
-            default -> Mono.error(new IllegalArgumentException("Unknown event type: " + event.getType()));
-        };
-    }
+    // Method to send a simple email
+    public void sendEmail(String to, String subject, String name, String message) throws MessagingException {
+        Context context = new Context();
+        context.setVariable("name", name);
+        context.setVariable("message", message);
 
-    private Mono<String> sendBookingRequestNotification(NotificationEvent event) {
-        String subject = "New Booking Request!";
-        String message = "You have received a new booking request! Please check your dashboard for more details.";
+        // Process the template
+        String htmlContent = templateEngine.process("email-template", context);
 
-        return saveNotificationLog(event, subject, message);
-    }
+        // Create a MimeMessage and send HTML content
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+        helper.setTo(to);
+        helper.setSubject(subject);
+        helper.setText(htmlContent, true);
+        helper.setFrom("your-email@example.com");
 
-    private Mono<String> sendBookingStatusNotification(NotificationEvent event) {
-        String subject = "Booking Status Update";
-        String message = "Your booking request has been " + event.getStatus() + ".";
-
-        return saveNotificationLog(event, subject, message);
-    }
-
-    private Mono<String> saveNotificationLog(NotificationEvent event, String subject, String message) {
-        NotificationLog log = new NotificationLog(
-                event.getUserId(),
-                event.getType(),
-                subject,
-                message,
-                LocalDateTime.now()
-        );
-
-        return notificationRepository.save(log).then(Mono.just("Notification sent successfully"));
+        // Send the email
+        javaMailSender.send(mimeMessage);
     }
 }
 
