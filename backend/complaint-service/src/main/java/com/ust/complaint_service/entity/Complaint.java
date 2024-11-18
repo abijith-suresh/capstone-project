@@ -1,6 +1,5 @@
 package com.ust.complaint_service.entity;
 
-import com.ust.complaint_service.dto.BookingDto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

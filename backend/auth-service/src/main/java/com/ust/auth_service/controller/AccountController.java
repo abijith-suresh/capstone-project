@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import reactor.core.publisher.Mono;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,71 +18,71 @@ import java.util.Map;
 @CrossOrigin(origins = "*")
 public class AccountController {
 
-    @Autowired
-    private AccountService accountService;
+  @Autowired
+  private AccountService accountService;
 
-    @PostMapping("/register")
-    public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
-        try {
-            String response = accountService.register(registerDto);
-            return ResponseEntity.ok(response);
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+  @PostMapping("/register")
+  public ResponseEntity<String> register(@RequestBody RegisterDto registerDto) {
+    try {
+      String response = accountService.register(registerDto);
+      return ResponseEntity.ok(response);
+    } catch (RuntimeException e) {
+      return ResponseEntity.badRequest().body(e.getMessage());
     }
+  }
 
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
-        return ResponseEntity.ok(accountService.login(loginDto));
-    }
+  @PostMapping("/login")
+  public ResponseEntity<String> login(@RequestBody LoginDto loginDto) {
+    return ResponseEntity.ok(accountService.login(loginDto));
+  }
 
-    @GetMapping("/validate/token")
-    public ResponseEntity<Boolean> validateToken(@RequestParam String token) {
-        return ResponseEntity.ok(accountService.verify(token));
-    }
+  @GetMapping("/validate/token")
+  public ResponseEntity<Boolean> validateToken(@RequestParam String token) {
+    return ResponseEntity.ok(accountService.verify(token));
+  }
 
-    @GetMapping("/extract/roles")
-    public ResponseEntity<Map<String, Object>> extractRolesFromToken(@RequestParam String token) {
-        try {
-            if (!accountService.verify(token)) {
-                throw new RuntimeException("Invalid or Expired Token");
-            }
-            String roles = accountService.getRolesFromToken(token);
-            Map<String, Object> response = new HashMap<>();
-            response.put("roles", roles);
-            return ResponseEntity.ok(response);
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", e.getMessage()));
-        }
+  @GetMapping("/extract/roles")
+  public ResponseEntity<Map<String, Object>> extractRolesFromToken(@RequestParam String token) {
+    try {
+      if (!accountService.verify(token)) {
+        throw new RuntimeException("Invalid or Expired Token");
+      }
+      String roles = accountService.getRolesFromToken(token);
+      Map<String, Object> response = new HashMap<>();
+      response.put("roles", roles);
+      return ResponseEntity.ok(response);
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of("error", e.getMessage()));
     }
+  }
 
-    @PutMapping("/update/password")
-    public ResponseEntity<String> updatePassword(@RequestBody UpdatePasswordDto updatePasswordDto) {
-        try {
-            accountService.updatePassword(updatePasswordDto);
-            return ResponseEntity.ok("Password updated successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+  @PutMapping("/update/password")
+  public ResponseEntity<String> updatePassword(@RequestBody UpdatePasswordDto updatePasswordDto) {
+    try {
+      accountService.updatePassword(updatePasswordDto);
+      return ResponseEntity.ok("Password updated successfully");
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+  }
 
-    @PutMapping("/update/email")
-    public ResponseEntity<String> updateEmail(@RequestBody UpdateEmailDto updateEmailDto) {
-        try {
-            accountService.updateEmail(updateEmailDto);
-            return ResponseEntity.ok("Email updated successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+  @PutMapping("/update/email")
+  public ResponseEntity<String> updateEmail(@RequestBody UpdateEmailDto updateEmailDto) {
+    try {
+      accountService.updateEmail(updateEmailDto);
+      return ResponseEntity.ok("Email updated successfully");
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+  }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteAccount(@RequestParam String email) {
-        try {
-            accountService.deleteAccountByEmail(email);
-            return ResponseEntity.ok("Account deleted successfully");
-        } catch (RuntimeException e) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
+  @DeleteMapping("/delete")
+  public ResponseEntity<String> deleteAccount(@RequestParam String email) {
+    try {
+      accountService.deleteAccountByEmail(email);
+      return ResponseEntity.ok("Account deleted successfully");
+    } catch (RuntimeException e) {
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+  }
 }

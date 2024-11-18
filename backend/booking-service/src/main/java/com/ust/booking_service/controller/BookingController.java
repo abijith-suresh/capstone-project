@@ -17,50 +17,51 @@ import reactor.core.publisher.Mono;
 @CrossOrigin(origins = "*")
 public class BookingController {
 
-    @Autowired
-    private BookingService bookingService;
+  @Autowired
+  private BookingService bookingService;
 
-    @PostMapping
-    public Mono<ResponseEntity<String>> createBooking(@RequestBody AddBookingDto booking) {
-        return bookingService.createBooking(booking)
-                .map(savedBooking -> ResponseEntity.status(HttpStatus.CREATED).body(savedBooking))
-                .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
-    }
+  @PostMapping
+  public Mono<ResponseEntity<String>> createBooking(@RequestBody AddBookingDto booking) {
+    return bookingService
+        .createBooking(booking)
+        .map(savedBooking -> ResponseEntity.status(HttpStatus.CREATED).body(savedBooking))
+        .defaultIfEmpty(ResponseEntity.status(HttpStatus.BAD_REQUEST).build());
+  }
 
-    @GetMapping
-    public Flux<BookingResponseDto> getAllBookings() {
-        return bookingService.getAllBookings();
-    }
+  @GetMapping
+  public Flux<BookingResponseDto> getAllBookings() {
+    return bookingService.getAllBookings();
+  }
 
-    @GetMapping("/{id}")
-    public Mono<ResponseEntity<BookingResponseDto>> getBookingById(@PathVariable String id) {
-        return bookingService.getBookingById(new ObjectId(id))
-                .map(booking -> ResponseEntity.ok(booking))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
+  @GetMapping("/{id}")
+  public Mono<ResponseEntity<BookingResponseDto>> getBookingById(@PathVariable String id) {
+    return bookingService
+        .getBookingById(new ObjectId(id))
+        .map(booking -> ResponseEntity.ok(booking))
+        .defaultIfEmpty(ResponseEntity.notFound().build());
+  }
 
-    @PutMapping("/{id}")
-    public Mono<ResponseEntity<Booking>> updateBooking(@PathVariable ObjectId id, @RequestBody Booking bookingDetails) {
-        return bookingService.updateBooking(id, bookingDetails)
-                .map(updatedBooking -> ResponseEntity.ok(updatedBooking))
-                .defaultIfEmpty(ResponseEntity.notFound().build());
-    }
+  @PutMapping("/{id}")
+  public Mono<ResponseEntity<Booking>> updateBooking(
+      @PathVariable ObjectId id, @RequestBody Booking bookingDetails) {
+    return bookingService
+        .updateBooking(id, bookingDetails)
+        .map(updatedBooking -> ResponseEntity.ok(updatedBooking))
+        .defaultIfEmpty(ResponseEntity.notFound().build());
+  }
 
-    @DeleteMapping("/{id}")
-    public Mono<ResponseEntity<Void>> deleteBooking(@PathVariable ObjectId id) {
-        return bookingService.deleteBooking(id)
-                .map(v -> ResponseEntity.noContent().build());
-    }
+  @DeleteMapping("/{id}")
+  public Mono<ResponseEntity<Void>> deleteBooking(@PathVariable ObjectId id) {
+    return bookingService.deleteBooking(id).map(v -> ResponseEntity.noContent().build());
+  }
 
-    @GetMapping("/customer/{customerId}")
-    public Flux<BookingResponseDto> getBookingsByCustomerId(@PathVariable String customerId) {
-        return bookingService.getBookingsByCustomerId(new ObjectId(customerId));
-    }
+  @GetMapping("/customer/{customerId}")
+  public Flux<BookingResponseDto> getBookingsByCustomerId(@PathVariable String customerId) {
+    return bookingService.getBookingsByCustomerId(new ObjectId(customerId));
+  }
 
-    // Endpoint to get all bookings by specialist ID
-    @GetMapping("/specialist/{specialistId}")
-    public Flux<BookingResponseDto> getBookingsBySpecialistId(@PathVariable String specialistId) {
-        return bookingService.getBookingsBySpecialistId(new ObjectId(specialistId));
-    }
+  @GetMapping("/specialist/{specialistId}")
+  public Flux<BookingResponseDto> getBookingsBySpecialistId(@PathVariable String specialistId) {
+    return bookingService.getBookingsBySpecialistId(new ObjectId(specialistId));
+  }
 }
-

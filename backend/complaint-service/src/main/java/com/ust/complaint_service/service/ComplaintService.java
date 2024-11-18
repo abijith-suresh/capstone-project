@@ -13,59 +13,56 @@ import reactor.core.publisher.Flux;
 @Service
 public class ComplaintService {
 
-    @Autowired
-    private ComplaintRepository complaintRepository;
+  @Autowired
+  private ComplaintRepository complaintRepository;
 
-    @Autowired
-    private WebClient.Builder webClientBuilder;
+  @Autowired
+  private WebClient.Builder webClientBuilder;
 
-    private static final String BOOKING_SERVICE_URL = "http://localhost:9001/api/booking/";
+  private static final String BOOKING_SERVICE_URL = "http://localhost:9001/api/booking/";
 
-    // Convert entity to DTO
-    private Mono<ComplaintDto> modelToDto(Complaint complaint) {
-        // Fetch the BookingDto by booking_id from the BookingService
-        return getBookingById(complaint.getBooking_id())
-                .map(bookingDto -> new ComplaintDto(
-                        complaint.getId().toHexString(),
-                        complaint.getName(),
-                        complaint.getEmail(),
-                        complaint.getMessage(),
-                        bookingDto,
-                        complaint.getAttachments()
-                ));
-    }
+  // Convert entity to DTO
+  private Mono<ComplaintDto> modelToDto(Complaint complaint) {
+    // Fetch the BookingDto by booking_id from the BookingService
+    return getBookingById(complaint.getBooking_id())
+        .map(bookingDto -> new ComplaintDto(
+            complaint.getId().toHexString(),
+            complaint.getName(),
+            complaint.getEmail(),
+            complaint.getMessage(),
+            bookingDto,
+            complaint.getAttachments()));
+  }
 
+  // Save a complaint (submit a new complaint)
+  public Mono<ComplaintDto> submitComplaint(Complaint complaint) {
+    return complaintRepository.save(complaint)
+        .flatMap(this::modelToDto)
+        .onErrorResume(e -> Mono.error(new RuntimeException("Error while submitting complaint", e)));
+  }
 
+  // Retrieve all complaints for admin dashboard
+  public Flux<ComplaintDto> getAllComplaints() {
+    return complaintRepository.findAll()
+        .flatMap(this::modelToDto)
+        .onErrorResume(e -> Flux.error(new RuntimeException("Error while retrieving complaints", e)));
+  }
 
-    // Save a complaint (submit a new complaint)
-    public Mono<ComplaintDto> submitComplaint(Complaint complaint) {
-        return complaintRepository.save(complaint)
-                .flatMap(this::modelToDto)
-                .onErrorResume(e -> Mono.error(new RuntimeException("Error while submitting complaint", e)));
-    }
+  public Mono<ComplaintDto> getComplaintById(String complaintId) {
+    return complaintRepository.findById(complaintId)
+        .flatMap(this::modelToDto)
+        .switchIfEmpty(Mono.error(new RuntimeException("Complaint not found")));
+  }
 
-    // Retrieve all complaints for admin dashboard
-    public Flux<ComplaintDto> getAllComplaints() {
-        return complaintRepository.findAll()
-                .flatMap(this::modelToDto)
-                .onErrorResume(e -> Flux.error(new RuntimeException("Error while retrieving complaints", e)));
-    }
-
-    public Mono<ComplaintDto> getComplaintById(String complaintId) {
-        return complaintRepository.findById(complaintId)
-                .flatMap(this::modelToDto)
-                .switchIfEmpty(Mono.error(new RuntimeException("Complaint not found")));
-    }
-
-    // Call BookingService to get BookingDto by bookingId
-    private Mono<BookingDto> getBookingById(String bookingId) {
-        // Make the HTTP request to BookingService to fetch the BookingDto by bookingId
-        return webClientBuilder.baseUrl(BOOKING_SERVICE_URL)
-                .build()
-                .get()
-                .uri(uriBuilder -> uriBuilder.path(bookingId).build())
-                .retrieve()
-                .bodyToMono(BookingDto.class)  // Deserialize the response body into BookingDto
-                .onErrorResume(e -> Mono.error(new RuntimeException("Error while retrieving booking", e)));
-    }
+  // Call BookingService to get BookingDto by bookingId
+  private Mono<BookingDto> getBookingById(String bookingId) {
+    // Make the HTTP request to BookingService to fetch the BookingDto by bookingId
+    return webClientBuilder.baseUrl(BOOKING_SERVICE_URL)
+        .build()
+        .get()
+        .uri(uriBuilder -> uriBuilder.path(bookingId).build())
+        .retrieve()
+        .bodyToMono(BookingDto.class) // Deserialize the response body into BookingDto
+        .onErrorResume(e -> Mono.error(new RuntimeException("Error while retrieving booking", e)));
+  }
 }
