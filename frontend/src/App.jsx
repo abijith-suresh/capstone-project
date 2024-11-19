@@ -11,10 +11,8 @@ import PrivacyPolicy from "./pages/PrivacyPolicy";
 import AdminRoute from "./routes/AdminRoute";
 import CustomerRoute from "./routes/CustomerRoute";
 import SpecialistRoute from "./routes/SpecialistRoute";
-import { ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function App() {
   return (
@@ -32,10 +30,9 @@ function App() {
           <Route path="/admin/*" element={<AdminRoute />} />
           <Route path="/customer/*" element={<CustomerRoute />} />
           <Route path="/specialist/*" element={<SpecialistRoute />} />
-
           <Route path="/*" element={<NotFoundPage />} />
         </Routes>
-        <ToastContainer/>
+        <ToastContainer />
       </BrowserRouter>
     </>
   );
