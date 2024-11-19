@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 
 const SignupPage = () => {
   const [email, setEmail] = useState("");
@@ -108,8 +109,38 @@ const SignupPage = () => {
     }
 
   };
+  const pageVariants = {
+    initial: {
+      opacity: 0,
+      y: 50,
+    },
+    animate: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.75,
+        ease: "easeOut",
+      },
+    },
+    exit: {
+      opacity: 0,
+      y:-50,
+      transition: {
+        duration: 0.5,
+        ease: "easeIn",
+      },
+    },
+  };
+
 
   return (
+    <motion.div
+      className="bg-white text-black"
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      variants={pageVariants}
+    >
     <div className="flex min-h-screen overflow-hidden">
       {/* Left Content Section (Form) */}
       <div className="flex-1 flex items-center justify-center px-6 py-8">
@@ -266,6 +297,7 @@ const SignupPage = () => {
         </p>
       </div>
     </div>
+    </motion.div>
   );
 };
 

@@ -10,9 +10,8 @@ const LogOut = () => {
         // Simulate clearing session data
         sessionStorage.clear();
         
-        // Redirect to the admin page after a slight delay
-        window.location.href = '/admin'; 
-      }, 2000); // Simulated delay
+        window.location.href = '/login'; 
+      }, 2000); 
 
       return () => clearTimeout(timer);
     }

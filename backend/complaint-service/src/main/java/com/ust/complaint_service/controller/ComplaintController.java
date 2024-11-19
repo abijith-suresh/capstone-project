@@ -24,6 +24,7 @@ public class ComplaintController {
   // Endpoint to get all complaints (for the admin dashboard)
   @GetMapping("/all-complaints")
   public Flux<ComplaintDto> getAllComplaints() {
+
     return complaintService.getAllComplaints();
   }
 

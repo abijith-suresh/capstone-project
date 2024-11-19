@@ -7,6 +7,8 @@ import CreateBooking from "../customer/CreateBooking";
 import AddCustomerDetailsPage from "../customer/AddCustomerDetailsPage";
 import BookingDetailsPage from "../pages/BookingDetailsPage";
 import CustomerUserProfile from "../customer/CustomerUserProfile";
+import LogOut from "../customer/LogOut";
+
 
 export default function CustomerRoute() {
   return (
@@ -18,7 +20,7 @@ export default function CustomerRoute() {
       <Route path="/bookings" element={<BookingsPage />} />
       <Route path="/booking/:id" element={<BookingDetailsPage />} />
       <Route path="/profile" element={<CustomerUserProfile />} />
-      <Route path="/logout" element={<HomePage />} />
+      <Route path="/logout" element={<LogOut/>} /> 
     </Routes>
   );
 }

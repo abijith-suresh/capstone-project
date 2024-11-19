@@ -97,7 +97,7 @@ export default function ComplaintPage() {
             <div className="bg-[#F8FAFC] rounded-lg shadow-lg max-w-lg w-full p-6 animate-scale-up">
               <div className="flex justify-between items-center">
                 <h3 className="text-2xl font-bold text-gray-800">Complaint Details</h3>
-                <button onClick={closeModal} className="text-gray-500 hover:text-gray-800">
+                <button onClick={closeModal} className="text-gray-800 hover:text-gray-800">
                   <span className="text-2xl">&times;</span>
                 </button>
               </div>

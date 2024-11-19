@@ -1,18 +1,38 @@
+
 import Footer from "../components/Footer";
 import Header from "../components/Header";
 import { Link } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { scroller } from "react-scroll";
 import { motion } from "framer-motion";
 
 const HomePage = () => {
+  const [imageIndex, setImageIndex] = useState(0);
+
+
+  const images = [
+    "src/images/home-img.svg",
+    "src/images/home-img-2.svg",
+    "src/images/home-img-3.svg",
+  ];
+
+
   useEffect(() => {
+    // Scroll to top on component mount
     scroller.scrollTo("top", {
       smooth: true,
       offset: 0,
       duration: 750,
     });
+
+    // Change the image every 2 seconds
+    const interval = setInterval(() => {
+      setImageIndex((prevIndex) => (prevIndex + 1) % images.length);
+    }, 4000); 
+
+    return () => clearInterval(interval); // Cleanup on unmount
   }, []);
+
   return (
     <div className="bg-white" id="top">
       <Header />
@@ -100,15 +120,23 @@ const HomePage = () => {
           </div>
 
           <div className="relative hidden lg:block lg:w-1/3 mr-16 -ml-12">
+            {/* Image Container with Animated Fade Transition */}
             <motion.img
-              src="src/images/home-img.svg"
-              alt="Your Image Description"
-              className="w-full h-auto object-cover"
+              key={imageIndex} 
+              src={images[imageIndex]}
+              alt="home page images"
+              className="w-full h-[300px] object-cover" 
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ delay: 1.1, duration: 0.5 }}
+              exit={{ opacity: 0 }} 
+              transition={{
+                opacity: { duration: 1.5 },  
+                delay: 1.5,                
+              }}
+             
             />
           </div>
+          
         </div>
       </div>
 

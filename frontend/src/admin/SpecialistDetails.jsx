@@ -62,7 +62,7 @@ export default function SpecialistDetails() {
           duration: 3000,
           style: {
             background: "#fff", 
-            color: "#4CAF50",          
+            color: "#000",          
             borderRadius: "10px",   
             padding: "16px",        
             fontSize: "16px",      

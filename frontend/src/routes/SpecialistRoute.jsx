@@ -4,6 +4,8 @@ import HomePage from "../pages/HomePage";
 import AppointmentsPage from "../specialist/AppointmentsPage";
 import AddSpecialistDetailsPage from "../specialist/AddSpecialistDetailsPage"
 import SpecialistUserProfile from "../specialist/SpecialistUserProfile";
+import LogOut from "../specialist/LogOut";
+
 
 
 export default function SpecialistRoute(){
@@ -14,7 +16,8 @@ export default function SpecialistRoute(){
           <Route path="/appointments" element={<AppointmentsPage />} />
           <Route path="/complete-profile" element={<AddSpecialistDetailsPage />} />
           <Route path="/profile" element={<SpecialistUserProfile/>} />
-          <Route path="/logout" element={<HomePage/>} />   
+          
+          <Route path="/logout" element={<LogOut/>} />  
         </Routes>
       
     );

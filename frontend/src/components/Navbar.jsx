@@ -13,14 +13,14 @@ const Navbar = ({ userType }) => {
     { name: "Dashboard", href: "/customer/dashboard" },
     { name: "Bookings", href: "/customer/bookings" },
     { name: "Profile", href: "/customer/profile" },
-    { name: "Sign Out", href: "/customer/logout" },
+    { name: "Log Out", href: "/customer/logout" },
   ];
 
   const specialistNavigation = [
     { name: "Dashboard", href: "/specialist/dashboard" },
     { name: "Appointments", href: "/specialist/appointments" },
     { name: "Profile", href: "/specialist/profile" },
-    { name: "Sign Out", href: "/specialist/logout" },
+    { name: "Log Out", href: "/specialist/logout" },
   ];
 
   const navigation =
