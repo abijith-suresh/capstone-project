@@ -1,12 +1,50 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
 
 export const BookingDetailsPage = () => {
-  const { id } = useParams(); // Get the booking ID from the URL
+  const navigate = useNavigate();
+
+  const { id } = useParams(); 
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
+
+  const [isCancelling, setIsCancelling] = useState(false);
+  const [cancelError, setCancelError] = useState(null);
+
+  const handleCancelBooking = async () => {
+    try {
+      setIsCancelling(true);
+      const response = await fetch(
+        `http://localhost:9001/api/booking/${booking.bookingId}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            ...booking, 
+            status: "Canceled", 
+          }),
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setBooking(data); // Update the booking state with the updated booking info
+        alert("Booking has been canceled successfully!");
+        navigate(`/${localStorage.getItem("accountType")}/booking`)
+      } else {
+        setCancelError("Failed to cancel the booking.");
+      }
+    } catch (error) {
+      console.error("Error canceling booking", error);
+      setCancelError("An error occurred while canceling the booking.");
+    } finally {
+      setIsCancelling(false);
+    }
+  };
 
   useEffect(() => {
     const fetchBooking = async () => {
@@ -73,12 +111,33 @@ export const BookingDetailsPage = () => {
                 Total Price:{" "}
                 <span className="font-semibold">{booking.price}</span>
               </p>
-              <p className="text-sm text-gray-600 mt-2">
-                Service Notes:{" "}
-                <span className="font-semibold">
-                  {booking.bookingNotes || "No Notes"}
-                </span>
-              </p>
+
+              {/* Customer Info (for specialists viewing the booking) */}
+              {localStorage.getItem("accountType") === "specialist" && (
+                <div className="mt-4">
+                  <h4 className="text-lg font-semibold text-gray-800">
+                    Customer Details
+                  </h4>
+                  <p className="text-sm text-gray-600">
+                    Name:{" "}
+                    <span className="font-semibold">
+                      {booking.customer.name}
+                    </span>
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Email:{" "}
+                    <span className="font-semibold">
+                      {booking.customer.email}
+                    </span>
+                  </p>
+                  <p className="text-sm text-gray-600">
+                    Phone:{" "}
+                    <span className="font-semibold">
+                      {booking.customer.phone}
+                    </span>
+                  </p>
+                </div>
+              )}
             </div>
           </div>
         </div>
@@ -117,10 +176,11 @@ export const BookingDetailsPage = () => {
                 <p className="text-sm text-gray-500 mt-2">
                   {booking.specialist.bio}
                 </p>
-                <p className="text-sm text-gray-600 mt-2 flex items-center">
+
+                <div className="text-sm text-gray-600 mt-2 flex items-center">
                   Rating:{" "}
                   <span className="ml-1 font-semibold">
-                    {booking.specialist.rating}
+                    {booking.specialist.rating || "No ratings yet"}
                   </span>
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
@@ -134,7 +194,7 @@ export const BookingDetailsPage = () => {
                       clipRule="evenodd"
                     />
                   </svg>
-                </p>
+                </div>
 
                 <p className="text-sm text-gray-600 mt-2">
                   Price: {booking.specialist.price}
@@ -176,7 +236,7 @@ export const BookingDetailsPage = () => {
                   {booking.customer.email}
                 </p>
                 <p className="text-sm text-gray-600 mt-2">
-                  {booking.customer.phoneNumber || "Phone number not available"}
+                  {booking.customer.phone || "Phone number not available"}
                 </p>
                 <p className="text-sm text-gray-600 mt-2">
                   {booking.customer.address || "Address not available"}
@@ -191,7 +251,7 @@ export const BookingDetailsPage = () => {
           localStorage.getItem("accountType") === "customer" && (
             <div className="flex justify-center mt-8">
               <button
-                onClick={() => alert("Booking canceled!")}
+                onClick={handleCancelBooking}
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 Cancel Booking

@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState } from "react";
 
 const AddressInput = ({ formData, setFormData }) => {
   const [suggestions, setSuggestions] = useState([]);

@@ -5,14 +5,17 @@ import BookingCard from "../components/BookingCard";
 export default function AppointmentsPage() {
   const [bookings, setBookings] = useState([]);
 
-  // Fetch bookings data from the API
+  // Fetch completed bookings data from the API
   useEffect(() => {
     const fetchBookings = async () => {
+      const id = localStorage.getItem("specialistId"); // Assuming specialist ID is stored in localStorage
       try {
-        const response = await fetch("http://localhost:5000/bookings");
+        const response = await fetch(
+          `http://localhost:9005/api/specialists/${id}/bookings`
+        );
         const data = await response.json();
 
-        // Filter bookings to only show "Completed" status
+        // Filter bookings to show only "Completed" status
         const completedBookings = data.filter(
           (booking) => booking.status === "Completed"
         );
@@ -47,28 +50,25 @@ export default function AppointmentsPage() {
         <h1 className="text-4xl font-semibold text-gray-900 text-center px-4">
           Your Completed Appointments
         </h1>
-        <p className="mt-1 text-sm text-gray-500 text-center px-4">
-          View and manage your completed Appointments.
+        <p className="mt-2 text-sm text-gray-500 text-center px-4">
+          View and manage your completed appointments.
         </p>
 
-        <div className="mt-6 grid grid-cols-1 gap-8">
-          <div className="md:col-span-2">
-            <div className="space-y-6">
-              {bookings.length > 0 ? (
-                bookings.map((booking) => (
-                  <BookingCard
-                    key={booking.id}
-                    booking={booking}
-                    onCancel={handleCancelBooking}
-                  />
-                ))
-              ) : (
-                <p className="text-gray-600">
-                  You have no completed appointments.
-                </p>
-              )}
-            </div>
-          </div>
+        {/* Horizontal Card Layout with similar structure to BookingsPage */}
+        <div className="mt-6 flex flex-col">
+          {bookings.length > 0 ? (
+            bookings.map((booking) => (
+              <BookingCard
+                key={booking.id}
+                booking={booking}
+                onCancel={handleCancelBooking}
+              />
+            ))
+          ) : (
+            <p className="text-gray-600 text-center">
+              You have no completed appointments.
+            </p>
+          )}
         </div>
       </div>
     </>

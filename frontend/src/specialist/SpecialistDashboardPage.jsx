@@ -19,7 +19,7 @@ export default function SpecialistDashboardPage() {
         const specialistBookings = data.filter(
           (booking) =>
             booking.specialist.id === specialistId &&
-            booking.status === "Upcoming"
+            booking.status === "Upcoming" || booking.status === "Pending"
         );
 
         setBookings(specialistBookings);

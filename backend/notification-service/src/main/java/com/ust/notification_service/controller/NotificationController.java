@@ -5,6 +5,8 @@ import jakarta.mail.MessagingException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/notifications")
 public class NotificationController {
@@ -13,12 +15,13 @@ public class NotificationController {
   private NotificationService notificationService;
 
   @PostMapping("/send")
-  public String sendEmail(
-      @RequestParam String to,
-      @RequestParam String subject,
-      @RequestParam String name,
-      @RequestParam String message) {
+  public String sendEmail(@RequestBody Map<String, String> emailPayload) {
     try {
+      String to = emailPayload.get("to");
+      String subject = emailPayload.get("subject");
+      String name = emailPayload.get("name");
+      String message = emailPayload.get("message");
+
       // Send email using the EmailService with Thymeleaf template
       notificationService.sendEmail(to, subject, name, message);
       return "Email sent successfully";
@@ -26,4 +29,5 @@ public class NotificationController {
       return "Failed to send email: " + e.getMessage();
     }
   }
+
 }

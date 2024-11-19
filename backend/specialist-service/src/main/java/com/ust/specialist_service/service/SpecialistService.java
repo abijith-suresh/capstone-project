@@ -30,6 +30,7 @@ public class SpecialistService {
     specialist.setEmail(addSpecialistDto.getEmail());
     specialist.setPhoneNumber(addSpecialistDto.getPhoneNumber());
     specialist.setStatus(addSpecialistDto.getStatus());
+    specialist.setAddress(addSpecialistDto.getAddress());
   }
 
   private AddSpecialistDto modelToDto(Specialist specialist) {
@@ -47,6 +48,7 @@ public class SpecialistService {
     addSpecialistDto.setPhoneNumber(specialist.getPhoneNumber());
     addSpecialistDto.setEmail(specialist.getEmail());
     addSpecialistDto.setStatus(specialist.getStatus());
+    addSpecialistDto.setAddress(specialist.getAddress());
 
     return addSpecialistDto;
   }
@@ -65,7 +67,8 @@ public class SpecialistService {
         specialist.getServices(),
         specialist.getPhotos(),
         specialist.getExperience(),
-        specialist.getStatus());
+            specialist.getAddress(),
+    specialist.getStatus());
   }
 
   public Mono<Specialist> createSpecialist(AddSpecialistDto addSpecialistDto) {

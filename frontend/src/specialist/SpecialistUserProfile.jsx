@@ -47,7 +47,7 @@ export default function SpecialistUserProfile() {
       return;
     }
 
-    const endpoint = `http://localhost:9005/api/specialist/email/${userEmail}`;
+    const endpoint = `http://localhost:9005/api/specialists/email/${userEmail}`;
 
     setLoading(true); // Start loading before fetching data
 
@@ -517,7 +517,7 @@ export default function SpecialistUserProfile() {
                         type="tel"
                         id="phone"
                         className="mt-1 block w-full border-2 border-gray-300 rounded-lg p-2 focus:ring-inset transition-all duration-300 ease-in-out focus:ring-gray-500 focus:shadow-lg"
-                        value={editableSpecialist.phone}
+                        value={editableSpecialist.phoneNumber}
                         onChange={(e) =>
                           setEditableSpecialist({
                             ...editableSpecialist,

@@ -12,9 +12,9 @@ import java.util.List;
 public class AddSpecialistDto {
 
     private String name;
-    private String title;
     private String email;
     private String phoneNumber;
+    private String title;
     private String bio;
     private String price;
     private double rating;
@@ -22,5 +22,6 @@ public class AddSpecialistDto {
     private List<String> services;
     private List<String> photos;
     private int experience;
+    private String address;
     private String status;
 }

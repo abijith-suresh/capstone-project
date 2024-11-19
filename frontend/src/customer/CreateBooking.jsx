@@ -54,7 +54,7 @@ const CreateBooking = () => {
       bookingDate: new Date().toISOString(),
       appointmentTime: `${selectedDate}T${selectedTime}:00`,
       service: selectedService,
-      status: "pending",
+      status: "Pending",
       price: specialist.price,
     };
 

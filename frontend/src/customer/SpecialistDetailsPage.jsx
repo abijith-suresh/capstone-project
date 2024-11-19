@@ -76,11 +76,20 @@ export const SpecialistDetailsPage = () => {
               <div className="flex gap-4 flex-col">
                 {/* Profile Image */}
                 <div
-                  className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32"
+                  className={`bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-32 w-32 flex items-center justify-center text-white text-5xl font-bold ${
+                    specialist.profileImage ? "" : "bg-gray-400"
+                  }`}
                   style={{
-                    backgroundImage: `url(${specialist.profileImage})`,
+                    backgroundImage: specialist.profileImage
+                      ? `url(${specialist.profileImage})`
+                      : "none",
                   }}
-                ></div>
+                >
+                  {!specialist.profileImage && specialist.name ? (
+                    <span>{specialist.name[0]}</span>
+                  ) : null}
+                </div>
+
                 <div className="flex flex-col justify-center">
                   {/* Specialist Name and Rating */}
                   <p className="text-[22px] font-bold leading-tight tracking-[-0.015em] text-gray-800">
@@ -139,14 +148,18 @@ export const SpecialistDetailsPage = () => {
               Photos
             </h2>
             <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-              {specialist.photos.map((photo, index) => (
-                <div key={index} className="flex flex-col gap-3">
-                  <div
-                    className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
-                    style={{ backgroundImage: `url(${photo})` }}
-                  ></div>
-                </div>
-              ))}
+              {specialist.photos && specialist.photos.length > 0 ? (
+                specialist.photos.map((photo, index) => (
+                  <div key={index} className="flex flex-col gap-3">
+                    <div
+                      className="w-full bg-center bg-no-repeat aspect-square bg-cover rounded-xl"
+                      style={{ backgroundImage: `url(${photo})` }}
+                    ></div>
+                  </div>
+                ))
+              ) : (
+                <p className="text-gray-600">No photos available</p>
+              )}
             </div>
           </div>
 
