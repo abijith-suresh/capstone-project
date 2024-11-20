@@ -62,7 +62,7 @@ const SpecialistCard = ({ specialist }) => {
           {specialist.name}
         </h3>
         <p className="text-sm text-gray-600">{specialist.title}</p>
-        <p className="mt-4 text-sm text-gray-600">{specialist.bio}</p>
+        <p className="mt-4 text-sm text-gray-600 line-clamp-3">{specialist.bio}</p>
 
         {/* Pricing and Action Button */}
         <div className="mt-4 flex justify-between items-center">

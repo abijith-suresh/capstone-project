@@ -11,11 +11,12 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class BookingDto {
     private String bookingId;
-    private CustomerDto customerDto;
-    private SpecialistDto specialistDto;
+    private CustomerDto customer;
+    private SpecialistDto specialist;
     private LocalDateTime bookingDate;
     private LocalDateTime appointmentTime;
+    private String service;
     private String status;
-    private double price;
+    private String price;
 
 }

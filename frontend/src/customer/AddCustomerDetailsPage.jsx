@@ -4,7 +4,6 @@ import logo from "../images/snapserve.svg";
 import { LoadScript } from "@react-google-maps/api";
 import AddressInput from "../components/AddressInput";
 
-// Declare libraries as a constant outside the component to avoid reinitialization
 const LIBRARIES = ["places"];
 
 const AddCustomerDetailsPage = () => {
@@ -22,7 +21,6 @@ const AddCustomerDetailsPage = () => {
   const navigate = useNavigate();
 
 
-  // Handle profile image file change
   const handleFileChange = (e) => {
     const file = e.target.files[0];
     if (file) {
@@ -33,7 +31,6 @@ const AddCustomerDetailsPage = () => {
     }
   };
 
-  // Handle input field changes
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({
@@ -42,12 +39,10 @@ const AddCustomerDetailsPage = () => {
     }));
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Prepare the form data for sending to the backend
     const requestPayload = {
       name: formData.name,
       email: formData.email,
@@ -72,10 +67,10 @@ const AddCustomerDetailsPage = () => {
       }
 
       const responseData = await response.json();
+      const userId = responseData.id;
       localStorage.setItem("userEmail", formData.email);
-      localStorage.setItem("userId", responseData.id);
+      localStorage.setItem("userId", userId);
 
-      // Redirect after successful submission
       navigate("/customer/dashboard");
     } catch (error) {
       console.error("Error:", error);

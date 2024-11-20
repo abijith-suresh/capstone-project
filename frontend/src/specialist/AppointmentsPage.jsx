@@ -8,7 +8,7 @@ export default function AppointmentsPage() {
   // Fetch completed bookings data from the API
   useEffect(() => {
     const fetchBookings = async () => {
-      const id = localStorage.getItem("specialistId"); // Assuming specialist ID is stored in localStorage
+      const id = localStorage.getItem("userId");
       try {
         const response = await fetch(
           `http://localhost:9005/api/specialists/${id}/bookings`

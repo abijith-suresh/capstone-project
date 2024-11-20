@@ -82,7 +82,7 @@ public class SpecialistController {
 
   // Endpoint to get a specialist by email
   @GetMapping("/email/{email}")
-  public Mono<ResponseEntity<Specialist>> getSpecialistByEmail(@PathVariable String email) {
+  public Mono<ResponseEntity<SpecialistDto>> getSpecialistByEmail(@PathVariable String email) {
     return specialistService.findByEmail(email)
         .map(specialist -> ResponseEntity.ok(specialist))
         .defaultIfEmpty(ResponseEntity.notFound().build());

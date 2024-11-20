@@ -59,7 +59,7 @@ public class SpecialistService {
 
   private SpecialistDto convertToDto(Specialist specialist) {
     return new SpecialistDto(
-        specialist.getId() != null ? specialist.getId().toString() : null,
+        specialist.getId().toString(),
         specialist.getName(),
         specialist.getEmail(),
         specialist.getPhoneNumber(),
@@ -105,9 +105,9 @@ public class SpecialistService {
     return specialistRepo.deleteById(id);
   }
 
-  public Mono<Specialist> findByEmail(String email) {
-
-    return specialistRepo.findByEmail(email);
+  public Mono<SpecialistDto> findByEmail(String email) {
+    return specialistRepo.findByEmail(email)
+            .map(this::convertToDto);
   }
 
   public Mono<Specialist> updateSpecialistByEmail(ObjectId id, EmailUpdateDto newEmail) {

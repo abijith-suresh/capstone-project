@@ -106,8 +106,8 @@ export const BookingDetailsPage = () => {
 
   return (
     <div className="min-h-screen py-12 px-6 sm:px-8 lg:px-16 mt-16">
-      <Navbar userType="customer" />
-
+      <Navbar userType={localStorage.getItem("accountType")} />
+      
       <div className="max-w-7xl mx-auto">
         {/* Booking Info Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg mb-8">

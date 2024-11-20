@@ -53,7 +53,7 @@ const LoginPage = () => {
       if (role === "customer") {
         userEndpoint = `http://localhost:9002/api/customer/email/${email}`;
       } else if (role === "specialist") {
-        userEndpoint = `http://localhost:9005/api/specialist/email/${email}`;
+        userEndpoint = `http://localhost:9005/api/specialists/email/${email}`;
       } else {
         throw new Error("Unknown user role.");
       }

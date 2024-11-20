@@ -8,21 +8,20 @@ export default function SpecialistDashboardPage() {
 
   // Fetch bookings when the component is mounted
   useEffect(() => {
-    setSpecialistId(localStorage.getItem("specialistId"));
+    setSpecialistId(localStorage.getItem("userId"));
 
     const fetchBookings = async () => {
       try {
-        const response = await fetch(`http://localhost:9005/api/specialist/${specialistId}/bookings`);
+        const response = await fetch(`http://localhost:9005/api/specialists/${specialistId}/bookings`);
         const data = await response.json();
 
         // Filter bookings by specialist ID and status "Upcoming"
-        const specialistBookings = data.filter(
-          (booking) =>
-            booking.specialist.id === specialistId &&
-            booking.status === "Upcoming" || booking.status === "Pending"
-        );
+        // const specialistBookings = data.filter(
+        //   (booking) =>
+        //     booking.status === "Upcoming" || booking.status === "Pending"
+        // );
 
-        setBookings(specialistBookings);
+        setBookings(data);
       } catch (error) {
         console.error("Error fetching bookings:", error);
       }
@@ -31,11 +30,10 @@ export default function SpecialistDashboardPage() {
     if (specialistId) {
       fetchBookings();
     }
-  }, []); // Empty dependency array ensures it runs once on mount
-
+  }, []); 
+  
   return (
     <div className="min-h-screen">
-      {/* Navbar */}
       <Navbar userType={localStorage.getItem("userRole")} />
 
       {/* Main Content */}
@@ -49,10 +47,10 @@ export default function SpecialistDashboardPage() {
           </div>
 
           {/* Booking Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1">
             {bookings.length > 0 ? (
               bookings.map((booking) => (
-                <BookingCard key={booking.id} booking={booking} />
+                <BookingCard key={booking.bookingId} booking={booking} />
               ))
             ) : (
               <p className="col-span-4 text-center text-lg text-gray-500">

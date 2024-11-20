@@ -33,6 +33,7 @@ public class BookingService {
         booking.setAppointmentTime(bookingDto.getAppointmentTime());
         booking.setPrice(bookingDto.getPrice());
         booking.setService(bookingDto.getService());
+        booking.setStatus(bookingDto.getStatus());
 
         return booking;
     }
