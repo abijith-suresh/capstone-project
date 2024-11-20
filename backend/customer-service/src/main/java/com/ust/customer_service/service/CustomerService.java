@@ -7,8 +7,11 @@ import com.ust.customer_service.repository.CustomerRepository;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
+
+import java.util.Map;
 
 
 @Service
@@ -16,6 +19,9 @@ public class CustomerService {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @Autowired
+    private WebClient.Builder webClientBuilder;
 
     private void dtoToModel(Customer customer, CustomerDto customerDto) {
         customer.setName(customerDto.getName());
@@ -54,7 +60,14 @@ public class CustomerService {
     public Mono<Customer> createCustomer(CustomerDto customerDto) {
         Customer customer = new Customer();
         dtoToModel(customer, customerDto);
-        return customerRepository.save(customer);
+
+        // Save customer first
+        return customerRepository.save(customer)
+                .flatMap(savedCustomer -> {
+                    // After saving, send registration success email
+                    return sendRegistrationSuccessEmail(savedCustomer.getEmail(), savedCustomer.getName())
+                            .then(Mono.just(savedCustomer)); // Send email and return the saved customer
+                });
     }
 
     public Mono<Customer> updateCustomer(ObjectId id, Customer customerDetails) {
@@ -84,5 +97,22 @@ public class CustomerService {
                 .flatMap(customer -> customerRepository.delete(customer));
     }
 
+    private Mono<Void> sendRegistrationSuccessEmail(String email, String name) {
+        return webClientBuilder.build()
+                .post()
+                .uri(uriBuilder -> uriBuilder
+                        .scheme("http")
+                        .host("localhost")
+                        .port(9008)
+                        .path("/api/notifications/send-registration-success")
+                        .queryParam("to", email)
+                        .queryParam("name", name)
+                        .build())
+                .retrieve()
+                .bodyToMono(Void.class)
+                .doOnError(error -> {
+                    System.out.println("Failed to send registration email: " + error.getMessage());
+                });
+    }
 }
 

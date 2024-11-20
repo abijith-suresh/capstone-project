@@ -66,7 +66,7 @@ public class BookingController {
   }
 
   @PutMapping("/{id}/status")
-  public Mono<ResponseEntity<Booking>> updateBookingStatus(
+  public Mono<ResponseEntity<Void>> updateBookingStatus(
           @PathVariable String id, @RequestParam String status) {
     return bookingService
             .updateBookingStatus(new ObjectId(id), status)

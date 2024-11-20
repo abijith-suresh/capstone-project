@@ -8,6 +8,7 @@ import com.ust.specialist_service.repo.SpecialistRepo;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -16,6 +17,9 @@ public class SpecialistService {
 
   @Autowired
   private SpecialistRepo specialistRepo;
+
+  @Autowired
+  private WebClient.Builder webClientBuilder;
 
   private void dtoToModel(Specialist specialist, AddSpecialistDto addSpecialistDto) {
     specialist.setName(addSpecialistDto.getName());
@@ -75,7 +79,11 @@ public class SpecialistService {
     Specialist specialist = new Specialist();
     dtoToModel(specialist, addSpecialistDto);
 
-    return specialistRepo.save(specialist);
+    return specialistRepo.save(specialist)
+            .flatMap(savedSpecialist -> {
+              return sendRegistrationSuccessEmail(savedSpecialist.getEmail(), savedSpecialist.getName())
+                      .then(Mono.just(savedSpecialist));
+            });
   }
 
   public Flux<SpecialistDto> getAllSpecialists() {
@@ -132,6 +140,24 @@ public class SpecialistService {
   public Mono<Void> deleteSpecialistByEmail(String email) {
     return specialistRepo.findByEmail(email)
         .flatMap(specialist -> specialistRepo.delete(specialist)); // Deletes the specialist if found
+  }
+
+  private Mono<Void> sendRegistrationSuccessEmail(String email, String name) {
+    return webClientBuilder.build()
+            .post()
+            .uri(uriBuilder -> uriBuilder
+                    .scheme("http")
+                    .host("localhost")
+                    .port(9008)
+                    .path("/api/notifications/send-registration-success")
+                    .queryParam("to", email)
+                    .queryParam("name", name)
+                    .build())
+            .retrieve()
+            .bodyToMono(Void.class)
+            .doOnError(error -> {
+              System.out.println("Failed to send registration email: " + error.getMessage());
+            });
   }
 
 }

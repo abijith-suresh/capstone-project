@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Booking Status Update</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6;">
+<h2>Hello, <span th:text="${name}">[Name]</span>!</h2>
+
+<p th:text="'Your booking status has been updated to: ' + ${status}"></p>
+
+<p th:if="${status == 'Completed'}">Your booking has been successfully completed. Thank you for choosing SnapServe!</p>
+<p th:if="${status == 'Cancelled'}">We're sorry, but your booking has been cancelled. If this was a mistake, please contact us.</p>
+<p th:if="${status == 'Approved'}">Good news! Your booking has been approved. We look forward to serving you soon.</p>
+
+<hr>
+
+<footer>
+    <p>Best Regards,<br> SnapServe Support</p>
+</footer>
+</body>
+</html>
