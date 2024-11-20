@@ -275,4 +275,12 @@ public class BookingService {
                   });
             });
   }
+
+    public Mono<Booking> updateBookingStatus(ObjectId id, String status) {
+        return bookingRepo.findById(id)
+                .flatMap(booking -> {
+                    booking.setStatus(status);  // Set the new status
+                    return bookingRepo.save(booking);  // Save the updated booking
+                });
+    }
 }

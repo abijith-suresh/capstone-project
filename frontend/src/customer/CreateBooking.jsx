@@ -1,8 +1,7 @@
 import { useState, useEffect } from "react";
-import { useParams, useNavigate } from "react-router-dom"; 
+import { useParams, useNavigate } from "react-router-dom";
 
 const CreateBooking = () => {
-
   const navigate = useNavigate();
   const { id } = useParams();
 
@@ -72,7 +71,6 @@ const CreateBooking = () => {
       if (response.ok) {
         alert("Booking created successfully:", response);
         navigate(`/customer/bookings`);
-        
       } else {
         console.error("Failed to create booking", response);
         alert("Something went wrong while creating the booking.");
@@ -103,11 +101,18 @@ const CreateBooking = () => {
         <div className="bg-white p-6 rounded-lg shadow-md mb-6">
           <div className="flex gap-4 items-center">
             <div
-              className="bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-24 w-24 sm:min-h-32 sm:w-32"
+              className="text-5xl bg-center bg-no-repeat aspect-square bg-cover rounded-full min-h-24 w-24 sm:min-h-32 sm:w-32 flex items-center justify-center bg-gray-400 text-gray-900 font-bold"
               style={{
-                backgroundImage: `url(${specialist.profileImage})`,
+                backgroundImage: specialist.profileImage
+                  ? `url(${specialist.profileImage})`
+                  : "none",
               }}
-            ></div>
+            >
+              {!specialist.profileImage && (
+                <span>{specialist.name.charAt(0).toUpperCase()}</span>
+              )}
+            </div>
+
             <div className="flex flex-col justify-center">
               <p className="text-lg font-semibold text-gray-800">
                 {specialist.name}
@@ -156,21 +161,6 @@ const CreateBooking = () => {
         <div className="mt-6">
           <p className="text-lg font-semibold text-gray-800">Select a Date</p>
           <div className="relative mt-4 w-48">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-2">
-              <svg
-                aria-hidden="true"
-                className="h-4 w-4 text-gray-500"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M6 2a1 1 0 00-1 1v1H4a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V6a2 2 0 00-2-2h-1V3a1 1 0 10-2 0v1H7V3a1 1 0 00-1-1zm0 5a1 1 0 000 2h8a1 1 0 100-2H6z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-            </div>
             <input
               type="date"
               className="datepicker-input block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-gray-800 outline-none ring-opacity-30 placeholder:text-gray-800 focus:ring focus:ring-gray-300 sm:text-sm"

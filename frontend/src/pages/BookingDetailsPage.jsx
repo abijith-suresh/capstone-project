@@ -6,7 +6,7 @@ import Navbar from "../components/Navbar";
 export const BookingDetailsPage = () => {
   const navigate = useNavigate();
 
-  const { id } = useParams(); 
+  const { id } = useParams();
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
 
@@ -17,16 +17,12 @@ export const BookingDetailsPage = () => {
     try {
       setIsCancelling(true);
       const response = await fetch(
-        `http://localhost:9001/api/booking/${booking.bookingId}`,
+        `http://localhost:9001/api/booking/${booking.bookingId}/status?status=Canceled`,
         {
           method: "PUT",
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({
-            ...booking, 
-            status: "Canceled", 
-          }),
         }
       );
 
@@ -34,7 +30,7 @@ export const BookingDetailsPage = () => {
         const data = await response.json();
         setBooking(data); // Update the booking state with the updated booking info
         alert("Booking has been canceled successfully!");
-        navigate(`/${localStorage.getItem("accountType")}/booking`)
+        navigate(`/${localStorage.getItem("accountType")}/bookings`);
       } else {
         setCancelError("Failed to cancel the booking.");
       }
@@ -43,6 +39,36 @@ export const BookingDetailsPage = () => {
       setCancelError("An error occurred while canceling the booking.");
     } finally {
       setIsCancelling(false);
+    }
+  };
+
+  const handleBookingResponse = async (action) => {
+    try {
+      const response = await fetch(
+        `http://localhost:9001/api/booking/${booking.bookingId}/status?status=${action === "accept" ? "Upcoming" : "Canceled"}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (response.ok) {
+        const data = await response.json();
+        setBooking(data); // Update the booking state with the updated booking info
+        alert(
+          `Booking has been ${
+            action === "accept" ? "accepted" : "declined"
+          } successfully!`
+        );
+        navigate(`/${localStorage.getItem("accountType")}/appointments`);
+      } else {
+        alert("Failed to update booking status.");
+      }
+    } catch (error) {
+      console.error(`Error ${action} booking`, error);
+      alert(`An error occurred while ${action} the booking.`);
     }
   };
 
@@ -111,33 +137,6 @@ export const BookingDetailsPage = () => {
                 Total Price:{" "}
                 <span className="font-semibold">{booking.price}</span>
               </p>
-
-              {/* Customer Info (for specialists viewing the booking) */}
-              {localStorage.getItem("accountType") === "specialist" && (
-                <div className="mt-4">
-                  <h4 className="text-lg font-semibold text-gray-800">
-                    Customer Details
-                  </h4>
-                  <p className="text-sm text-gray-600">
-                    Name:{" "}
-                    <span className="font-semibold">
-                      {booking.customer.name}
-                    </span>
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Email:{" "}
-                    <span className="font-semibold">
-                      {booking.customer.email}
-                    </span>
-                  </p>
-                  <p className="text-sm text-gray-600">
-                    Phone:{" "}
-                    <span className="font-semibold">
-                      {booking.customer.phone}
-                    </span>
-                  </p>
-                </div>
-              )}
             </div>
           </div>
         </div>
@@ -247,7 +246,7 @@ export const BookingDetailsPage = () => {
         )}
 
         {/* Cancel Booking Button for Customer */}
-        {booking.status !== "Completed" &&
+        {booking.status !== "Completed" && booking.status !== "Canceled" &&
           localStorage.getItem("accountType") === "customer" && (
             <div className="flex justify-center mt-8">
               <button
@@ -265,9 +264,7 @@ export const BookingDetailsPage = () => {
             <div className="flex justify-center gap-4 mt-8">
               {/* Accept Button */}
               <button
-                onClick={() => {
-                  alert("Booking accepted!");
-                }}
+                onClick={() => handleBookingResponse("accept")}
                 className="px-5 py-2 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 Accept Booking
@@ -275,9 +272,7 @@ export const BookingDetailsPage = () => {
 
               {/* Decline Button */}
               <button
-                onClick={() => {
-                  alert("Booking declined!");
-                }}
+                onClick={() => handleBookingResponse("decline")}
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 Decline Booking
