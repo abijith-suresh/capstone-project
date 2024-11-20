@@ -112,11 +112,11 @@ const SignupPage = () => {
   const pageVariants = {
     initial: {
       opacity: 0,
-      y: 50,
+      x: 0,
     },
     animate: {
       opacity: 1,
-      y: 0,
+      x: 0,
       transition: {
         duration: 0.75,
         ease: "easeOut",
@@ -124,7 +124,7 @@ const SignupPage = () => {
     },
     exit: {
       opacity: 0,
-      y:-50,
+      x: 50,
       transition: {
         duration: 0.5,
         ease: "easeIn",

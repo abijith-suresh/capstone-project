@@ -15,7 +15,7 @@ const ContactPage = () => {
           <p className="text-md text-[#1F2937] mt-2">
             For assistance, please reach out to our administrator:
           </p>
-          <p className="text-lg font-medium text-[#10B981] mt-2">admin@gmail.com</p>
+          <p className="text-lg font-medium text-[#10B981] mt-2">help.snapserve@gmail.com</p>
         </div>
       </div>
     </div>

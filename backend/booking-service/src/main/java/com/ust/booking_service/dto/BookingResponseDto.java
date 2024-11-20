@@ -10,6 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookingResponseDto {
+
     private String bookingId;
     private CustomerDto customer;
     private SpecialistDto specialist;

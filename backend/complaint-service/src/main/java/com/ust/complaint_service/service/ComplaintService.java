@@ -21,9 +21,9 @@ public class ComplaintService {
 
   private static final String BOOKING_SERVICE_URL = "http://localhost:9001/api/booking/";
 
-  // Convert entity to DTO
   private Mono<ComplaintDto> modelToDto(Complaint complaint) {
     // Fetch the BookingDto by booking_id from the BookingService
+
     return getBookingById(complaint.getBooking_id())
         .map(bookingDto -> new ComplaintDto(
             complaint.getId().toHexString(),

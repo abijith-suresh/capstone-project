@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import { toast} from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-
 import { useNavigate, useParams } from 'react-router-dom';
 import { ArrowLeft, CheckCircle, XCircle, User, Mail, Phone, Calendar, FileText, Star } from 'lucide-react';
 
