@@ -5,6 +5,7 @@ import com.ust.complaint_service.entity.Complaint;
 import com.ust.complaint_service.service.ComplaintService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -14,6 +15,9 @@ import reactor.core.publisher.Mono;
 public class ComplaintController {
   @Autowired
   private ComplaintService complaintService;
+
+  @Autowired
+  private WebClient.Builder webClientBuilder;
 
   // Endpoint to submit a complaint
   @PostMapping("/submit-complaint")

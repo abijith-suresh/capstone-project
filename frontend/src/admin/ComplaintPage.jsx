@@ -13,7 +13,7 @@ export default function ComplaintPage() {
       const response = await fetch('http://localhost:9007/api/complaints/all-complaints');
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched complaints:', data); // Check data structure in the console
+        console.log('Fetched complaints:', data); 
         setComplaints(data);
       } else {
         setErrorMessage('Failed to fetch complaints');

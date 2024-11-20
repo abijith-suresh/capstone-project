@@ -14,7 +14,7 @@ const AboutPage = () => {
     });
   }, []);
 
- 
+  // Animation variants for the page
   const pageVariants = {
     initial: {
       opacity: 0,

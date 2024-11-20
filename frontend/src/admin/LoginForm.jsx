@@ -112,7 +112,7 @@ function LoginForm() {
             type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2.5 border border-[#F8FAFC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1F2937] bg-[#F8FAFC] backdrop-blur-sm transition-all duration-300 text-[#1F2937] placeholder-gray-400 hover:shadow-lg focus:shadow-xl active:scale-95"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1F2937] bg-[#F8FAFC] backdrop-blur-sm transition-all duration-300 text-[#1F2937] placeholder-gray-400 hover:shadow-lg focus:shadow-xl active:scale-95"
             placeholder="admin@gmail.com"
             required
           />
@@ -136,7 +136,7 @@ function LoginForm() {
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            className="block w-full pl-10 pr-3 py-2.5 border border-[#F8FAFC] rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1F2937] bg-[#F8FAFC] backdrop-blur-sm transition-all duration-300 text-[#1F2937] placeholder-gray-400 hover:shadow-lg focus:shadow-xl active:scale-95"
+            className="block w-full pl-10 pr-3 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#1F2937] bg-[#F8FAFC] backdrop-blur-sm transition-all duration-300 text-[#1F2937] placeholder-gray-400 hover:shadow-lg focus:shadow-xl active:scale-95"
             placeholder="******"
             required
           />
