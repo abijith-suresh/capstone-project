@@ -59,7 +59,16 @@ export default function ContactUsPage() {
       );
 
       if (response.ok) {
-        toast.success("Your message has been sent successfully!");
+        toast.success("Your message has been sent successfully!",{
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937",
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          }});
         setFormData({ name: "", email: "", booking_id: "", message: "", attachment: "" });
       } else {
         setErrorMessage("There was an error submitting your message.");

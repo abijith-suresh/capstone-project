@@ -67,7 +67,8 @@ export default function SpecialistDetails() {
             fontSize: "16px",       
           }});
       } else if (newStatus === 'rejected') {
-        toast.success(`Application rejected successfully`,{
+        toast.success(`Application rejected successfully`,
+          {
           position: "top-center",
           duration: 3000,
           style: {

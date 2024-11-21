@@ -34,7 +34,7 @@ export default function Navbar() {
       {/* Logo and Title */}
       <div className="flex items-center gap-3 cursor-pointer" onClick={() => navigate('/admin')}>
         <img src={logo} alt="SnapServe Logo" className="h-8 w-8 drop-shadow-lg " />
-        <h1 className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#1F2937] to-[#3a554b] shadow-md">
+        <h1 className="text-2xl font-bold tracking-wide bg-clip-text text-transparent bg-gradient-to-r from-[#1F2937] to-[#396455] ">
           Admin Dashboard
         </h1>
       </div>
