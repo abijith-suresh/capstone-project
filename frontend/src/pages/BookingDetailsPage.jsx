@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
+import MapComponent from '../components/MapComponent'
 
 export const BookingDetailsPage = () => {
   const navigate = useNavigate();
@@ -85,12 +86,13 @@ export const BookingDetailsPage = () => {
       } catch (error) {
         console.error("Error fetching booking details:", error);
       } finally {
-        setLoading(false);
+        setLoading(false);  
       }
     };
-
+  
     fetchBooking();
   }, [id]);
+  
 
   if (loading) {
     return <LoadingSpinner />;
@@ -244,6 +246,8 @@ export const BookingDetailsPage = () => {
             </div>
           </div>
         )}
+
+        <MapComponent address={booking.customer.address}/>
 
         {/* Cancel Booking Button for Customer */}
         {booking.status !== "Completed" && booking.status !== "Canceled" &&

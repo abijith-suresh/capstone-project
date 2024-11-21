@@ -1,6 +1,8 @@
 import { useState, useEffect } from "react";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
+import PasswordSettings from "../components/PasswordSettings";
+import DeleteAccount from "../components/DeleteAccount";
 
 export default function SpecialistUserProfile() {
   // State to manage selected tab and dropdown label
@@ -21,7 +23,6 @@ export default function SpecialistUserProfile() {
 
   // State to handle edit actions
   const [newServices, setNewServices] = useState([]);
-  const [newAvailability, setNewAvailability] = useState([]);
   const [newPrice, setNewPrice] = useState("");
 
   // Fetch specialist data
@@ -160,14 +161,6 @@ export default function SpecialistUserProfile() {
     setNewServices("");
   };
 
-  const handleAddAvailability = () => {
-    setEditableSpecialist({
-      ...editableSpecialist,
-      availability: [...editableSpecialist.availability, newAvailability],
-    });
-    setNewAvailability("");
-  };
-
   const handleChangePrice = (event) => {
     setNewPrice(event.target.value);
   };
@@ -247,14 +240,6 @@ export default function SpecialistUserProfile() {
                 Services
               </li>
               <li
-                onClick={() =>
-                  handleTabSelection("availability", "Availability")
-                }
-                className="cursor-pointer px-3 py-2 text-sm text-slate-600"
-              >
-                Availability
-              </li>
-              <li
                 onClick={() => handleTabSelection("price", "Price")}
                 className="cursor-pointer px-3 py-2 text-sm text-slate-600"
               >
@@ -299,16 +284,6 @@ export default function SpecialistUserProfile() {
                 }`}
               >
                 Services
-              </li>
-              <li
-                onClick={() => setActiveTab("availability")}
-                className={`focus:outline-none focus:ring-2 focus:ring-gray-600 shadow-lg hover:shadow-xl cursor-pointer px-4 py-2 rounded-lg text-sm font-semibold text-gray-900 hover:scale-105 active:scale-95 transform transition-all duration-300 ${
-                  activeTab === "availability"
-                    ? "bg-gray-800 text-white shadow-xl scale-100"
-                    : "bg-white text-gray-600 shadow-md hover:bg-gray-100"
-                }`}
-              >
-                Availability
               </li>
               <li
                 onClick={() => setActiveTab("price")}
@@ -365,7 +340,7 @@ export default function SpecialistUserProfile() {
                         disabled={!isEditing}
                       />
                       <img
-                        src={profileImage || specialist.profileImageUrl}
+                        src={profileImage || specialist.profileImage}
                         alt="Profile Picture"
                         className="h-20 w-20 rounded-full object-cover"
                       />
@@ -609,77 +584,6 @@ export default function SpecialistUserProfile() {
                         className="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
                       >
                         Add Service
-                      </button>
-
-                      {/* Cancel Editing Button */}
-                      <button
-                        onClick={handleCancelEdit}
-                        className="mt-4 ml-4 bg-gray-700 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
-                      >
-                        Cancel
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </div>
-            )}
-
-            {/* Availability Section */}
-            {activeTab === "availability" && (
-              <div className="bg-white p-6 rounded-3xl shadow-lg sm:p-8">
-                <h2 className="text-2xl font-semibold text-gray-900">
-                  Availability
-                </h2>
-                <hr className="mt-4 mb-8 border-gray-300" />
-                <div className="space-y-6">
-                  {/* Edit Button */}
-                  {!isEditing ? (
-                    <div>
-                      {/* List of current availability */}
-                      <ul className="space-y-2">
-                        {specialist.availability.length > 0 ? (
-                          specialist.availability.map((time, idx) => (
-                            <li key={idx} className="text-gray-600">
-                              {new Date(time).toLocaleString()}
-                            </li>
-                          ))
-                        ) : (
-                          <p className="text-gray-600">
-                            No availability added yet.
-                          </p>
-                        )}
-                      </ul>
-
-                      {/* Edit Button */}
-                      <button
-                        onClick={() => setIsEditing(true)}
-                        className="mt-4 bg-gray-800 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
-                      >
-                        Edit Availability
-                      </button>
-                    </div>
-                  ) : (
-                    <div>
-                      {/* Instructions for deleting current availability */}
-                      <p className="text-sm text-gray-600 mb-4">
-                        Current availability will be deleted. Please add new
-                        time slots.
-                      </p>
-
-                      {/* Input for adding new availability */}
-                      <input
-                        type="datetime-local"
-                        value={newAvailability}
-                        onChange={(e) => setNewAvailability(e.target.value)}
-                        className="mt-2 border-2 border-gray-300 rounded-lg p-2 w-full"
-                      />
-
-                      {/* Add Availability Button */}
-                      <button
-                        onClick={handleAddAvailability}
-                        className="mt-4 bg-emerald-600 text-white px-6 py-2 rounded-lg cursor-pointer transition-all duration-300 hover:scale-105 active:scale-95 ease-in-out"
-                      >
-                        Add Availability
                       </button>
 
                       {/* Cancel Editing Button */}

@@ -3,7 +3,9 @@ import { Link } from "react-router-dom";
 export default function BookingCard({ booking, onCancel }) {
   return (
     <Link
-      to={`/customer/booking/${booking.bookingId}`}
+      to={`/${localStorage.getItem("accountType")}/booking/${
+        booking.bookingId
+      }`}
       className="bg-white p-6 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 ease-in-out transform cursor-pointer active:scale-95 border border-gray-200 hover:border-gray-500 w-full mb-6"
     >
       <div className="flex justify-between items-start">
@@ -21,10 +23,14 @@ export default function BookingCard({ booking, onCancel }) {
               className={`inline-block py-1 px-3 text-sm font-semibold rounded-full ${
                 booking.status === "Upcoming"
                   ? "bg-green-100 text-green-700"
+                  : booking.status === "Completed"
+                  ? "bg-blue-100 text-blue-700"
+                  : booking.status === "Canceled"
+                  ? "bg-red-100 text-red-700"
                   : "bg-gray-100 text-gray-700"
               }`}
             >
-              {booking.status || "Pending"}
+              {booking.status}
             </span>
           </div>
         </div>
@@ -38,18 +44,6 @@ export default function BookingCard({ booking, onCancel }) {
           <button className="mt-2 px-4 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-800 transition-all duration-300 ease-in-out active:scale-95">
             View Details
           </button>
-
-          {booking.status === "Upcoming" && (
-            <button
-              className="mt-2 px-4 py-2 text-sm font-semibold text-red-600 underline hover:text-red-700 transition-all duration-300 ease-in-out"
-              onClick={(e) => {
-                e.stopPropagation(); // Prevent the link from firing
-                onCancel(booking.bookingId);
-              }}
-            >
-              Cancel Booking
-            </button>
-          )}
         </div>
       </div>
     </Link>
