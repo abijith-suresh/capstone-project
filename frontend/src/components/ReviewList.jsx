@@ -1,4 +1,3 @@
-
 const ReviewList = ({ reviews }) => {
   return (
     <ul className="max-w-3xl">
@@ -9,11 +8,18 @@ const ReviewList = ({ reviews }) => {
             className="py-8 text-left border px-4 m-2 border-gray-200 rounded-lg"
           >
             <div className="flex items-start">
-              <img
-                className="block h-10 w-10 flex-shrink-0 rounded-full align-middle"
-                src={review.userImage || "/default-avatar.jpg"}
-                alt={review.author}
-              />
+             
+              {review.userImage ? (
+                <img
+                  className="block h-10 w-10 flex-shrink-0 rounded-full align-middle"
+                  src={review.userImage}
+                  alt={review.author}
+                />
+              ) : (
+                <div className="block h-10 w-10 flex-shrink-0 rounded-full bg-gray-300 text-black flex items-center justify-center text-xl font-semibold">
+                  {review.author.charAt(0)} 
+                </div>
+              )}
 
               <div className="ml-6">
                 <div className="flex items-center">

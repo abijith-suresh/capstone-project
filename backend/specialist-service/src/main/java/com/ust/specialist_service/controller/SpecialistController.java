@@ -143,10 +143,10 @@ public class SpecialistController {
   @PatchMapping("/{id}/status")
   public Mono<ResponseEntity<Object>> updateSpecialistStatus(@PathVariable("id") ObjectId id,
       @RequestBody StatusUpdateDto statusUpdateDto) {
+
     if (!isValidStatus(statusUpdateDto.getStatus())) {
       return Mono.just(ResponseEntity.badRequest().build());
     }
-
     return specialistService.updateSpecialistStatus(id, statusUpdateDto.getStatus())
         .map(updated -> ResponseEntity.noContent().build());
   }

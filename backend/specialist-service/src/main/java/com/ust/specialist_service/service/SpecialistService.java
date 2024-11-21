@@ -142,6 +142,7 @@ public class SpecialistService {
         .flatMap(specialist -> specialistRepo.delete(specialist)); // Deletes the specialist if found
   }
 
+
   private Mono<Void> sendRegistrationSuccessEmail(String email, String name) {
     return webClientBuilder.build()
             .post()
