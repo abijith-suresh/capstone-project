@@ -96,20 +96,20 @@ export default function ComplaintPage() {
   <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
     <div className="bg-white rounded-lg shadow-xl max-w-lg w-full p-8 transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
       <div className="flex justify-between items-center border-b pb-4">
-        <h3 className="text-3xl font-semibold text-gray-800">Complaint Details</h3>
+        <h3 className="text-2xl font-semibold text-gray-800">Complaint Details</h3>
         <button onClick={closeModal} className="text-gray-600 hover:text-gray-800 text-3xl">
           <span>&times;</span>
         </button>
       </div>
       
       <div className="mt-6 space-y-4">
-        <p className="text-lg text-gray-800 font-medium">Name: <span className="font-semibold">{selectedComplaint.name}</span></p>
+        <p className="text-lg text-gray-700 font-medium">Name: <span className="font-semibold">{selectedComplaint.name}</span></p>
 
         <p className="text-lg text-gray-700 font-medium">Booking ID: <span className="font-semibold">{selectedComplaint.booking.bookingId}</span></p>
 
         <div className="p-4 mt-4 border border-gray-300 rounded-lg bg-gray-50">
-          <p className="text-gray-700 text-lg font-serif">
-            <strong className="font-semibold">Message:</strong> {selectedComplaint.message}
+          <p className="text-gray-700 text-sm">
+            <strong >Message:</strong> {selectedComplaint.message}
           </p>
         </div>
 
@@ -118,7 +118,7 @@ export default function ComplaintPage() {
         <p className="text-gray-600 text-sm"><strong>Specialist Name:</strong> {selectedComplaint.booking.specialist.name}</p>
         <p className="text-gray-600 text-sm"><strong>Appointment Time:</strong> {selectedComplaint.booking.appointmentTime}</p>
         <p className="text-gray-600 text-sm"><strong>Service:</strong> {selectedComplaint.booking.service}</p>
-        <p className="text-gray-600 text-sm"><strong>Price:</strong> ${selectedComplaint.booking.price}</p>
+        <p className="text-gray-600 text-sm"><strong>Price:</strong> {selectedComplaint.booking.price}</p>
       </div>
     </div>
   </div>

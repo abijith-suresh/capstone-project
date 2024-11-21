@@ -56,29 +56,27 @@ export default function SpecialistDetails() {
       const data = text ? JSON.parse(text) : {};
   
       if (newStatus === 'approved') {
-        toast.success(`Application approved successfully`, { 
+        toast.success(`Application approved successfully`, {
           position: "top-center",
           duration: 3000,
           style: {
-            background: "#fff", 
-            color: "#000",          
-            borderRadius: "10px",   
-            padding: "16px",        
-            fontSize: "16px",      
-          },
-        });
-      } else if (newStatus === 'rejected') {
-        toast.success(`Application rejected successfully`, { 
-          position: "top-center",
-          duration: 3000,
-          style: {
-            background: "#fff", 
-            color: "#D32F2F",          
+            background: "#1F2937",
+            color: "#FFF",          
             borderRadius: "10px",  
             padding: "16px",        
             fontSize: "16px",       
-          },
-        });
+          }});
+      } else if (newStatus === 'rejected') {
+        toast.success(`Application rejected successfully`,{
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937",
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          }});
       }
 
       
@@ -126,7 +124,7 @@ export default function SpecialistDetails() {
 
   // Render the user details page
   return (
-    <div className="container mx-auto px-4 py-8 max-w-5xl bg-gray-100">
+    <div className="container mx-auto px-4 py-8 max-w-5xl bg-gray-300">
       {/* Back to Dashboard Button */}
       <button
         onClick={() => navigate('/admin/dashboard')}
@@ -214,8 +212,8 @@ export default function SpecialistDetails() {
                 <h3 className="font-semibold text-zinc-800">Services</h3>
                 <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
                   {user.services?.map((service) => (
-                    <div key={service.id || service} className="p-4 bg-zinc-50 rounded-lg border border-zinc-200">
-                      <p className="text-sm text-zinc-500">{service}</p>
+                    <div key={service.id || service} className="p-4 bg-zinc-50 rounded-lg border border-zinc-300">
+                      <p className="text-sm text-zinc-800">{service}</p>
                     </div>
                   )) || <p>No services available</p>}
                 </div>
@@ -244,7 +242,7 @@ export default function SpecialistDetails() {
                 <button
                   onClick={() => handleStatusUpdate('rejected')}
                   disabled={isProcessing}
-                  className="border border-red-200 text-red-600 hover:bg-red-50 hover:text-red-700 hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
+                  className="border border-red-400 text-red-600 hover:bg-red-50 hover:text-red-700 hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
                 >
                   <XCircle className="mr-2 h-4 w-4" />
                   Reject Application
@@ -252,7 +250,7 @@ export default function SpecialistDetails() {
                 <button
                   onClick={() => handleStatusUpdate('approved')}
                   disabled={isProcessing}
-                  className="border border-green-200 text-green-600 hover:bg-green-50 hover:text-green-700 hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
+                  className="border border-green-400 text-green-600 hover:bg-green-50 hover:text-green-700 hover:scale-105 active:scale-95 text-sm py-2 px-4 rounded-md flex items-center"
                 >
                   <CheckCircle className="mr-2 h-4 w-4" />
                   Approve Application

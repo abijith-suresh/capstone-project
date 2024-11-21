@@ -158,8 +158,8 @@ export default function Dashboard() {
                               : user.status === "rejected"
                               ? "bg-red-100 text-red-700"
                               : user.status === "pending"
-                              ? "bg-yellow-100 text-yellow-800"
-                              :"bg-yellow-100 text-yellow-800"
+                              ? "bg-yellow-100 text-yellow-600"
+                              :"bg-yellow-100 text-yellow-600"
                           }`}
                         >
                           {user.status

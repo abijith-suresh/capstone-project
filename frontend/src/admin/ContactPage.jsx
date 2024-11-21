@@ -5,7 +5,7 @@ const ContactPage = () => {
         {/* Heading */}
         <h1 className="text-3xl font-semibold text-[#1c7759] mb-4">Contact Us</h1>
         <p className="text-lg text-[#1F2937] mb-8">
-          We are here to help! 
+          We are here to help!
           <br />If you have any questions or need assistance, feel free to reach out to us.
         </p>
 
@@ -15,7 +15,12 @@ const ContactPage = () => {
           <p className="text-md text-[#1F2937] mt-2">
             For assistance, please reach out to our administrator:
           </p>
-          <p className="text-lg font-medium text-[#10B981] mt-2">help.snapserve@gmail.com</p>
+          <p className="text-lg font-medium text-[#10B981] mt-2">
+            <a href="mailto:help.snapserve@gmail.com" className="hover:underline">
+              help.snapserve@gmail.com
+            </a>
+          </p>
+
         </div>
       </div>
     </div>
