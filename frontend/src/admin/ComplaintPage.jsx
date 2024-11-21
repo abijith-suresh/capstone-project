@@ -13,7 +13,7 @@ export default function ComplaintPage() {
       const response = await fetch('http://localhost:9007/api/complaints/all-complaints');
       if (response.ok) {
         const data = await response.json();
-        console.log('Fetched complaints:', data); 
+        console.log('Fetched complaints:', data);
         setComplaints(data);
       } else {
         setErrorMessage('Failed to fetch complaints');
@@ -93,29 +93,37 @@ export default function ComplaintPage() {
 
         {/* Modal for Viewing Full Booking Details */}
         {selectedComplaint && (
-          <div className="fixed inset-0 bg-gray-800 bg-opacity-40 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
-            <div className="bg-[#F8FAFC] rounded-lg shadow-lg max-w-lg w-full p-6 animate-scale-up">
-              <div className="flex justify-between items-center">
-                <h3 className="text-2xl font-bold text-gray-800">Complaint Details</h3>
-                <button onClick={closeModal} className="text-gray-800 hover:text-gray-800">
-                  <span className="text-2xl">&times;</span>
-                </button>
-              </div>
-              <div className="mt-4">
-                <p className="text-lg font-medium text-gray-800">Name: {selectedComplaint.name}</p>
-                <p className="mt-2 font-semibold text-gray-700">Message: {selectedComplaint.message}</p>  
-                <p className="mt-2 font-semibold text-gray-700">Booking ID: {selectedComplaint.booking.bookingId}</p>
-                <p className="mt-2 text-gray-500">Email: {selectedComplaint.email}</p> 
-                <p className="mt-2 text-gray-500">Customer Name: {selectedComplaint.booking.customer.name}</p>
-                <p className="mt-2 text-gray-500">Specialist Name: {selectedComplaint.booking.specialist.name}</p>
-                <p className="mt-2 text-gray-500">Appointment Time: {selectedComplaint.booking.appointmentTime}</p>
-                <p className="mt-2 text-gray-500">Service: {selectedComplaint.booking.service}</p>
-                <p className="mt-2 text-gray-500">Price: {selectedComplaint.booking.price}</p>
-               
-              </div>
-            </div>
-          </div>
-        )}
+  <div className="fixed inset-0 bg-gray-800 bg-opacity-50 flex items-center justify-center z-50 transition-opacity duration-300 ease-in-out">
+    <div className="bg-white rounded-lg shadow-xl max-w-lg w-full p-8 transform transition-all duration-300 ease-in-out scale-95 hover:scale-100">
+      <div className="flex justify-between items-center border-b pb-4">
+        <h3 className="text-3xl font-semibold text-gray-800">Complaint Details</h3>
+        <button onClick={closeModal} className="text-gray-600 hover:text-gray-800 text-3xl">
+          <span>&times;</span>
+        </button>
+      </div>
+      
+      <div className="mt-6 space-y-4">
+        <p className="text-lg text-gray-800 font-medium">Name: <span className="font-semibold">{selectedComplaint.name}</span></p>
+
+        <p className="text-lg text-gray-700 font-medium">Booking ID: <span className="font-semibold">{selectedComplaint.booking.bookingId}</span></p>
+
+        <div className="p-4 mt-4 border border-gray-300 rounded-lg bg-gray-50">
+          <p className="text-gray-700 text-lg font-serif">
+            <strong className="font-semibold">Message:</strong> {selectedComplaint.message}
+          </p>
+        </div>
+
+        <p className="text-gray-600 text-sm"><strong>Email:</strong> {selectedComplaint.email}</p>
+        <p className="text-gray-600 text-sm"><strong>Customer Name:</strong> {selectedComplaint.booking.customer.name}</p>
+        <p className="text-gray-600 text-sm"><strong>Specialist Name:</strong> {selectedComplaint.booking.specialist.name}</p>
+        <p className="text-gray-600 text-sm"><strong>Appointment Time:</strong> {selectedComplaint.booking.appointmentTime}</p>
+        <p className="text-gray-600 text-sm"><strong>Service:</strong> {selectedComplaint.booking.service}</p>
+        <p className="text-gray-600 text-sm"><strong>Price:</strong> ${selectedComplaint.booking.price}</p>
+      </div>
+    </div>
+  </div>
+)}
+
       </div>
     </div>
   );
