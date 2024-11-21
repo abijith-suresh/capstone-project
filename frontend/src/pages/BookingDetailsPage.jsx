@@ -2,23 +2,22 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
-import MapComponent from '../components/MapComponent'
+import MapComponent from "../components/MapComponent";
 
 export const BookingDetailsPage = () => {
   const navigate = useNavigate();
-
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isUpdating, setIsUpdating] = useState(false); // To handle multiple clicks
+  const [error, setError] = useState(null);
 
-  const [isCancelling, setIsCancelling] = useState(false);
-  const [cancelError, setCancelError] = useState(null);
-
-  const handleCancelBooking = async () => {
+  // Generalized function to handle booking status updates
+  const handleUpdateBookingStatus = async (status) => {
     try {
-      setIsCancelling(true);
+      setIsUpdating(true);
       const response = await fetch(
-        `http://localhost:9001/api/booking/${booking.bookingId}/status?status=Canceled`,
+        `http://localhost:9001/api/booking/${booking.bookingId}/status?status=${status}`,
         {
           method: "PUT",
           headers: {
@@ -28,51 +27,21 @@ export const BookingDetailsPage = () => {
       );
 
       if (response.ok) {
-        const data = await response.json();
-        setBooking(data); // Update the booking state with the updated booking info
-        alert("Booking has been canceled successfully!");
-        navigate(`/${localStorage.getItem("accountType")}/bookings`);
-      } else {
-        setCancelError("Failed to cancel the booking.");
-      }
-    } catch (error) {
-      console.error("Error canceling booking", error);
-      setCancelError("An error occurred while canceling the booking.");
-    } finally {
-      setIsCancelling(false);
-    }
-  };
-
-  const handleBookingResponse = async (action) => {
-    try {
-      const response = await fetch(
-        `http://localhost:9001/api/booking/${booking.bookingId}/status?status=${action === "accept" ? "Upcoming" : "Canceled"}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (response.ok) {
-        const data = await response.json();
-        setBooking(data); // Update the booking state with the updated booking info
-        alert(
-          `Booking has been ${
-            action === "accept" ? "accepted" : "declined"
-          } successfully!`
-        );
-        navigate(`/${localStorage.getItem("accountType")}/appointments`);
+        alert(`Booking has been marked as ${status}!`);
       } else {
         alert("Failed to update booking status.");
       }
     } catch (error) {
-      console.error(`Error ${action} booking`, error);
-      alert(`An error occurred while ${action} the booking.`);
+      console.error(`Error updating booking status to ${status}`, error);
+      alert(
+        `An error occurred while updating the booking status to ${status}.`
+      );
+    } finally {
+      setIsUpdating(false);
     }
   };
 
+  // Fetch booking details when the component mounts
   useEffect(() => {
     const fetchBooking = async () => {
       try {
@@ -82,20 +51,25 @@ export const BookingDetailsPage = () => {
           setBooking(data);
         } else {
           console.error("Booking not found");
+          setError("Booking not found");
         }
       } catch (error) {
         console.error("Error fetching booking details:", error);
+        setError("Error fetching booking details");
       } finally {
-        setLoading(false);  
+        setLoading(false);
       }
     };
-  
+
     fetchBooking();
   }, [id]);
-  
 
   if (loading) {
     return <LoadingSpinner />;
+  }
+
+  if (error) {
+    return <div className="text-center text-red-500">{error}</div>;
   }
 
   if (!booking) {
@@ -109,12 +83,11 @@ export const BookingDetailsPage = () => {
   return (
     <div className="min-h-screen py-12 px-6 sm:px-8 lg:px-16 mt-16">
       <Navbar userType={localStorage.getItem("accountType")} />
-      
+
       <div className="max-w-7xl mx-auto">
         {/* Booking Info Section */}
         <div className="bg-white p-8 rounded-lg shadow-lg mb-8">
           <div className="flex flex-col sm:flex-row gap-8">
-            {/* Booking Info */}
             <div className="flex-1">
               <h3 className="text-2xl font-semibold text-gray-800">
                 {booking.service}
@@ -247,17 +220,21 @@ export const BookingDetailsPage = () => {
           </div>
         )}
 
-        <MapComponent address={booking.customer.address}/>
+        {localStorage.getItem("accountType") === "specialist" && (
+          <MapComponent address={booking.customer.address} />
+        )}
 
         {/* Cancel Booking Button for Customer */}
-        {booking.status !== "Completed" && booking.status !== "Canceled" &&
+        {booking.status !== "Completed" &&
+          booking.status !== "Canceled" &&
           localStorage.getItem("accountType") === "customer" && (
             <div className="flex justify-center mt-8">
               <button
-                onClick={handleCancelBooking}
+                onClick={() => handleUpdateBookingStatus("Canceled")}
+                disabled={isUpdating}
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                Cancel Booking
+                {isUpdating ? "Canceling..." : "Cancel Booking"}
               </button>
             </div>
           )}
@@ -266,20 +243,34 @@ export const BookingDetailsPage = () => {
         {booking.status === "Pending" &&
           localStorage.getItem("accountType") === "specialist" && (
             <div className="flex justify-center gap-4 mt-8">
-              {/* Accept Button */}
               <button
-                onClick={() => handleBookingResponse("accept")}
+                onClick={() => handleUpdateBookingStatus("Upcoming")}
+                disabled={isUpdating}
                 className="px-5 py-2 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                Accept Booking
+                {isUpdating ? "Accepting..." : "Accept Booking"}
               </button>
 
-              {/* Decline Button */}
               <button
-                onClick={() => handleBookingResponse("decline")}
+                onClick={() => handleUpdateBookingStatus("Canceled")}
+                disabled={isUpdating}
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                Decline Booking
+                {isUpdating ? "Declining..." : "Decline Booking"}
+              </button>
+            </div>
+          )}
+
+        {/* Mark as Completed Button for Specialist (when booking is "Upcoming") */}
+        {booking.status === "Upcoming" &&
+          localStorage.getItem("accountType") === "specialist" && (
+            <div className="flex justify-center mt-8">
+              <button
+                onClick={() => handleUpdateBookingStatus("Completed")}
+                disabled={isUpdating}
+                className="px-5 py-2 bg-emerald-600 text-white rounded-lg text-lg font-semibold hover:bg-emerald-700 transition-all duration-300 hover:scale-105 active:scale-95"
+              >
+                {isUpdating ? "Marking as Completed..." : "Mark as Completed"}
               </button>
             </div>
           )}

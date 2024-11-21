@@ -15,16 +15,9 @@ export default function AppointmentsPage() {
         );
         const data = await response.json();
 
-        // Filter bookings to show only "Completed" status
-        const completedBookings = data.filter(
-          (booking) => booking.status === "Completed"
-        );
-
-        // Sort the completed bookings by date (earliest first)
-        const sortedBookings = completedBookings.sort((a, b) => {
-          return (
-            new Date(a.bookingDetails.date) - new Date(b.bookingDetails.date)
-          );
+        // Sort the bookings by appointmentTime (earliest first)
+        const sortedBookings = data.sort((a, b) => {
+          return new Date(a.appointmentTime) - new Date(b.appointmentTime);
         });
 
         setBookings(sortedBookings);
@@ -35,12 +28,6 @@ export default function AppointmentsPage() {
 
     fetchBookings();
   }, []);
-
-  const handleCancelBooking = (bookingId) => {
-    setBookings((prevBookings) =>
-      prevBookings.filter((b) => b.id !== bookingId)
-    );
-  };
 
   return (
     <>
@@ -58,11 +45,7 @@ export default function AppointmentsPage() {
         <div className="mt-6 flex flex-col">
           {bookings.length > 0 ? (
             bookings.map((booking) => (
-              <BookingCard
-                key={booking.id}
-                booking={booking}
-                onCancel={handleCancelBooking}
-              />
+              <BookingCard key={booking.bookingId} booking={booking} />
             ))
           ) : (
             <p className="text-gray-600 text-center">

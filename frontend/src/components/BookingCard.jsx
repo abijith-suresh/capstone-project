@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 
-export default function BookingCard({ booking, onCancel }) {
+export default function BookingCard({ booking }) {
   return (
     <Link
       to={`/${localStorage.getItem("accountType")}/booking/${
@@ -12,8 +12,12 @@ export default function BookingCard({ booking, onCancel }) {
         {/* Left Section: Specialist and Service Info */}
         <div className="flex-1">
           <h3 className="text-xl font-semibold text-gray-800">
-            {booking.specialist.name} - {booking.service}
+            {localStorage.getItem("accountType") === "customer"
+              ? booking.specialist.name
+              : booking.customer.name}{" "}
+            - {booking.service}
           </h3>
+
           <p className="text-sm text-gray-600">
             {new Date(booking.appointmentTime).toLocaleString()}
           </p>

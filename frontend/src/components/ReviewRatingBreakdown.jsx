@@ -1,7 +1,7 @@
 
 const ReviewRatingBreakdown = ({ reviews }) => {
   // Calculate the rating breakdown
-  const ratingBreakdown = [1, 2, 3, 4, 5].map((rating) => {
+  const ratingBreakdown = [5, 4, 3, 2, 1].map((rating) => {
     const count = reviews.filter((review) => review.rating === rating).length;
     const percentage = reviews.length > 0 ? (count / reviews.length) * 100 : 0;
     return { rating, count, percentage };

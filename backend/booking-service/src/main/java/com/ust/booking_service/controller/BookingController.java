@@ -70,7 +70,6 @@ public class BookingController {
           @PathVariable String id, @RequestParam String status) {
     return bookingService
             .updateBookingStatus(new ObjectId(id), status)
-            .map(updatedBooking -> ResponseEntity.ok(updatedBooking))
-            .defaultIfEmpty(ResponseEntity.notFound().build());
+            .map(updatedBooking -> ResponseEntity.ok(updatedBooking));
   }
 }
