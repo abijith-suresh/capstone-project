@@ -45,7 +45,8 @@ export default function AppointmentsPage() {
         <div className="mt-6 flex flex-col">
           {bookings.length > 0 ? (
             bookings.map((booking) => (
-              <BookingCard key={booking.bookingId} booking={booking} />
+              <BookingCard 
+              key={booking.bookingId} booking={booking} />
             ))
           ) : (
             <p className="text-gray-600 text-center">

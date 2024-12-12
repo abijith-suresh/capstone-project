@@ -12,13 +12,16 @@ export const BookingDetailsPage = () => {
   const { id } = useParams();
   const [booking, setBooking] = useState(null);
   const [loading, setLoading] = useState(true);
-  const [isUpdating, setIsUpdating] = useState(false); // To handle multiple clicks
+  const [isUpdating, setIsUpdating] = useState(false); 
+  const [actionInProgress, setActionInProgress] = useState(null);
   const [error, setError] = useState(null);
 
   // Generalized function to handle booking status updates
   const handleUpdateBookingStatus = async (status) => {
     try {
       setIsUpdating(true);
+      setActionInProgress(status); 
+      await new Promise((resolve) => setTimeout(resolve, 2000));
       const response = await fetch(
         `http://localhost:9001/api/booking/${booking.bookingId}/status?status=${status}`,
         {
@@ -273,26 +276,48 @@ export const BookingDetailsPage = () => {
           )}
 
         {/* Accept or Decline Booking Button for Specialist */}
-        {booking.status === "Pending" &&
+        {/* {booking.status === "Pending" &&
           localStorage.getItem("accountType") === "specialist" && (
             <div className="flex justify-center gap-4 mt-8">
               <button
                 onClick={() => handleUpdateBookingStatus("Upcoming")}
-                disabled={isUpdating}
+                disabled={isUpdating || actionInProgress === "Upcoming"}
                 className="px-5 py-2 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                {isUpdating ? "Accepting..." : "Accept Booking"}
+                {isUpdating  && actionInProgress  ? "Accepting..." : "Accept Booking"}
               </button>
-
+             
               <button
                 onClick={() => handleUpdateBookingStatus("Canceled")}
-                disabled={isUpdating}
+                disabled={isUpdating || actionInProgress === "Canceled"}
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
-                {isUpdating ? "Declining..." : "Decline Booking"}
+                {isUpdating && actionInProgress ? "Declining..." : "Decline Booking"}
               </button>
             </div>
-          )}
+          )} */}
+           {/* Accept or Decline Booking Button for Specialist */}
+      {booking.status === "Pending" && localStorage.getItem("accountType") === "specialist" && (
+        <div className="flex justify-center gap-4 mt-8">
+          {/* Accept Button */}
+          <button
+            onClick={() => handleUpdateBookingStatus("Upcoming")}
+            disabled={isUpdating || actionInProgress === "Upcoming"} // Disable if accepting or action in progress
+            className="px-5 py-2 bg-green-600 text-white rounded-lg text-lg font-semibold hover:bg-green-700 transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            {isUpdating && actionInProgress === "Upcoming" ? "Accepting..." : "Accept Booking"}
+          </button>
+
+          {/* Decline Button */}
+          <button
+            onClick={() => handleUpdateBookingStatus("Canceled")}
+            disabled={isUpdating || actionInProgress === "Canceled"} // Disable if declining or action in progress
+            className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
+          >
+            {isUpdating && actionInProgress === "Canceled" ? "Declining..." : "Decline Booking"}
+          </button>
+        </div>
+      )}
 
         {/* Mark as Completed Button for Specialist (when booking is "Upcoming") */}
         {booking.status === "Upcoming" &&
