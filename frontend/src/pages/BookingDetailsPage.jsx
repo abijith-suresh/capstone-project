@@ -69,6 +69,7 @@ export const BookingDetailsPage = () => {
       });
     } finally {
       setIsUpdating(false);
+      navigate(`/customer/bookings`);
     }
   };
 
@@ -266,6 +267,7 @@ export const BookingDetailsPage = () => {
                 className="px-5 py-2 bg-red-600 text-white rounded-lg text-lg font-semibold hover:bg-red-700 transition-all duration-300 hover:scale-105 active:scale-95"
               >
                 {isUpdating ? "Canceling..." : "Cancel Booking"}
+              
               </button>
             </div>
           )}
