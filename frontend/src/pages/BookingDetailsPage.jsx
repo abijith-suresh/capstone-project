@@ -3,6 +3,9 @@ import { useParams, useNavigate } from "react-router-dom";
 import LoadingSpinner from "../components/LoadingSpinner";
 import Navbar from "../components/Navbar";
 import MapComponent from "../components/MapComponent";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export const BookingDetailsPage = () => {
   const navigate = useNavigate();
@@ -27,15 +30,43 @@ export const BookingDetailsPage = () => {
       );
 
       if (response.ok) {
-        alert(`Booking has been marked as ${status}!`);
+        toast.success(`Booking has been marked as ${status}!`, {
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937",
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          },
+        })
       } else {
-        alert("Failed to update booking status.");
+        toast.error( "Failed to update booking status.", {
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937", 
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          },
+        });
       }
     } catch (error) {
       console.error(`Error updating booking status to ${status}`, error);
-      alert(
-        `An error occurred while updating the booking status to ${status}.`
-      );
+      toast.error( `An error occurred while updating the booking status to ${status}.`, {
+        position: "top-center",
+        duration: 3000,
+        style: {
+          background: "#1F2937", 
+          color: "#FFF",          
+          borderRadius: "10px",  
+          padding: "16px",        
+          fontSize: "16px",       
+        },
+      });
     } finally {
       setIsUpdating(false);
     }

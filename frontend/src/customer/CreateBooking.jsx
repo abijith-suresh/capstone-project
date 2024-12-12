@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const CreateBooking = () => {
   const navigate = useNavigate();
@@ -69,15 +71,48 @@ const CreateBooking = () => {
 
       // Handle the response
       if (response.ok) {
-        alert("Booking created successfully:", response);
+        toast.success("Booking created successfully:", {
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937",
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          },
+        })
+        
         navigate(`/customer/bookings`);
       } else {
         console.error("Failed to create booking", response);
-        alert("Something went wrong while creating the booking.");
+        toast.error( "Something went wrong while creating the booking.", {
+          position: "top-center",
+          duration: 3000,
+          style: {
+            background: "#1F2937", 
+            color: "#FFF",          
+            borderRadius: "10px",  
+            padding: "16px",        
+            fontSize: "16px",       
+          },
+        });
+        
       }
     } catch (error) {
       console.error("Error during booking submission", error);
-      alert("Error creating booking. Please try again.");
+      toast.error( "Error creating booking. Please try again.", {
+        position: "top-center",
+        duration: 3000,
+        style: {
+          background: "#1F2937", 
+          color: "#FFF",          
+          borderRadius: "10px",  
+          padding: "16px",        
+          fontSize: "16px",       
+        },
+      });
+     
     }
   };
 
